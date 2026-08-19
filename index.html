@@ -3,84 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>빠른길</title>
 
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16"></script>
+  <!-- 카카오 지도 API -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=여기에_네_JavaScript키"></script>
 
   <style>
-    body{
-      margin:0;
-      font-family:Arial;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
 
-    h1{
-      text-align:center;
-      color:#F7E600;
-      background:#3C1E1E;
-      padding:15px;
-      margin:0;
+    h1 {
+      text-align: center;
+      background: #FEE500;
+      margin: 0;
+      padding: 15px;
     }
 
-    #map{
-      width:100%;
-      height:500px;
+    .box {
+      padding: 15px;
     }
 
-    .box{
-      padding:15px;
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 16px;
     }
 
-    input{
-      width:100%;
-      padding:10px;
-      margin-top:8px;
-      margin-bottom:8px;
-      font-size:16px;
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    button{
-      width:100%;
-      padding:12px;
-      background:#F7E600;
-      border:none;
-      font-size:16px;
-      font-weight:bold;
+    #locationButton {
+      background: #dddddd;
+    }
+
+    #routeButton {
+      background: #FEE500;
+    }
+
+    #map {
+      width: 100%;
+      height: 500px;
+    }
+
+    #message {
+      text-align: center;
+      padding: 10px;
     }
   </style>
-
 </head>
+
 <body>
 
-<h1>🚶 빠른길</h1>
+  <h1>🚶 빠른길</h1>
 
-<div class="box">
+  <div class="box">
 
-  <input placeholder="출발지">
+    <input
+      id="start"
+      type="text"
+      placeholder="출발지를 입력하세요"
+    >
 
-  <input placeholder="도착지">
+    <input
+      id="end"
+      type="text"
+      placeholder="도착지를 입력하세요"
+    >
 
-  <button>빠른 길 찾기</button>
+    <button id="locationButton" onclick="findMyLocation()">
+      📍 내 현재 위치 찾기
+    </button>
 
-</div>
+    <button id="routeButton">
+      빠른 길 찾기
+    </button>
 
-<div id="map"></div>
+  </div>
 
-<script>
-const container=document.getElementById("map");
+  <div id="message">
+    내 위치 버튼을 눌러보세요.
+  </div>
 
-const options={
-  center:new kakao.maps.LatLng(37.5665,126.9780),
-  level:3
-};
+  <div id="map"></div>
 
-const map=new kakao.maps.Map(container,options);
 
-const marker=new kakao.maps.Marker({
-  position:new kakao.maps.LatLng(37.5665,126.9780)
-});
+  <script>
 
-marker.setMap(map);
-</script>
+    // 1. 처음 지도 위치
+    // 서울시청 근처로 시작
+    const mapContainer = document.getElementById("map");
+
+    const mapOption = {
+      center: new kakao.maps.LatLng(37.5665, 126.9780),
+      level: 4
+    };
+
+    // 2. 지도 만들기
+    const map = new kakao.maps.Map(
+      mapContainer,
+      mapOption
+    );
+
+
+    // 현재 위치 마커를 저장할 변수
+    let myMarker = null;
+
+
+    // 3. 내 현재 위치 찾기
+    function findMyLocation() {
+
+      const message =
+        document.getElementById("message");
+
+      message.innerText =
+        "📡 현재 위치를 찾고 있습니다...";
+
+
+      // 브라우저가 위치 기능을 지원하는지 확인
+      if (!navigator.geolocation) {
+
+        message.innerText =
+          "이 브라우저에서는 위치 기능을 사용할 수 없습니다.";
+
+        return;
+      }
+
+
+      // 실제 현재 위치 요청
+      navigator.geolocation.getCurrentPosition(
+
+        // 위치 찾기 성공
+        function(position) {
+
+          const latitude =
+            position.coords.latitude;
+
+          const longitude =
+            position.coords.longitude;
+
+
+          // 카카오 지도용 좌표 만들기
+          const myPosition =
+            new kakao.maps.LatLng(
+              latitude,
+              longitude
+            );
+
+
+          // 지도의 중심을 내 위치로 이동
+          map.setCenter(myPosition);
+
+          // 조금 확대
+          map.setLevel(3);
+
+
+          // 기존 마커가 있으면 지우기
+          if (myMarker !== null) {
+            myMarker.setMap(null);
+          }
+
+
+          // 내 위치에 새 마커 만들기
+          myMarker =
+            new kakao.maps.Marker({
+              position: myPosition
+            });
+
+
+          // 지도에 마커 표시
+          myMarker.setMap(map);
+
+
+          // 출발지 입력칸도 변경
+          document.getElementById("start").value =
+            "내 현재 위치";
+
+
+          message.innerText =
+            "✅ 현재 위치를 찾았습니다!";
+        },
+
+
+        // 위치 찾기 실패
+        function(error) {
+
+          console.log(error);
+
+          if (error.code === 1) {
+
+            message.innerText =
+              "❌ 위치 권한이 거부되었습니다.";
+
+          } else {
+
+            message.innerText =
+              "❌ 현재 위치를 찾지 못했습니다.";
+          }
+
+        },
+
+
+        // 위치 찾기 설정
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+
+      );
+
+    }
+
+  </script>
 
 </body>
 </html>
