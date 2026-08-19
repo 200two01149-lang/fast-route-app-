@@ -7,8 +7,7 @@
   <title>빠른길</title>
 
   <!-- 카카오 지도 API -->
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16"></script>
-
+ <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16&libraries=services"></script>
   <style>
     body {
       margin: 0;
@@ -86,9 +85,9 @@
       📍 내 현재 위치 찾기
     </button>
 
-    <button id="routeButton">
-      빠른 길 찾기
-    </button>
+    <button id="routeButton" onclick="searchDestination()">
+  🔍 도착지 찾기
+</button>
 
   </div>
 
@@ -225,7 +224,92 @@
       );
 
     }
+// 장소 검색 기능
+const places = new kakao.maps.services.Places();
 
+// 도착지 마커
+let destinationMarker = null;
+
+
+// 도착지를 검색하는 함수
+function searchDestination() {
+
+  // 사용자가 입력한 도착지 가져오기
+  const keyword =
+    document.getElementById("end").value;
+
+  // 아무것도 입력하지 않았다면
+  if (keyword.trim() === "") {
+    alert("도착지를 입력해주세요!");
+    return;
+  }
+
+  // 카카오에게 장소 검색 요청
+  places.keywordSearch(
+    keyword,
+    destinationSearchResult
+  );
+}
+
+
+// 검색 결과 처리
+function destinationSearchResult(
+  data,
+  status
+) {
+
+  // 검색 성공
+  if (status === kakao.maps.services.Status.OK) {
+
+    // 검색 결과 중 첫 번째 장소
+    const place = data[0];
+
+    // 위도와 경도
+    const latitude = place.y;
+    const longitude = place.x;
+
+    // 지도 좌표 만들기
+    const position =
+      new kakao.maps.LatLng(
+        latitude,
+        longitude
+      );
+
+    // 지도 이동
+    map.setCenter(position);
+
+    // 기존 도착지 마커 삭제
+    if (destinationMarker !== null) {
+      destinationMarker.setMap(null);
+    }
+
+    // 새로운 마커 만들기
+    destinationMarker =
+      new kakao.maps.Marker({
+        position: position
+      });
+
+    // 지도에 표시
+    destinationMarker.setMap(map);
+
+    // 검색된 정확한 장소 이름으로 변경
+    document.getElementById("end").value =
+      place.place_name;
+
+    // 안내 문구
+    document.getElementById("message").innerText =
+      "✅ 도착지: " + place.place_name;
+
+  }
+
+  // 검색 실패
+  else {
+
+    document.getElementById("message").innerText =
+      "❌ 장소를 찾지 못했습니다.";
+
+  }
+}
   </script>
 
 </body>
