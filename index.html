@@ -1775,7 +1775,43 @@
     // =====================================================
     // 역 이름 정리
     // =====================================================
+function cleanStationDisplayName(name) {
 
+  var text =
+    String(name || "").trim();
+
+  // 공백 제거한 비교용 문자열
+  var compact =
+    text.replace(/\s+/g, "");
+
+  // "응암응암" → "응암"
+  // "불광불광" → "불광"
+  // "충무로충무로" → "충무로"
+  var length =
+    compact.length;
+
+  if (length % 2 === 0) {
+
+    var half =
+      length / 2;
+
+    var first =
+      compact.substring(0, half);
+
+    var second =
+      compact.substring(half);
+
+    if (first === second) {
+      compact = first;
+    }
+  }
+
+  // 역이 이미 붙어 있으면 중복 추가 방지
+  compact =
+    compact.replace(/역역$/, "역");
+
+  return compact;
+}
     function normalizeStationName(
       name
     ) {
