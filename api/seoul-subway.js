@@ -3,12 +3,11 @@ export default async function handler(req, res) {
 
   if (!subwayKey) {
     return res.status(500).json({
-      error: "서울 실시간 지하철 API 키가 없습니다."
+      error: "SEOUL_SUBWAY_API_KEY가 없습니다."
     });
   }
 
-  // 주소창에서 ?station=새절 처럼 역 이름을 받을 수 있음
-  const station = req.query.station || "새절";
+  const station = req.query.station || "서울";
 
   const url =
     "http://swopenapi.seoul.go.kr/api/subway/" +
@@ -21,70 +20,38 @@ export default async function handler(req, res) {
 
     const text = await response.text();
 
-    console.log("서울 지하철 API 응답:", text);
+    console.log("HTTP STATUS:", response.status);
+    console.log("서울 지하철 원본 응답:", text);
 
-    // JSON으로 변환 시도
-    let data;
+    let parsedData = null;
 
     try {
-      data = JSON.parse(text);
-    } catch (e) {
-      return res.status(500).json({
-        error: "서울 지하철 API 응답이 JSON 형식이 아닙니다.",
-        response: text
-      });
+      parsedData = JSON.parse(text);
+    } catch (error) {
+      // JSON이 아니면 아래에서 원문 그대로 보여줌
     }
-
-    // 서울 API 자체 오류 확인
-    if (data.errorMessage) {
-      return res.status(200).json({
-        success: false,
-        station: station,
-        error: data.errorMessage
-      });
-    }
-
-    const arrivals = Array.isArray(data.realtimeArrivalList)
-      ? data.realtimeArrivalList
-      : [];
-
-    // 우리가 나중에 사용할 정보만 보기 쉽게 정리
-    const simplified = arrivals.map((item) => ({
-      station: item.statnNm,
-      line: item.trainLineNm,
-      subwayId: item.subwayId,
-
-      // 열차 도착까지 남은 시간(초)
-      arrivalSeconds: Number(item.barvlDt),
-
-      // 예: "전역 출발", "2분 후"
-      arrivalMessage: item.arvlMsg2,
-
-      // 예: "응암 도착"
-      arrivalMessageDetail: item.arvlMsg3,
-
-      // 상/하행 정보
-      direction: item.updnLine,
-
-      // 종착역
-      destination: item.bstatnNm,
-
-      // 데이터 수신 시각
-      receivedAt: item.recptnDt
-    }));
 
     return res.status(200).json({
-      success: true,
+      test: "서울 지하철 원본 응답 확인",
       station: station,
-      count: simplified.length,
-      arrivals: simplified
+      httpStatus: response.status,
+
+      // 인증키 자체는 출력하지 않음
+      requestInfo: {
+        service: "realtimeStationArrival",
+        startIndex: 0,
+        endIndex: 20
+      },
+
+      parsedData: parsedData,
+      rawText: parsedData ? undefined : text
     });
 
   } catch (error) {
-    console.error("서울 지하철 API 오류:", error);
+    console.error("서울 지하철 API 호출 실패:", error);
 
     return res.status(500).json({
-      error: "서울 실시간 지하철 API 호출 실패",
+      error: "서울 지하철 API 호출 실패",
       detail: error.message
     });
   }
