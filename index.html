@@ -88,6 +88,10 @@
     <button id="routeButton" onclick="searchDestination()">
   🔍 도착지 찾기
 </button>
+    
+    <button onclick="findRoute()">
+  🚍 대중교통 빠른 길 찾기
+</button>
 
   </div>
 
@@ -323,6 +327,58 @@ function destinationSearchResult(
 
   }
 }
+async function findRoute() {
+
+  const message = document.getElementById("message");
+
+  // 출발지 좌표가 없는 경우
+  if (startLatitude === null || startLongitude === null) {
+    message.innerText = "❌ 먼저 현재 위치를 찾아주세요.";
+    return;
+  }
+
+  // 도착지 좌표가 없는 경우
+  if (endLatitude === null || endLongitude === null) {
+    message.innerText = "❌ 먼저 도착지를 찾아주세요.";
+    return;
+  }
+
+  message.innerText = "🚌 대중교통 경로를 찾고 있습니다...";
+
+  // 우리 Vercel 서버에 좌표 보내기
+  const url =
+    "/api/kakao" +
+    "?startX=" + startLongitude +
+    "&startY=" + startLatitude +
+    "&endX=" + endLongitude +
+    "&endY=" + endLatitude;
+
+  try {
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    console.log("경로 검색 결과:", data);
+
+    if (!response.ok) {
+      message.innerText = "❌ 경로 검색에 실패했습니다.";
+      console.log(data);
+      return;
+    }
+
+    message.innerText =
+      "✅ 대중교통 경로 데이터를 받아왔습니다!";
+
+  } catch (error) {
+
+    console.log(error);
+
+    message.innerText =
+      "❌ 서버 연결 중 오류가 발생했습니다.";
+  }
+}  
+  
   </script>
 
 </body>
