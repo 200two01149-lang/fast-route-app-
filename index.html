@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>빠른길</title>
 
+
   <!-- 카카오 지도 API -->
- <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16&libraries=services"></script>
+  <!-- YOUR_JAVASCRIPT_KEY 부분에 기존 JavaScript 키 넣기 -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16&libraries=services"></script>
+
+
   <style>
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background: #f5f5f5;
     }
+
 
     h1 {
       text-align: center;
@@ -21,9 +33,12 @@
       padding: 15px;
     }
 
+
     .box {
       padding: 15px;
+      background: white;
     }
+
 
     input {
       width: 100%;
@@ -32,6 +47,7 @@
       margin-bottom: 10px;
       font-size: 16px;
     }
+
 
     button {
       width: 100%;
@@ -43,86 +59,181 @@
       cursor: pointer;
     }
 
+
     #locationButton {
       background: #dddddd;
     }
 
+
     #routeButton {
       background: #FEE500;
     }
+
+
+    #trafficButton {
+      background: #333333;
+      color: white;
+    }
+
+
+    #message {
+      text-align: center;
+      padding: 12px;
+      background: white;
+    }
+
+
+    /* 경로 결과 전체 */
+    #routeResults {
+      padding: 15px;
+    }
+
+
+    /* 경로 카드 */
+    .routeCard {
+      background: white;
+      border: 2px solid #FEE500;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+
+    .routeCard h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+
+    .routeCard h3 {
+      font-size: 25px;
+      margin: 10px 0;
+    }
+
+
+    .routeCard p {
+      margin: 7px 0;
+    }
+
 
     #map {
       width: 100%;
       height: 500px;
     }
 
-    #message {
-      text-align: center;
-      padding: 10px;
-    }
   </style>
+
 </head>
+
 
 <body>
 
+
   <h1>🚶 빠른길</h1>
+
 
   <div class="box">
 
+
+    <!-- 출발지 -->
     <input
       id="start"
       type="text"
       placeholder="출발지를 입력하세요"
     >
 
+
+    <!-- 도착지 -->
     <input
       id="end"
       type="text"
       placeholder="도착지를 입력하세요"
     >
 
-    <button id="locationButton" onclick="findMyLocation()">
+
+    <!-- 현재 위치 버튼 -->
+    <button
+      id="locationButton"
+      onclick="findMyLocation()"
+    >
       📍 내 현재 위치 찾기
     </button>
 
-    <button id="routeButton" onclick="searchDestination()">
-  🔍 도착지 찾기
-</button>
-    
-    <button onclick="findRoute()">
-  🚍 대중교통 빠른 길 찾기
-</button>
+
+    <!-- 도착지 검색 버튼 -->
+    <button
+      id="routeButton"
+      onclick="searchDestination()"
+    >
+      🔍 도착지 찾기
+    </button>
+
+
+    <!-- 대중교통 검색 버튼 -->
+    <button
+      id="trafficButton"
+      onclick="findRoute()"
+    >
+      🚍 대중교통 빠른 길 찾기
+    </button>
+
 
   </div>
 
+
+  <!-- 상태 메시지 -->
   <div id="message">
     내 위치 버튼을 눌러보세요.
   </div>
 
+
+  <!-- 빠른 경로 3개가 들어가는 곳 -->
+  <div id="routeResults"></div>
+
+
+  <!-- 지도 -->
   <div id="map"></div>
+
 
 
   <script>
 
-    // 1. 처음 지도 위치
-    // 서울시청 근처로 시작
-    const mapContainer = document.getElementById("map");
+
+    // ==========================================
+    // 지도 만들기
+    // ==========================================
+
+
+    const mapContainer =
+      document.getElementById("map");
+
 
     const mapOption = {
-      center: new kakao.maps.LatLng(37.5665, 126.9780),
+
+      center:
+        new kakao.maps.LatLng(
+          37.5665,
+          126.9780
+        ),
+
       level: 4
+
     };
 
-    // 2. 지도 만들기
-    const map = new kakao.maps.Map(
-      mapContainer,
-      mapOption
-    );
+
+    const map =
+      new kakao.maps.Map(
+        mapContainer,
+        mapOption
+      );
 
 
-    // 현재 위치 마커를 저장할 변수
-    let myMarker = null;
-    // 출발지와 도착지 좌표를 저장할 변수
+
+    // ==========================================
+    // 좌표 저장 변수
+    // ==========================================
+
+
     let startLatitude = null;
     let startLongitude = null;
 
@@ -130,44 +241,70 @@
     let endLongitude = null;
 
 
-    // 3. 내 현재 위치 찾기
+
+    // 현재 위치 마커
+    let myMarker = null;
+
+
+    // 도착지 마커
+    let destinationMarker = null;
+
+
+
+    // ==========================================
+    // 현재 위치 찾기
+    // ==========================================
+
+
     function findMyLocation() {
+
 
       const message =
         document.getElementById("message");
+
 
       message.innerText =
         "📡 현재 위치를 찾고 있습니다...";
 
 
-      // 브라우저가 위치 기능을 지원하는지 확인
+      // 위치 기능을 지원하지 않는 경우
       if (!navigator.geolocation) {
 
         message.innerText =
-          "이 브라우저에서는 위치 기능을 사용할 수 없습니다.";
+          "❌ 이 브라우저에서는 위치 기능을 사용할 수 없습니다.";
 
         return;
+
       }
 
 
-      // 실제 현재 위치 요청
+
       navigator.geolocation.getCurrentPosition(
 
+
+        // ==========================
         // 위치 찾기 성공
+        // ==========================
+
         function(position) {
+
 
           const latitude =
             position.coords.latitude;
 
+
           const longitude =
             position.coords.longitude;
 
-          // 현재 위치를 출발지 좌표로 저장
-      startLatitude = latitude;
-      startLongitude = longitude;
 
 
-          // 카카오 지도용 좌표 만들기
+          // 출발지 좌표 저장
+          startLatitude = latitude;
+          startLongitude = longitude;
+
+
+
+          // 지도 좌표 만들기
           const myPosition =
             new kakao.maps.LatLng(
               latitude,
@@ -175,211 +312,553 @@
             );
 
 
-          // 지도의 중심을 내 위치로 이동
+
+          // 지도 이동
           map.setCenter(myPosition);
 
-          // 조금 확대
+
           map.setLevel(3);
 
 
-          // 기존 마커가 있으면 지우기
+
+          // 기존 마커 삭제
           if (myMarker !== null) {
+
             myMarker.setMap(null);
+
           }
 
 
-          // 내 위치에 새 마커 만들기
+
+          // 새로운 현재 위치 마커
           myMarker =
             new kakao.maps.Marker({
+
               position: myPosition
+
             });
 
 
-          // 지도에 마커 표시
+
+          // 지도에 표시
           myMarker.setMap(map);
 
 
-          // 출발지 입력칸도 변경
+
+          // 출발지 입력칸 변경
           document.getElementById("start").value =
             "내 현재 위치";
 
 
+
           message.innerText =
             "✅ 현재 위치를 찾았습니다!";
+
         },
 
 
+
+        // ==========================
         // 위치 찾기 실패
+        // ==========================
+
         function(error) {
 
+
           console.log(error);
+
 
           if (error.code === 1) {
 
             message.innerText =
               "❌ 위치 권한이 거부되었습니다.";
 
-          } else {
+          }
+
+          else {
 
             message.innerText =
               "❌ 현재 위치를 찾지 못했습니다.";
+
           }
 
         },
 
 
+
         // 위치 찾기 설정
         {
+
           enableHighAccuracy: true,
+
           timeout: 10000,
+
           maximumAge: 0
+
+        }
+
+
+      );
+
+    }
+
+
+
+    // ==========================================
+    // 카카오 장소 검색
+    // ==========================================
+
+
+    const places =
+      new kakao.maps.services.Places();
+
+
+
+    // ==========================================
+    // 도착지 검색
+    // ==========================================
+
+
+    function searchDestination() {
+
+
+      const keyword =
+        document.getElementById("end").value;
+
+
+      // 입력하지 않은 경우
+      if (keyword.trim() === "") {
+
+        alert("도착지를 입력해주세요!");
+
+        return;
+
+      }
+
+
+
+      document.getElementById("message").innerText =
+        "🔍 도착지를 찾고 있습니다...";
+
+
+
+      places.keywordSearch(
+        keyword,
+        destinationSearchResult
+      );
+
+    }
+
+
+
+    // ==========================================
+    // 도착지 검색 결과
+    // ==========================================
+
+
+    function destinationSearchResult(
+      data,
+      status
+    ) {
+
+
+      // 검색 성공
+      if (
+        status ===
+        kakao.maps.services.Status.OK
+      ) {
+
+
+        // 첫 번째 검색 결과 사용
+        const place = data[0];
+
+
+
+        const latitude =
+          Number(place.y);
+
+
+        const longitude =
+          Number(place.x);
+
+
+
+        // 도착지 좌표 저장
+        endLatitude = latitude;
+        endLongitude = longitude;
+
+
+
+        // 지도용 좌표
+        const position =
+          new kakao.maps.LatLng(
+            latitude,
+            longitude
+          );
+
+
+
+        // 지도 이동
+        map.setCenter(position);
+
+
+
+        // 기존 도착지 마커 삭제
+        if (destinationMarker !== null) {
+
+          destinationMarker.setMap(null);
+
+        }
+
+
+
+        // 새 도착지 마커
+        destinationMarker =
+          new kakao.maps.Marker({
+
+            position: position
+
+          });
+
+
+
+        // 지도에 표시
+        destinationMarker.setMap(map);
+
+
+
+        // 실제 장소 이름 표시
+        document.getElementById("end").value =
+          place.place_name;
+
+
+
+        document.getElementById("message").innerText =
+          "✅ 도착지: " +
+          place.place_name;
+
+      }
+
+
+      // 검색 실패
+      else {
+
+
+        document.getElementById("message").innerText =
+          "❌ 장소를 찾지 못했습니다.";
+
+      }
+
+    }
+
+
+
+    // ==========================================
+    // 대중교통 경로 찾기
+    // ==========================================
+
+
+    async function findRoute() {
+
+
+      const message =
+        document.getElementById("message");
+
+
+
+      // 현재 위치가 없는 경우
+      if (
+        startLatitude === null ||
+        startLongitude === null
+      ) {
+
+        message.innerText =
+          "❌ 먼저 현재 위치를 찾아주세요.";
+
+        return;
+
+      }
+
+
+
+      // 도착지가 없는 경우
+      if (
+        endLatitude === null ||
+        endLongitude === null
+      ) {
+
+        message.innerText =
+          "❌ 먼저 도착지를 찾아주세요.";
+
+        return;
+
+      }
+
+
+
+      message.innerText =
+        "🚌 대중교통 경로를 찾고 있습니다...";
+
+
+
+      // Vercel API 주소
+      const url =
+
+        "/api/kakao" +
+
+        "?startX=" +
+        startLongitude +
+
+        "&startY=" +
+        startLatitude +
+
+        "&endX=" +
+        endLongitude +
+
+        "&endY=" +
+        endLatitude;
+
+
+
+      try {
+
+
+        // Vercel 서버에 요청
+        const response =
+          await fetch(url);
+
+
+
+        // JSON 데이터 받기
+        const data =
+          await response.json();
+
+
+
+        console.log(
+          "경로 검색 결과:",
+          data
+        );
+
+
+
+        // 서버 오류
+        if (!response.ok) {
+
+
+          message.innerText =
+            "❌ 경로 검색에 실패했습니다.";
+
+
+          console.log(data);
+
+
+          return;
+
+        }
+
+
+
+        // routes가 없는 경우
+        if (
+          !data.routes ||
+          data.routes.length === 0
+        ) {
+
+
+          message.innerText =
+            "❌ 이용 가능한 대중교통 경로가 없습니다.";
+
+
+          return;
+
+        }
+
+
+
+        // 성공
+        message.innerText =
+          "✅ 빠른 경로를 찾았습니다!";
+
+
+        // 빠른 경로 3개 표시
+        showTopRoutes(
+          data.routes
+        );
+
+
+      }
+
+
+      catch (error) {
+
+
+        console.log(error);
+
+
+        message.innerText =
+          "❌ 서버 연결 중 오류가 발생했습니다.";
+
+      }
+
+    }
+
+
+
+    // ==========================================
+    // 가장 빠른 경로 3개 표시
+    // ==========================================
+
+
+    function showTopRoutes(routes) {
+
+
+      const resultBox =
+        document.getElementById(
+          "routeResults"
+        );
+
+
+
+      // 총 시간이 짧은 순서로 정렬
+      const sortedRoutes =
+        [...routes].sort(
+
+          function(a, b) {
+
+            return (
+              a.properties.totalTime -
+              b.properties.totalTime
+            );
+
+          }
+
+        );
+
+
+
+      // 가장 빠른 3개
+      const top3 =
+        sortedRoutes.slice(0, 3);
+
+
+
+      // 기존 결과 삭제
+      resultBox.innerHTML = "";
+
+
+
+      // 경로 3개 표시
+      top3.forEach(
+
+        function(route, index) {
+
+
+          // 총 시간 (초)
+          const totalSeconds =
+            route.properties.totalTime;
+
+
+
+          // 초 → 분
+          const minutes =
+            Math.ceil(
+              totalSeconds / 60
+            );
+
+
+
+          // 환승 횟수
+          const transfers =
+            route.properties.transfers;
+
+
+
+          // 총 거리
+          const distance =
+
+            Math.round(
+
+              route.properties.totalDistance
+              / 1000
+              * 10
+
+            ) / 10;
+
+
+
+          // 경로 종류
+          let typeText = "";
+
+
+          if (
+            route.properties.type ===
+            "SUBWAY"
+          ) {
+
+            typeText =
+              "🚇 지하철";
+
+          }
+
+          else if (
+            route.properties.type ===
+            "BUS"
+          ) {
+
+            typeText =
+              "🚌 버스";
+
+          }
+
+          else {
+
+            typeText =
+              "🚌🚇 버스 + 지하철";
+
+          }
+
+
+
+          // 카드 만들기
+          resultBox.innerHTML += `
+
+            <div class="routeCard">
+
+              <h2>
+                빠른 경로 ${index + 1}
+              </h2>
+
+              <h3>
+                ⏱️ 약 ${minutes}분
+              </h3>
+
+              <p>
+                ${typeText}
+              </p>
+
+              <p>
+                🔄 환승 ${transfers}회
+              </p>
+
+              <p>
+                📏 총 거리 ${distance}km
+              </p>
+
+            </div>
+
+          `;
+
         }
 
       );
 
     }
-// 장소 검색 기능
-const places = new kakao.maps.services.Places();
-
-// 도착지 마커
-let destinationMarker = null;
 
 
-// 도착지를 검색하는 함수
-function searchDestination() {
-
-  // 사용자가 입력한 도착지 가져오기
-  const keyword =
-    document.getElementById("end").value;
-
-  // 아무것도 입력하지 않았다면
-  if (keyword.trim() === "") {
-    alert("도착지를 입력해주세요!");
-    return;
-  }
-
-  // 카카오에게 장소 검색 요청
-  places.keywordSearch(
-    keyword,
-    destinationSearchResult
-  );
-}
-
-
-// 검색 결과 처리
-function destinationSearchResult(
-  data,
-  status
-) {
-
-  // 검색 성공
-  if (status === kakao.maps.services.Status.OK) {
-
-    // 검색 결과 중 첫 번째 장소
-    const place = data[0];
-
-    // 위도와 경도
-    const latitude = place.y;
-    const longitude = place.x;
-    // 검색한 장소를 도착지 좌표로 저장
-    endLatitude = latitude;
-    endLongitude = longitude;
-
-    // 지도 좌표 만들기
-    const position =
-      new kakao.maps.LatLng(
-        latitude,
-        longitude
-      );
-
-    // 지도 이동
-    map.setCenter(position);
-
-    // 기존 도착지 마커 삭제
-    if (destinationMarker !== null) {
-      destinationMarker.setMap(null);
-    }
-
-    // 새로운 마커 만들기
-    destinationMarker =
-      new kakao.maps.Marker({
-        position: position
-      });
-
-    // 지도에 표시
-    destinationMarker.setMap(map);
-
-    // 검색된 정확한 장소 이름으로 변경
-    document.getElementById("end").value =
-      place.place_name;
-
-    // 안내 문구
-    document.getElementById("message").innerText =
-      "✅ 도착지: " + place.place_name;
-
-  }
-
-  // 검색 실패
-  else {
-
-    document.getElementById("message").innerText =
-      "❌ 장소를 찾지 못했습니다.";
-
-  }
-}
-async function findRoute() {
-
-  const message = document.getElementById("message");
-
-  // 출발지 좌표가 없는 경우
-  if (startLatitude === null || startLongitude === null) {
-    message.innerText = "❌ 먼저 현재 위치를 찾아주세요.";
-    return;
-  }
-
-  // 도착지 좌표가 없는 경우
-  if (endLatitude === null || endLongitude === null) {
-    message.innerText = "❌ 먼저 도착지를 찾아주세요.";
-    return;
-  }
-
-  message.innerText = "🚌 대중교통 경로를 찾고 있습니다...";
-
-  // 우리 Vercel 서버에 좌표 보내기
-  const url =
-    "/api/kakao" +
-    "?startX=" + startLongitude +
-    "&startY=" + startLatitude +
-    "&endX=" + endLongitude +
-    "&endY=" + endLatitude;
-
-  try {
-
-    const response = await fetch(url);
-
-    const data = await response.json();
-
-    console.log("경로 검색 결과:", data);
-
-    if (!response.ok) {
-      message.innerText = "❌ 경로 검색에 실패했습니다.";
-      console.log(data);
-      return;
-    }
-
-    message.innerText =
-      "✅ 대중교통 경로 데이터를 받아왔습니다!";
-
-  } catch (error) {
-
-    console.log(error);
-
-    message.innerText =
-      "❌ 서버 연결 중 오류가 발생했습니다.";
-  }
-}  
-  
   </script>
 
+
 </body>
+
 </html>
