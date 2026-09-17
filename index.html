@@ -12,12 +12,10 @@
   <title>빠른길</title>
 
   <!--
-    YOUR_JAVASCRIPT_KEY 부분에
-    네 기존 카카오 JavaScript 키를 넣어주세요.
+    여기에 네 기존 카카오 JavaScript 키를 넣어.
+    REST API 키가 아니라 JavaScript 키.
   -->
-  <script
-    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16&libraries=services&autoload=false">
-  </script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16&libraries=services"></script>
 
   <style>
 
@@ -173,9 +171,9 @@
 
   <script>
 
-    // =========================================================
-    // 앱 상태
-    // =========================================================
+    // =====================================================
+    // 앱 변수
+    // =====================================================
 
     var fastRouteMap = null;
     var kakaoPlaceService = null;
@@ -194,75 +192,94 @@
 
     var displayedRoutes = [];
 
-    // 추천 조건
-    // "도착까지 남은 시간 - 도보시간 > 3분"
+    // 핵심 조건
+    // 열차 도착시간 - 도보시간 > 3분
     var MINIMUM_SPARE_SECONDS = 180;
 
 
-    // =========================================================
-    // 카카오 지도 초기화
-    // =========================================================
+    // =====================================================
+    // 지도 초기화
+    // =====================================================
 
-    function initializeKakaoMap() {
+    function initializeMap() {
 
       var messageBox =
         document.getElementById("message");
 
-      if (typeof kakao === "undefined") {
+      if (
+        typeof kakao === "undefined" ||
+        !kakao.maps
+      ) {
 
         messageBox.innerText =
           "❌ 카카오 지도 SDK를 불러오지 못했습니다.";
 
+        console.error(
+          "Kakao Maps SDK가 로드되지 않았습니다."
+        );
+
         return;
       }
 
-      kakao.maps.load(function() {
 
-        var container =
-          document.getElementById("map");
+      var mapContainer =
+        document.getElementById("map");
 
-        var options = {
 
-          center:
-            new kakao.maps.LatLng(
-              37.5665,
-              126.9780
-            ),
+      var mapOption = {
 
-          level: 4
-        };
+        center:
+          new kakao.maps.LatLng(
+            37.5665,
+            126.9780
+          ),
 
-        fastRouteMap =
-          new kakao.maps.Map(
-            container,
-            options
-          );
+        level: 4
 
-        kakaoPlaceService =
-          new kakao.maps.services.Places();
+      };
 
-      });
+
+      fastRouteMap =
+        new kakao.maps.Map(
+          mapContainer,
+          mapOption
+        );
+
+
+      kakaoPlaceService =
+        new kakao.maps.services.Places();
+
+
+      console.log(
+        "카카오 지도 준비 완료"
+      );
 
     }
 
 
+    // SDK는 자동 로딩 방식이므로
+    // 페이지가 모두 로드된 뒤 지도 생성
     window.addEventListener(
       "load",
-      initializeKakaoMap
+      initializeMap
     );
 
 
-    // =========================================================
-    // 현재 위치
-    // =========================================================
+    // =====================================================
+    // 현재 위치 찾기
+    // =====================================================
 
     function findMyLocation() {
 
       var messageBox =
-        document.getElementById("message");
+        document.getElementById(
+          "message"
+        );
+
 
       messageBox.innerText =
         "📡 현재 위치를 찾고 있습니다...";
+
 
       if (!navigator.geolocation) {
 
@@ -272,27 +289,46 @@
         return;
       }
 
+
       navigator.geolocation.getCurrentPosition(
 
         function(position) {
 
-          appStartLat =
+          var currentLat =
             position.coords.latitude;
 
-          appStartLng =
+          var currentLng =
             position.coords.longitude;
+
+
+          appStartLat =
+            currentLat;
+
+          appStartLng =
+            currentLng;
+
 
           document.getElementById(
             "start"
-          ).value = "내 현재 위치";
+          ).value =
+            "내 현재 위치";
+
+
+          console.log(
+            "현재 위치:",
+            currentLat,
+            currentLng
+          );
+
 
           if (fastRouteMap) {
 
             var currentPosition =
               new kakao.maps.LatLng(
-                appStartLat,
-                appStartLng
+                currentLat,
+                currentLng
               );
+
 
             fastRouteMap.setCenter(
               currentPosition
@@ -300,24 +336,37 @@
 
             fastRouteMap.setLevel(3);
 
+
             if (appMyMarker) {
-              appMyMarker.setMap(null);
+
+              appMyMarker.setMap(
+                null
+              );
+
             }
+
 
             appMyMarker =
               new kakao.maps.Marker({
-                position: currentPosition
+
+                position:
+                  currentPosition
+
               });
+
 
             appMyMarker.setMap(
               fastRouteMap
             );
+
           }
+
 
           messageBox.innerText =
             "✅ 현재 위치를 찾았습니다!";
 
         },
+
 
         function(error) {
 
@@ -326,22 +375,29 @@
             error
           );
 
+
           if (error.code === 1) {
 
             messageBox.innerText =
               "❌ 위치 권한이 거부되었습니다.";
 
-          } else if (error.code === 2) {
+          }
+
+          else if (error.code === 2) {
 
             messageBox.innerText =
               "❌ 현재 위치 정보를 가져올 수 없습니다.";
 
-          } else if (error.code === 3) {
+          }
+
+          else if (error.code === 3) {
 
             messageBox.innerText =
               "❌ 현재 위치 찾기 시간이 초과되었습니다.";
 
-          } else {
+          }
+
+          else {
 
             messageBox.innerText =
               "❌ 현재 위치를 찾지 못했습니다.";
@@ -349,6 +405,7 @@
           }
 
         },
+
 
         {
           enableHighAccuracy: true,
@@ -361,9 +418,9 @@
     }
 
 
-    // =========================================================
+    // =====================================================
     // 도착지 검색
-    // =========================================================
+    // =====================================================
 
     function searchDestination() {
 
@@ -371,6 +428,7 @@
         document.getElementById(
           "end"
         ).value.trim();
+
 
       if (!destinationKeyword) {
 
@@ -381,28 +439,38 @@
         return;
       }
 
+
       if (!kakaoPlaceService) {
 
         document.getElementById(
           "message"
         ).innerText =
-          "❌ 카카오 지도가 아직 준비되지 않았습니다.";
+          "❌ 지도가 아직 준비되지 않았습니다.";
 
         return;
       }
+
 
       document.getElementById(
         "message"
       ).innerText =
         "🔍 도착지를 찾고 있습니다...";
 
+
       kakaoPlaceService.keywordSearch(
+
         destinationKeyword,
+
         destinationSearchResult
+
       );
 
     }
 
+
+    // =====================================================
+    // 도착지 검색 결과
+    // =====================================================
 
     function destinationSearchResult(
       data,
@@ -414,6 +482,7 @@
           "message"
         );
 
+
       if (
         status ===
         kakao.maps.services.Status.OK
@@ -422,11 +491,17 @@
         var selectedPlace =
           data[0];
 
+
         appEndLat =
-          Number(selectedPlace.y);
+          Number(
+            selectedPlace.y
+          );
 
         appEndLng =
-          Number(selectedPlace.x);
+          Number(
+            selectedPlace.x
+          );
+
 
         var destinationPosition =
           new kakao.maps.LatLng(
@@ -434,34 +509,61 @@
             appEndLng
           );
 
-        fastRouteMap.setCenter(
-          destinationPosition
-        );
 
-        if (appDestinationMarker) {
-          appDestinationMarker.setMap(null);
+        if (fastRouteMap) {
+
+          fastRouteMap.setCenter(
+            destinationPosition
+          );
+
+
+          if (appDestinationMarker) {
+
+            appDestinationMarker.setMap(
+              null
+            );
+
+          }
+
+
+          appDestinationMarker =
+            new kakao.maps.Marker({
+
+              position:
+                destinationPosition
+
+            });
+
+
+          appDestinationMarker.setMap(
+            fastRouteMap
+          );
+
         }
 
-        appDestinationMarker =
-          new kakao.maps.Marker({
-            position:
-              destinationPosition
-          });
-
-        appDestinationMarker.setMap(
-          fastRouteMap
-        );
 
         document.getElementById(
           "end"
         ).value =
           selectedPlace.place_name;
 
+
         messageBox.innerText =
           "✅ 도착지: " +
           selectedPlace.place_name;
 
-      } else if (
+
+        console.log(
+          "도착지:",
+          selectedPlace.place_name,
+          appEndLat,
+          appEndLng
+        );
+
+      }
+
+
+      else if (
         status ===
         kakao.maps.services.Status.ZERO_RESULT
       ) {
@@ -469,7 +571,10 @@
         messageBox.innerText =
           "❌ 검색 결과가 없습니다.";
 
-      } else {
+      }
+
+
+      else {
 
         messageBox.innerText =
           "❌ 장소 검색 중 오류가 발생했습니다.";
@@ -479,9 +584,9 @@
     }
 
 
-    // =========================================================
-    // 대중교통 경로 조회
-    // =========================================================
+    // =====================================================
+    // 대중교통 경로 찾기
+    // =====================================================
 
     async function findRoute() {
 
@@ -489,6 +594,7 @@
         document.getElementById(
           "message"
         );
+
 
       if (
         appStartLat === null ||
@@ -501,6 +607,7 @@
         return;
       }
 
+
       if (
         appEndLat === null ||
         appEndLng === null
@@ -512,10 +619,18 @@
         return;
       }
 
+
       messageBox.innerText =
         "🚍 경로와 실시간 도착정보를 분석하고 있습니다...";
 
+
+      document.getElementById(
+        "routeResults"
+      ).innerHTML = "";
+
+
       var apiUrl =
+
         "/api/kakao" +
 
         "?startX=" +
@@ -538,20 +653,32 @@
           appEndLat
         );
 
+
       try {
 
         var response =
-          await fetch(apiUrl);
+          await fetch(
+            apiUrl
+          );
+
 
         var data =
           await response.json();
 
+
+        console.log(
+          "경로 검색 결과:",
+          data
+        );
+
+
         if (!response.ok) {
 
           console.error(
-            "카카오 경로 API 오류:",
+            "경로 API 오류:",
             data
           );
+
 
           messageBox.innerText =
             "❌ 경로 검색에 실패했습니다.";
@@ -559,8 +686,11 @@
           return;
         }
 
+
         if (
-          !Array.isArray(data.routes) ||
+          !Array.isArray(
+            data.routes
+          ) ||
           data.routes.length === 0
         ) {
 
@@ -570,16 +700,21 @@
           return;
         }
 
-        await analyzeRoutes(
+
+        await analyzeAllRoutes(
           data.routes
         );
 
-      } catch (error) {
+      }
+
+
+      catch (error) {
 
         console.error(
           "경로 분석 오류:",
           error
         );
+
 
         messageBox.innerText =
           "❌ 경로 분석 중 오류가 발생했습니다.";
@@ -589,13 +724,16 @@
     }
 
 
-    // =========================================================
+    // =====================================================
     // 모든 경로 분석
-    // =========================================================
+    // =====================================================
 
-    async function analyzeRoutes(routes) {
+    async function analyzeAllRoutes(
+      routes
+    ) {
 
-      var analyzedRoutes = [];
+      var analyzed = [];
+
 
       for (
         var i = 0;
@@ -608,176 +746,92 @@
             routes[i]
           );
 
-        analyzedRoutes.push(
+
+        analyzed.push(
           result
         );
 
       }
 
 
-      // ---------------------------------------------------------
-      // 현재는 지하철 실시간 판정이 가능한 경로 우선
-      // ---------------------------------------------------------
+      // ===================================================
+      // 3분 초과 조건을 실제로 통과한 경로
+      // ===================================================
 
-      var catchableRoutes =
-        analyzedRoutes.filter(
+      var passed =
+        analyzed.filter(
           function(item) {
+
             return (
               item.realtimeChecked === true &&
               item.catchable === true
             );
-          }
-        );
-
-
-      // 여유시간이 적은 순서
-      // = 너무 일찍 기다리지 않으면서
-      //   3분 초과 여유를 확보한 경로
-      catchableRoutes.sort(
-        function(a, b) {
-
-          if (
-            a.spareSeconds !==
-            b.spareSeconds
-          ) {
-
-            return (
-              a.spareSeconds -
-              b.spareSeconds
-            );
-          }
-
-          return (
-            a.route.properties.totalTime -
-            b.route.properties.totalTime
-          );
-
-        }
-      );
-
-
-      // 아직 버스 실시간 API가 연결되지 않은 경로
-      var waitingBusRoutes =
-        analyzedRoutes.filter(
-          function(item) {
-            return (
-              item.firstTransitType === "BUS"
-            );
-          }
-        );
-
-
-      // 실시간 판정을 못 한 기타 경로
-      var uncheckedRoutes =
-        analyzedRoutes.filter(
-          function(item) {
-
-            return (
-              item.firstTransitType !== "BUS" &&
-              item.realtimeChecked !== true
-            );
 
           }
         );
 
 
-      // 총 시간순 정렬
-      waitingBusRoutes.sort(
+      // 조건 통과 후
+      // 전체 이동시간이 빠른 순
+      passed.sort(
         function(a, b) {
 
           return (
-            a.route.properties.totalTime -
-            b.route.properties.totalTime
-          );
-
-        }
-      );
-
-
-      uncheckedRoutes.sort(
-        function(a, b) {
-
-          return (
-            a.route.properties.totalTime -
-            b.route.properties.totalTime
-          );
-
-        }
-      );
-
-
-      // 우선 실시간 조건을 통과한 경로
-      var finalRoutes =
-        catchableRoutes.slice(0, 3);
-
-
-      // 아직 3개가 안 되면
-      // 버스 API 연결 전이라는 사실을 표시하면서 채움
-      if (finalRoutes.length < 3) {
-
-        var needed =
-          3 - finalRoutes.length;
-
-        finalRoutes =
-          finalRoutes.concat(
-            waitingBusRoutes.slice(
-              0,
-              needed
+            Number(
+              a.route.properties.totalTime
+            ) -
+            Number(
+              b.route.properties.totalTime
             )
           );
 
-      }
+        }
+      );
 
 
-      if (finalRoutes.length < 3) {
-
-        var remaining =
-          3 - finalRoutes.length;
-
-        finalRoutes =
-          finalRoutes.concat(
-            uncheckedRoutes.slice(
-              0,
-              remaining
-            )
-          );
-
-      }
-
-
+      // 최대 3개
       displayedRoutes =
-        finalRoutes;
+        passed.slice(
+          0,
+          3
+        );
 
 
-      showAnalyzedRoutes(
-        finalRoutes
+      showRouteResults(
+        displayedRoutes
       );
 
 
-      var messageBox =
+      if (
+        displayedRoutes.length > 0
+      ) {
+
         document.getElementById(
           "message"
+        ).innerText =
+
+          "✅ 3분 초과 여유가 있는 경로 " +
+          displayedRoutes.length +
+          "개를 찾았습니다.";
+
+
+        drawRouteOnMap(
+          displayedRoutes[0].route
         );
-
-
-      if (catchableRoutes.length > 0) {
-
-        messageBox.innerText =
-          "✅ 3분 초과 여유가 있는 경로를 찾았습니다!";
-
-      } else {
-
-        messageBox.innerText =
-          "⚠️ 현재 지하철 경로 중 3분 초과 여유 조건을 확인한 경로가 없습니다.";
 
       }
 
 
-      // 첫 번째 경로 지도에 표시
-      if (finalRoutes.length > 0) {
+      else {
 
-        drawRouteOnMap(
-          finalRoutes[0].route
+        document.getElementById(
+          "message"
+        ).innerText =
+          "⚠️ 현재 3분 초과 여유 조건을 확인한 경로가 없습니다.";
+
+
+        showUnavailableInformation(
+          analyzed
         );
 
       }
@@ -785,23 +839,27 @@
     }
 
 
-    // =========================================================
+    // =====================================================
     // 경로 하나 분석
-    // =========================================================
+    // =====================================================
 
-    async function analyzeSingleRoute(route) {
+    async function analyzeSingleRoute(
+      route
+    ) {
 
       var result = {
 
         route: route,
 
-        firstTransitType: null,
+        firstTransitType: "",
+
+        transitName: "",
 
         boardingName: "",
 
         alightingName: "",
 
-        transitName: "",
+        nextStopName: "",
 
         walkingSeconds: null,
 
@@ -817,7 +875,7 @@
 
         arrivalMessage: "",
 
-        subwayData: null
+        reason: ""
 
       };
 
@@ -827,14 +885,18 @@
         route.steps.length === 0
       ) {
 
-        return result;
+        result.reason =
+          "이동 단계 없음";
 
+        return result;
       }
 
 
-      // 첫 번째 BUS 또는 SUBWAY 찾기
-      var firstTransitStep = null;
+      var firstTransitStep =
+        null;
 
+
+      // 첫 BUS/SUBWAY 찾기
       for (
         var i = 0;
         i < route.steps.length;
@@ -848,9 +910,12 @@
           step.properties || {};
 
         var type =
-          properties.type ||
-          step.type ||
-          "";
+          String(
+            properties.type ||
+            step.type ||
+            ""
+          ).toUpperCase();
+
 
         if (
           type === "BUS" ||
@@ -868,8 +933,10 @@
 
       if (!firstTransitStep) {
 
-        return result;
+        result.reason =
+          "첫 대중교통 없음";
 
+        return result;
       }
 
 
@@ -878,14 +945,16 @@
 
 
       result.firstTransitType =
-        firstProperties.type ||
-        firstTransitStep.type ||
-        "";
+        String(
+          firstProperties.type ||
+          firstTransitStep.type ||
+          ""
+        ).toUpperCase();
 
 
-      // ---------------------------------------------------------
-      // 승차/하차 이름
-      // ---------------------------------------------------------
+      // ===================================================
+      // 정류장 / 역 목록
+      // ===================================================
 
       var stops =
         Array.isArray(
@@ -898,26 +967,44 @@
       if (stops.length > 0) {
 
         result.boardingName =
-          stops[0].name || "";
+          getStopName(
+            stops[0]
+          );
+
 
         result.alightingName =
-          stops[
-            stops.length - 1
-          ].name || "";
+          getStopName(
+            stops[
+              stops.length - 1
+            ]
+          );
 
       }
 
 
-      // ---------------------------------------------------------
-      // guidance에서도 이름 보완
-      // ---------------------------------------------------------
+      if (stops.length > 1) {
+
+        result.nextStopName =
+          getStopName(
+            stops[1]
+          );
+
+      }
+
+
+      // ===================================================
+      // guidance
+      // ===================================================
 
       var guidance =
-        firstProperties.guidance || "";
+        String(
+          firstProperties.guidance ||
+          ""
+        );
 
 
       var endpoints =
-        parseGuidanceEndpoints(
+        parseEndpoints(
           guidance
         );
 
@@ -938,9 +1025,9 @@
       }
 
 
-      // ---------------------------------------------------------
+      // ===================================================
       // 교통수단 이름
-      // ---------------------------------------------------------
+      // ===================================================
 
       if (
         result.firstTransitType ===
@@ -948,26 +1035,30 @@
       ) {
 
         result.transitName =
-          extractSubwayLine(
+          getSubwayLineName(
             guidance
           );
 
-      } else if (
+      }
+
+
+      else if (
         result.firstTransitType ===
         "BUS"
       ) {
 
         result.transitName =
-          getBusNames(
+          getBusName(
             firstProperties
           );
 
       }
 
 
-      // ---------------------------------------------------------
-      // 첫 대중교통 path 시작 좌표
-      // ---------------------------------------------------------
+      // ===================================================
+      // 첫 탑승지 좌표
+      // path.points[0] = [경도, 위도]
+      // ===================================================
 
       var boardingPoint =
         getFirstPathPoint(
@@ -975,14 +1066,10 @@
         );
 
 
-      if (
-        boardingPoint &&
-        appStartLat !== null &&
-        appStartLng !== null
-      ) {
+      if (boardingPoint) {
 
-        var walkingInfo =
-          estimateWalkingInfo(
+        var walking =
+          estimateWalking(
 
             appStartLat,
             appStartLng,
@@ -994,43 +1081,53 @@
 
 
         result.walkingSeconds =
-          walkingInfo.seconds;
+          walking.seconds;
 
         result.walkingDistance =
-          walkingInfo.distance;
+          walking.distance;
 
       }
 
 
-      // ---------------------------------------------------------
-      // 지하철이면 실시간 API 조회
-      // ---------------------------------------------------------
+      // ===================================================
+      // 지하철 실시간
+      // ===================================================
 
       if (
         result.firstTransitType ===
-        "SUBWAY" &&
-        result.boardingName &&
-        result.walkingSeconds !== null
+        "SUBWAY"
       ) {
 
-        await analyzeSubwayRealtime(
+        if (
+          result.walkingSeconds === null
+        ) {
 
-          result,
-          firstTransitStep
+          result.reason =
+            "첫 탑승지 좌표 확인 실패";
 
+          return result;
+        }
+
+
+        await checkSubwayRealtime(
+          result
         );
 
       }
 
 
-      // BUS는 버스 실시간 API 활성화 후 연결
-      if (
+      // ===================================================
+      // 버스
+      // 아직 실시간 API 연결 전
+      // ===================================================
+
+      else if (
         result.firstTransitType ===
         "BUS"
       ) {
 
-        result.realtimeChecked =
-          false;
+        result.reason =
+          "버스 실시간 API 연결 대기";
 
       }
 
@@ -1040,22 +1137,25 @@
     }
 
 
-    // =========================================================
-    // 지하철 실시간 판정
-    // =========================================================
+    // =====================================================
+    // 지하철 실시간 조회
+    // =====================================================
 
-    async function analyzeSubwayRealtime(
-      result,
-      transitStep
+    async function checkSubwayRealtime(
+      result
     ) {
 
-      var stationName =
+      var station =
         normalizeStationName(
           result.boardingName
         );
 
 
-      if (!stationName) {
+      if (!station) {
+
+        result.reason =
+          "승차역 이름 없음";
+
         return;
       }
 
@@ -1068,7 +1168,7 @@
             "/api/seoul-subway?station=" +
 
             encodeURIComponent(
-              stationName
+              station
             )
 
           );
@@ -1078,7 +1178,13 @@
           await response.json();
 
 
-        // INFO-200 등 데이터 없음
+        console.log(
+          "지하철 실시간:",
+          station,
+          data
+        );
+
+
         if (
           !response.ok ||
           !data.success ||
@@ -1087,25 +1193,29 @@
           )
         ) {
 
+          result.reason =
+            data.error ||
+            "실시간 정보 없음";
+
           return;
         }
 
 
         var arrivals =
-          data.arrivals;
+          data.arrivals.slice();
 
 
-        // -------------------------------------------------------
-        // 호선 필터
-        // -------------------------------------------------------
+        // =================================================
+        // 호선 맞추기
+        // =================================================
 
-        var expectedSubwayId =
-          subwayLineToId(
+        var subwayId =
+          getSubwayId(
             result.transitName
           );
 
 
-        if (expectedSubwayId) {
+        if (subwayId) {
 
           arrivals =
             arrivals.filter(
@@ -1115,7 +1225,9 @@
                   String(
                     item.subwayId
                   ) ===
-                  expectedSubwayId
+                  String(
+                    subwayId
+                  )
                 );
 
               }
@@ -1124,9 +1236,9 @@
         }
 
 
-        // -------------------------------------------------------
-        // 이미 도착/출발한 열차 제거
-        // -------------------------------------------------------
+        // =================================================
+        // 0초 데이터 제외
+        // =================================================
 
         arrivals =
           arrivals.filter(
@@ -1142,53 +1254,43 @@
           );
 
 
-        // -------------------------------------------------------
-        // 진행 방향 보조 필터
+        // =================================================
+        // 진행 방향 맞추기
         //
-        // 카카오 stops[1]을 이용해
-        // 서울 API의 "OO방면"과 맞는지 검사
-        // -------------------------------------------------------
+        // 예:
+        // 새절 → 증산 → ...
+        //
+        // 서울 API:
+        // "... 증산방면"
+        // =================================================
 
-        var properties =
-          transitStep.properties || {};
-
-        var stops =
-          Array.isArray(
-            properties.stops
-          )
-            ? properties.stops
-            : [];
+        var normalizedNext =
+          normalizeStationName(
+            result.nextStopName
+          );
 
 
-        var nextStationName = "";
-
-        if (
-          stops.length >= 2 &&
-          stops[1]
-        ) {
-
-          nextStationName =
-            normalizeStationName(
-              stops[1].name || ""
-            );
-
-        }
-
-
-        if (nextStationName) {
+        if (normalizedNext) {
 
           var directionMatched =
             arrivals.filter(
               function(item) {
 
                 var trainLine =
-                  String(
+                  normalizeCompareText(
                     item.trainLine || ""
                   );
 
+
+                var target =
+                  normalizeCompareText(
+                    normalizedNext
+                  );
+
+
                 return (
                   trainLine.indexOf(
-                    nextStationName
+                    target
                   ) !== -1
                 );
 
@@ -1196,7 +1298,7 @@
             );
 
 
-          // 방향 매칭 결과가 있을 때만 사용
+          // 방향이 실제로 매칭됐을 때만 사용
           if (
             directionMatched.length > 0
           ) {
@@ -1209,7 +1311,6 @@
         }
 
 
-        // 빠른 도착 순
         arrivals.sort(
           function(a, b) {
 
@@ -1230,15 +1331,14 @@
           true;
 
 
-        // -------------------------------------------------------
-        // 핵심 조건
+        // =================================================
+        // 핵심 알고리즘
         //
-        // 도착까지 남은 시간
-        // -
-        // 탑승지까지 도보시간
-        // >
-        // 3분(180초)
-        // -------------------------------------------------------
+        // 실시간 도착시간 - 도보시간 > 180초
+        //
+        // 첫 번째 열차가 안 되면
+        // 다음 열차를 계속 검사
+        // =================================================
 
         for (
           var i = 0;
@@ -1258,6 +1358,18 @@
             result.walkingSeconds;
 
 
+          console.log(
+            result.transitName,
+            result.boardingName,
+            "도착:",
+            arrivalSeconds,
+            "도보:",
+            result.walkingSeconds,
+            "여유:",
+            spareSeconds
+          );
+
+
           if (
             spareSeconds >
             MINIMUM_SPARE_SECONDS
@@ -1266,18 +1378,24 @@
             result.catchable =
               true;
 
+
             result.arrivalSeconds =
               arrivalSeconds;
+
 
             result.spareSeconds =
               spareSeconds;
 
+
             result.arrivalMessage =
               arrivals[i]
-                .arrivalMessage || "";
+                .arrivalMessage ||
+              "";
 
-            result.subwayData =
-              arrivals[i];
+
+            result.reason =
+              "3분 초과 조건 통과";
+
 
             return;
 
@@ -1286,28 +1404,37 @@
         }
 
 
-        // 조건을 만족하는 열차 없음
         result.catchable =
           false;
 
 
-      } catch (error) {
+        result.reason =
+          "3분 초과 여유 열차 없음";
+
+      }
+
+
+      catch (error) {
 
         console.error(
-          "지하철 실시간 조회 오류:",
+          "지하철 실시간 오류:",
           error
         );
+
+
+        result.reason =
+          "지하철 실시간 조회 오류";
 
       }
 
     }
 
 
-    // =========================================================
-    // 도보시간 임시 추정
-    // =========================================================
+    // =====================================================
+    // 임시 도보시간 추정
+    // =====================================================
 
-    function estimateWalkingInfo(
+    function estimateWalking(
       startLat,
       startLng,
       endLat,
@@ -1343,19 +1470,16 @@
         Math.sin(
           deltaLat / 2
         ) *
-
         Math.sin(
           deltaLat / 2
         ) +
 
         Math.cos(lat1) *
-
         Math.cos(lat2) *
 
         Math.sin(
           deltaLng / 2
         ) *
-
         Math.sin(
           deltaLng / 2
         );
@@ -1373,7 +1497,8 @@
         earthRadius * c;
 
 
-      // 임시 보정
+      // 실제 길은 직선보다 길 수 있으므로
+      // 현재는 임시 1.25배
       var estimatedDistance =
         straightDistance * 1.25;
 
@@ -1392,7 +1517,8 @@
 
       return {
 
-        seconds: seconds,
+        seconds:
+          seconds,
 
         distance:
           Math.round(
@@ -1404,65 +1530,124 @@
     }
 
 
-    // =========================================================
-    // 역 이름 정리
-    // =========================================================
+    // =====================================================
+    // 첫 path 좌표
+    // =====================================================
 
-    function normalizeStationName(
-      name
+    function getFirstPathPoint(
+      step
     ) {
 
-      if (!name) {
-        return "";
+      if (
+        !step ||
+        !step.path ||
+        !Array.isArray(
+          step.path.points
+        ) ||
+        step.path.points.length === 0
+      ) {
+
+        return null;
       }
 
 
-      var result =
-        String(name).trim();
+      var point =
+        step.path.points[0];
 
 
-      // "새절(신사)" → "새절"
-      result =
-        result.replace(
-          /\([^)]*\)/g,
-          ""
-        );
+      // 확인된 실제 구조:
+      // [경도, 위도]
+      if (
+        Array.isArray(point) &&
+        point.length >= 2
+      ) {
+
+        var lng =
+          Number(
+            point[0]
+          );
 
 
-      // 끝의 "역" 제거
-      result =
-        result.replace(
-          /역$/,
-          ""
-        );
+        var lat =
+          Number(
+            point[1]
+          );
 
 
-      return result.trim();
+        if (
+          Number.isFinite(lng) &&
+          Number.isFinite(lat)
+        ) {
+
+          return {
+
+            lng: lng,
+            lat: lat
+
+          };
+
+        }
+
+      }
+
+
+      return null;
 
     }
 
 
-    // =========================================================
-    // guidance 분석
-    // =========================================================
+    // =====================================================
+    // stop 이름
+    // =====================================================
 
-    function parseGuidanceEndpoints(
+    function getStopName(
+      stop
+    ) {
+
+      if (!stop) {
+        return "";
+      }
+
+
+      if (
+        typeof stop === "string"
+      ) {
+
+        return stop;
+      }
+
+
+      return String(
+        stop.name ||
+        stop.stationName ||
+        stop.stopName ||
+        stop.statnNm ||
+        ""
+      );
+
+    }
+
+
+    // =====================================================
+    // guidance 출발/도착
+    // =====================================================
+
+    function parseEndpoints(
       guidance
     ) {
 
       var result = {
+
         start: "",
         end: ""
+
       };
 
 
-      if (!guidance) {
-        return result;
-      }
-
-
       var match =
-        String(guidance).match(
+        String(
+          guidance || ""
+        ).match(
           /\((.*?)\s*>\s*(.*?)\)/
         );
 
@@ -1471,6 +1656,7 @@
 
         result.start =
           match[1].trim();
+
 
         result.end =
           match[2].trim();
@@ -1483,38 +1669,49 @@
     }
 
 
-    // =========================================================
-    // 지하철 호선 추출
-    // =========================================================
+    // =====================================================
+    // 지하철 호선 이름
+    // =====================================================
 
-    function extractSubwayLine(
+    function getSubwayLineName(
       guidance
     ) {
 
-      if (!guidance) {
-        return "지하철";
+      var text =
+        String(
+          guidance || ""
+        );
+
+
+      var index =
+        text.indexOf("(");
+
+
+      if (index !== -1) {
+
+        return text
+          .substring(
+            0,
+            index
+          )
+          .trim();
+
       }
 
 
-      var beforeBracket =
-        String(guidance)
-          .split("(")[0]
-          .trim();
-
-
       return (
-        beforeBracket ||
+        text.trim() ||
         "지하철"
       );
 
     }
 
 
-    // =========================================================
-    // 서울 지하철 subwayId 변환
-    // =========================================================
+    // =====================================================
+    // 지하철 ID
+    // =====================================================
 
-    function subwayLineToId(
+    function getSubwayId(
       lineName
     ) {
 
@@ -1524,35 +1721,46 @@
         );
 
 
+      var numberMatch =
+        text.match(
+          /([1-9])호선/
+        );
+
+
+      if (numberMatch) {
+
+        return (
+          "100" +
+          numberMatch[1]
+        );
+
+      }
+
+
       var map = {
 
-        "1호선": "1001",
-        "2호선": "1002",
-        "3호선": "1003",
-        "4호선": "1004",
-        "5호선": "1005",
-        "6호선": "1006",
-        "7호선": "1007",
-        "8호선": "1008",
-        "9호선": "1009",
-
         "경의중앙선": "1063",
+
         "공항철도": "1065",
+
         "경춘선": "1067",
+
         "수인분당선": "1075"
 
       };
 
 
       for (
-        var key in map
+        var name in map
       ) {
 
         if (
-          text.indexOf(key) !== -1
+          text.indexOf(
+            name
+          ) !== -1
         ) {
 
-          return map[key];
+          return map[name];
 
         }
 
@@ -1564,11 +1772,61 @@
     }
 
 
-    // =========================================================
-    // 버스 이름
-    // =========================================================
+    // =====================================================
+    // 역 이름 정리
+    // =====================================================
 
-    function getBusNames(
+    function normalizeStationName(
+      name
+    ) {
+
+      var text =
+        String(
+          name || ""
+        ).trim();
+
+
+      // 새절(신사) → 새절
+      text =
+        text.replace(
+          /\([^)]*\)/g,
+          ""
+        );
+
+
+      // 서울역 → 서울
+      text =
+        text.replace(
+          /역$/,
+          ""
+        );
+
+
+      return text.trim();
+
+    }
+
+
+    function normalizeCompareText(
+      value
+    ) {
+
+      return normalizeStationName(
+        value
+      )
+      .replace(
+        /\s+/g,
+        ""
+      );
+
+    }
+
+
+    // =====================================================
+    // 버스 번호
+    // =====================================================
+
+    function getBusName(
       properties
     ) {
 
@@ -1591,19 +1849,26 @@
             var name =
               vehicle.name || "";
 
+
             return (
-              (type + " " + name)
-                .trim()
-            );
+              type +
+              " " +
+              name
+            ).trim();
 
           }
-        ).join(" · ");
+        ).join(
+          " · "
+        );
 
       }
 
 
       var guidance =
-        properties.guidance || "";
+        String(
+          properties.guidance ||
+          ""
+        );
 
 
       if (guidance) {
@@ -1620,122 +1885,12 @@
     }
 
 
-    // =========================================================
-    // path 첫 좌표
-    // =========================================================
+    // =====================================================
+    // 결과 화면
+    // =====================================================
 
-    function getFirstPathPoint(
-      step
-    ) {
-
-      if (
-        !step ||
-        !step.path ||
-        !Array.isArray(
-          step.path.points
-        ) ||
-        step.path.points.length === 0
-      ) {
-
-        return null;
-
-      }
-
-
-      var point =
-        step.path.points[0];
-
-
-      if (
-        Array.isArray(point) &&
-        point.length >= 2
-      ) {
-
-        var lng =
-          Number(point[0]);
-
-        var lat =
-          Number(point[1]);
-
-
-        if (
-          Number.isFinite(lng) &&
-          Number.isFinite(lat)
-        ) {
-
-          return {
-            lng: lng,
-            lat: lat
-          };
-
-        }
-
-      }
-
-
-      return null;
-
-    }
-
-
-    // =========================================================
-    // 거리 표시
-    // =========================================================
-
-    function formatDistance(
-      meters
-    ) {
-
-      meters =
-        Number(meters) || 0;
-
-
-      if (meters < 1000) {
-
-        return (
-          Math.round(meters) +
-          "m"
-        );
-
-      }
-
-
-      return (
-        (
-          Math.round(
-            meters / 100
-          ) / 10
-        ) +
-        "km"
-      );
-
-    }
-
-
-    // =========================================================
-    // 초 → 분
-    // =========================================================
-
-    function secondsToMinutes(
-      seconds
-    ) {
-
-      return Math.max(
-        1,
-        Math.ceil(
-          Number(seconds) / 60
-        )
-      );
-
-    }
-
-
-    // =========================================================
-    // 결과 표시
-    // =========================================================
-
-    function showAnalyzedRoutes(
-      analyzedRoutes
+    function showRouteResults(
+      routes
     ) {
 
       var resultBox =
@@ -1744,24 +1899,19 @@
         );
 
 
-      resultBox.innerHTML = "";
+      resultBox.innerHTML =
+        "";
 
 
       if (
-        analyzedRoutes.length === 0
+        routes.length === 0
       ) {
 
-        resultBox.innerHTML =
-          '<div class="routeCard">' +
-          '<h2>추천 가능한 경로가 없습니다.</h2>' +
-          '</div>';
-
         return;
-
       }
 
 
-      analyzedRoutes.forEach(
+      routes.forEach(
         function(item, index) {
 
           var route =
@@ -1769,123 +1919,45 @@
 
 
           var totalMinutes =
-            secondsToMinutes(
-              route.properties.totalTime
+            Math.max(
+              1,
+              Math.ceil(
+                Number(
+                  route.properties.totalTime
+                ) / 60
+              )
             );
 
 
           var transfers =
-            route.properties.transfers;
+            Number(
+              route.properties.transfers ||
+              0
+            );
 
 
-          var totalDistance =
+          var distance =
             formatDistance(
               route.properties.totalDistance
             );
 
 
-          var realtimeHTML = "";
+          var walkingMinutes =
+            secondsToMinutes(
+              item.walkingSeconds
+            );
 
 
-          // -----------------------------------------------------
-          // 지하철
-          // -----------------------------------------------------
-
-          if (
-            item.firstTransitType ===
-            "SUBWAY"
-          ) {
-
-            if (
-              item.realtimeChecked &&
-              item.catchable
-            ) {
-
-              realtimeHTML = `
-
-                <p>
-                  🚶 첫 탑승역까지 추정 도보
-                  ${secondsToMinutes(item.walkingSeconds)}분
-                  · ${formatDistance(item.walkingDistance)}
-                </p>
-
-                <p>
-                  🚇 탑승 가능한 열차
-                  약 ${secondsToMinutes(item.arrivalSeconds)}분 후
-                </p>
-
-                <p>
-                  ⏱️ 여유시간
-                  약 ${secondsToMinutes(item.spareSeconds)}분
-                </p>
-
-                <p>
-                  ✅ 3분 초과 조건 통과
-                </p>
-
-              `;
-
-            } else if (
-              item.realtimeChecked
-            ) {
-
-              realtimeHTML = `
-
-                <p>
-                  🚶 첫 탑승역까지 추정 도보
-                  ${secondsToMinutes(item.walkingSeconds)}분
-                </p>
-
-                <p>
-                  ❌ 현재 열차 중
-                  3분 초과 여유 조건을 만족하는 열차가 없습니다.
-                </p>
-
-              `;
-
-            } else {
-
-              realtimeHTML = `
-
-                <p>
-                  ⚠️ 이 역의 실시간 지하철 정보를
-                  확인하지 못했습니다.
-                </p>
-
-              `;
-
-            }
-
-          }
+          var arrivalMinutes =
+            secondsToMinutes(
+              item.arrivalSeconds
+            );
 
 
-          // -----------------------------------------------------
-          // 버스
-          // -----------------------------------------------------
-
-          if (
-            item.firstTransitType ===
-            "BUS"
-          ) {
-
-            realtimeHTML = `
-
-              <p>
-                🚌 첫 탑승:
-                ${escapeHTML(item.transitName)}
-              </p>
-
-              <p>
-                🚏 ${escapeHTML(item.boardingName)}
-              </p>
-
-              <p>
-                ⏳ 버스 실시간 도착 API 연결 대기
-              </p>
-
-            `;
-
-          }
+          var spareMinutes =
+            secondsToMinutes(
+              item.spareSeconds
+            );
 
 
           var stepsHTML =
@@ -1914,7 +1986,7 @@
               </p>
 
               <p>
-                📏 총 거리 ${totalDistance}
+                📏 총 거리 ${distance}
               </p>
 
               <p>
@@ -1923,15 +1995,28 @@
               </p>
 
               <p>
-                ${
-                  item.firstTransitType === "SUBWAY"
-                    ? "🚇"
-                    : "🚌"
-                }
-                ${escapeHTML(item.transitName)}
+                🚇 ${escapeHTML(item.transitName)}
               </p>
 
-              ${realtimeHTML}
+              <p>
+                🚶 첫 탑승지까지 추정 도보
+                약 ${walkingMinutes}분
+                · ${formatDistance(item.walkingDistance)}
+              </p>
+
+              <p>
+                🚇 탑승 가능한 열차
+                약 ${arrivalMinutes}분 후
+              </p>
+
+              <p>
+                ⏱️ 탑승 여유
+                약 ${spareMinutes}분
+              </p>
+
+              <p>
+                ✅ 3분 초과 조건 통과
+              </p>
 
               <div class="steps">
 
@@ -1953,9 +2038,108 @@
     }
 
 
-    // =========================================================
-    // 세부 이동 경로 HTML
-    // =========================================================
+    // =====================================================
+    // 추천 결과가 0개일 때
+    // =====================================================
+
+    function showUnavailableInformation(
+      analyzed
+    ) {
+
+      var resultBox =
+        document.getElementById(
+          "routeResults"
+        );
+
+
+      var html = `
+
+        <div class="routeCard">
+
+          <h2>
+            현재 추천 경로 없음
+          </h2>
+
+          <p>
+            3분 초과 여유가 있다고
+            실시간으로 확인된 경로가 없습니다.
+          </p>
+
+      `;
+
+
+      var busCount =
+        analyzed.filter(
+          function(item) {
+
+            return (
+              item.firstTransitType ===
+              "BUS"
+            );
+
+          }
+        ).length;
+
+
+      if (busCount > 0) {
+
+        html += `
+
+          <p>
+            🚌 버스 경로 ${busCount}개는
+            실시간 버스 API 연결 후 판정됩니다.
+          </p>
+
+        `;
+
+      }
+
+
+      var unavailableSubway =
+        analyzed.filter(
+          function(item) {
+
+            return (
+              item.firstTransitType ===
+              "SUBWAY" &&
+              item.realtimeChecked ===
+              false
+            );
+
+          }
+        );
+
+
+      if (
+        unavailableSubway.length > 0
+      ) {
+
+        html += `
+
+          <p>
+            🚇 일부 지하철 경로는
+            해당 역의 실시간 데이터를
+            받지 못했습니다.
+          </p>
+
+        `;
+
+      }
+
+
+      html +=
+        "</div>";
+
+
+      resultBox.innerHTML =
+        html;
+
+    }
+
+
+    // =====================================================
+    // 이동 단계 표시
+    // =====================================================
 
     function buildStepsHTML(
       route
@@ -1965,12 +2149,12 @@
 
 
       if (
-        !route.steps ||
-        route.steps.length === 0
+        !Array.isArray(
+          route.steps
+        )
       ) {
 
-        return "상세 이동정보 없음";
-
+        return html;
       }
 
 
@@ -1982,34 +2166,43 @@
 
 
           var type =
-            properties.type ||
-            step.type ||
-            "";
+            String(
+              properties.type ||
+              step.type ||
+              ""
+            ).toUpperCase();
 
 
-          var seconds =
+          var time =
             Number(
-              properties.time || 0
+              properties.time ||
+              0
             );
 
 
           var distance =
             Number(
-              properties.distance || 0
+              properties.distance ||
+              0
             );
 
 
           var minutes =
-            seconds > 0
-              ? secondsToMinutes(seconds)
+            time > 0
+              ? secondsToMinutes(
+                  time
+                )
               : null;
 
 
           var guidance =
-            properties.guidance || "";
+            String(
+              properties.guidance ||
+              ""
+            );
 
 
-          // 도보
+          // WALKING
           if (
             type === "WALKING" ||
             type === "WALK"
@@ -2020,79 +2213,31 @@
               <div>
                 🚶 도보
                 ${
-                  minutes
-                    ? " · " + minutes + "분"
+                  minutes !== null
+                    ? " · " +
+                      minutes +
+                      "분"
                     : ""
                 }
                 ${
-                  distance
-                    ? " · " + formatDistance(distance)
+                  distance > 0
+                    ? " · " +
+                      formatDistance(
+                        distance
+                      )
                     : ""
                 }
               </div>
 
             `;
+
 
             if (guidance) {
-
-              html +=
-                "<div>" +
-                escapeHTML(guidance) +
-                "</div>";
-
-            }
-
-          }
-
-
-          // 지하철
-          else if (
-            type === "SUBWAY"
-          ) {
-
-            var subwayLine =
-              extractSubwayLine(
-                guidance
-              );
-
-
-            var endpoints =
-              parseGuidanceEndpoints(
-                guidance
-              );
-
-
-            html += `
-
-              <div>
-                🚇 ${escapeHTML(subwayLine)}
-                ${
-                  minutes
-                    ? " · " + minutes + "분"
-                    : ""
-                }
-                ${
-                  distance
-                    ? " · " + formatDistance(distance)
-                    : ""
-                }
-              </div>
-
-            `;
-
-
-            if (
-              endpoints.start ||
-              endpoints.end
-            ) {
 
               html += `
 
                 <div>
-                  🚉
-                  ${escapeHTML(endpoints.start)}
-                  →
-                  ${escapeHTML(endpoints.end)}
+                  ${escapeHTML(guidance)}
                 </div>
 
               `;
@@ -2102,19 +2247,69 @@
           }
 
 
-          // 버스
+          // SUBWAY
+          else if (
+            type === "SUBWAY"
+          ) {
+
+            var subwayName =
+              getSubwayLineName(
+                guidance
+              );
+
+
+            var subwayEndpoints =
+              parseEndpoints(
+                guidance
+              );
+
+
+            html += `
+
+              <div>
+                🚇 ${escapeHTML(subwayName)}
+                ${
+                  minutes !== null
+                    ? " · " +
+                      minutes +
+                      "분"
+                    : ""
+                }
+                ${
+                  distance > 0
+                    ? " · " +
+                      formatDistance(
+                        distance
+                      )
+                    : ""
+                }
+              </div>
+
+              <div>
+                🚉
+                ${escapeHTML(subwayEndpoints.start)}
+                →
+                ${escapeHTML(subwayEndpoints.end)}
+              </div>
+
+            `;
+
+          }
+
+
+          // BUS
           else if (
             type === "BUS"
           ) {
 
-            var busNames =
-              getBusNames(
+            var busName =
+              getBusName(
                 properties
               );
 
 
             var busEndpoints =
-              parseGuidanceEndpoints(
+              parseEndpoints(
                 guidance
               );
 
@@ -2122,39 +2317,32 @@
             html += `
 
               <div>
-                🚌 ${escapeHTML(busNames)}
+                🚌 ${escapeHTML(busName)}
                 ${
-                  minutes
-                    ? " · " + minutes + "분"
+                  minutes !== null
+                    ? " · " +
+                      minutes +
+                      "분"
                     : ""
                 }
                 ${
-                  distance
-                    ? " · " + formatDistance(distance)
+                  distance > 0
+                    ? " · " +
+                      formatDistance(
+                        distance
+                      )
                     : ""
                 }
               </div>
 
+              <div>
+                🚏
+                ${escapeHTML(busEndpoints.start)}
+                →
+                ${escapeHTML(busEndpoints.end)}
+              </div>
+
             `;
-
-
-            if (
-              busEndpoints.start ||
-              busEndpoints.end
-            ) {
-
-              html += `
-
-                <div>
-                  🚏
-                  ${escapeHTML(busEndpoints.start)}
-                  →
-                  ${escapeHTML(busEndpoints.end)}
-                </div>
-
-              `;
-
-            }
 
           }
 
@@ -2167,9 +2355,9 @@
     }
 
 
-    // =========================================================
-    // 경로 선택
-    // =========================================================
+    // =====================================================
+    // 경로 카드 클릭
+    // =====================================================
 
     function selectRoute(
       index
@@ -2178,6 +2366,7 @@
       if (
         !displayedRoutes[index]
       ) {
+
         return;
       }
 
@@ -2190,22 +2379,30 @@
     }
 
 
-    // =========================================================
-    // 기존 경로선/마커 제거
-    // =========================================================
+    // =====================================================
+    // 기존 경로선 삭제
+    // =====================================================
 
-    function clearRouteMapObjects() {
+    function clearRouteObjects() {
 
       routePolylines.forEach(
         function(polyline) {
-          polyline.setMap(null);
+
+          polyline.setMap(
+            null
+          );
+
         }
       );
 
 
       routeMarkers.forEach(
         function(marker) {
-          marker.setMap(null);
+
+          marker.setMap(
+            null
+          );
+
         }
       );
 
@@ -2216,9 +2413,9 @@
     }
 
 
-    // =========================================================
-    // 지도에 선택 경로 표시
-    // =========================================================
+    // =====================================================
+    // 지도에 경로 그리기
+    // =====================================================
 
     function drawRouteOnMap(
       route
@@ -2227,13 +2424,16 @@
       if (
         !fastRouteMap ||
         !route ||
-        !route.steps
+        !Array.isArray(
+          route.steps
+        )
       ) {
+
         return;
       }
 
 
-      clearRouteMapObjects();
+      clearRouteObjects();
 
 
       var bounds =
@@ -2246,10 +2446,12 @@
       ) {
 
         bounds.extend(
+
           new kakao.maps.LatLng(
             appStartLat,
             appStartLng
           )
+
         );
 
       }
@@ -2263,45 +2465,71 @@
 
 
           var type =
-            properties.type ||
-            step.type ||
-            "";
+            String(
+              properties.type ||
+              step.type ||
+              ""
+            ).toUpperCase();
 
 
-          var path =
-            convertPathPoints(
-              step.path
-                ? step.path.points
-                : []
+          var points = [];
+
+
+          if (
+            step.path &&
+            Array.isArray(
+              step.path.points
+            )
+          ) {
+
+            points =
+              step.path.points;
+
+          }
+
+
+          var kakaoPath =
+            convertPoints(
+              points
             );
 
 
-          if (path.length === 0) {
+          if (
+            kakaoPath.length === 0
+          ) {
+
             return;
           }
 
 
-          path.forEach(
-            function(latLng) {
-              bounds.extend(latLng);
+          kakaoPath.forEach(
+            function(position) {
+
+              bounds.extend(
+                position
+              );
+
             }
           );
 
 
-          var strokeColor =
+          var color =
             "#666666";
 
 
           if (type === "BUS") {
 
-            strokeColor =
+            color =
               "#1976D2";
 
-          } else if (
+          }
+
+
+          else if (
             type === "SUBWAY"
           ) {
 
-            strokeColor =
+            color =
               "#E53935";
 
           }
@@ -2310,14 +2538,17 @@
           var polyline =
             new kakao.maps.Polyline({
 
-              path: path,
+              path:
+                kakaoPath,
 
-              strokeWeight: 5,
+              strokeWeight:
+                5,
 
               strokeColor:
-                strokeColor,
+                color,
 
-              strokeOpacity: 0.8
+              strokeOpacity:
+                0.8
 
             });
 
@@ -2332,7 +2563,7 @@
           );
 
 
-          // BUS / SUBWAY 승하차 위치
+          // 승차 / 하차 마커
           if (
             type === "BUS" ||
             type === "SUBWAY"
@@ -2340,16 +2571,21 @@
 
             var startMarker =
               new kakao.maps.Marker({
-                position: path[0]
+
+                position:
+                  kakaoPath[0]
+
               });
 
 
             var endMarker =
               new kakao.maps.Marker({
+
                 position:
-                  path[
-                    path.length - 1
+                  kakaoPath[
+                    kakaoPath.length - 1
                   ]
+
               });
 
 
@@ -2384,10 +2620,12 @@
       ) {
 
         bounds.extend(
+
           new kakao.maps.LatLng(
             appEndLat,
             appEndLng
           )
+
         );
 
       }
@@ -2400,11 +2638,11 @@
     }
 
 
-    // =========================================================
-    // path.points → Kakao LatLng
-    // =========================================================
+    // =====================================================
+    // [경도, 위도] → Kakao LatLng
+    // =====================================================
 
-    function convertPathPoints(
+    function convertPoints(
       points
     ) {
 
@@ -2414,7 +2652,6 @@
       if (!Array.isArray(points)) {
 
         return result;
-
       }
 
 
@@ -2422,34 +2659,43 @@
         function(point) {
 
           if (
-            Array.isArray(point) &&
-            point.length >= 2
+            !Array.isArray(point) ||
+            point.length < 2
           ) {
 
-            var lng =
-              Number(point[0]);
-
-            var lat =
-              Number(point[1]);
-
-
-            if (
-              Number.isFinite(lng) &&
-              Number.isFinite(lat)
-            ) {
-
-              result.push(
-
-                new kakao.maps.LatLng(
-                  lat,
-                  lng
-                )
-
-              );
-
-            }
-
+            return;
           }
+
+
+          var lng =
+            Number(
+              point[0]
+            );
+
+
+          var lat =
+            Number(
+              point[1]
+            );
+
+
+          if (
+            !Number.isFinite(lng) ||
+            !Number.isFinite(lat)
+          ) {
+
+            return;
+          }
+
+
+          result.push(
+
+            new kakao.maps.LatLng(
+              lat,
+              lng
+            )
+
+          );
 
         }
       );
@@ -2460,9 +2706,83 @@
     }
 
 
-    // =========================================================
+    // =====================================================
+    // 초 → 분
+    // =====================================================
+
+    function secondsToMinutes(
+      seconds
+    ) {
+
+      var value =
+        Number(
+          seconds
+        );
+
+
+      if (
+        !Number.isFinite(value) ||
+        value <= 0
+      ) {
+
+        return 0;
+      }
+
+
+      return Math.ceil(
+        value / 60
+      );
+
+    }
+
+
+    // =====================================================
+    // 거리 표시
+    // =====================================================
+
+    function formatDistance(
+      meters
+    ) {
+
+      var value =
+        Number(
+          meters
+        );
+
+
+      if (
+        !Number.isFinite(value)
+      ) {
+
+        return "";
+      }
+
+
+      if (value < 1000) {
+
+        return (
+          Math.round(value) +
+          "m"
+        );
+
+      }
+
+
+      return (
+        (
+          Math.round(
+            value / 100
+          ) / 10
+        ) +
+        "km"
+      );
+
+    }
+
+
+    // =====================================================
     // HTML 안전 처리
-    // =========================================================
+    // =====================================================
 
     function escapeHTML(
       value
