@@ -185,10 +185,10 @@
     // 지도 만들기
     // ========================================
 
-    const mapContainer =
+    const fastRouteMapContainer =
       document.getElementById("map");
 
-    const mapOption = {
+    const fastRouteMapOption = {
 
       center:
         new kakao.maps.LatLng(
@@ -200,29 +200,31 @@
 
     };
 
-    const map =
+    const fastRouteMap =
       new kakao.maps.Map(
-        mapContainer,
-        mapOption
+        fastRouteMapContainer,
+        fastRouteMapOption
       );
 
 
     // ========================================
     // 좌표 저장
+    // 이름 충돌 방지를 위해 이름 변경
     // ========================================
 
-    
-    
-    let startLatitude = null;
-    let startLongitude = null;
+    let appStartLat = null;
+    let appStartLng = null;
 
-    let endLatitude = null;
-    let endLongitude = null;
+    let appEndLat = null;
+    let appEndLng = null;
 
 
-    // 마커
-    let myMarker = null;
-    let destinationMarker = null;
+    // ========================================
+    // 마커 저장
+    // ========================================
+
+    let appMyMarker = null;
+    let appDestinationMarker = null;
 
 
     // ========================================
@@ -231,16 +233,16 @@
 
     function findMyLocation() {
 
-      const message =
+      const messageBox =
         document.getElementById("message");
 
-      message.innerText =
+      messageBox.innerText =
         "📡 현재 위치를 찾고 있습니다...";
 
 
       if (!navigator.geolocation) {
 
-        message.innerText =
+        messageBox.innerText =
           "❌ 위치 기능을 사용할 수 없습니다.";
 
         return;
@@ -249,73 +251,112 @@
 
       navigator.geolocation.getCurrentPosition(
 
-        // 성공
+        // 위치 찾기 성공
         function(position) {
 
-          const latitude =
+          const currentLat =
             position.coords.latitude;
 
-          const longitude =
+          const currentLng =
             position.coords.longitude;
 
 
+          console.log(
+            "현재 위치:",
+            currentLat,
+            currentLng
+          );
+
+
           // 출발지 좌표 저장
-          startLatitude = latitude;
-          startLongitude = longitude;
+          appStartLat = currentLat;
+          appStartLng = currentLng;
 
 
-          const myPosition =
+          const currentPosition =
             new kakao.maps.LatLng(
-              latitude,
-              longitude
+              currentLat,
+              currentLng
             );
 
 
           // 지도 이동
-          map.setCenter(myPosition);
-          map.setLevel(3);
+          fastRouteMap.setCenter(
+            currentPosition
+          );
+
+          fastRouteMap.setLevel(3);
 
 
-          // 기존 마커 삭제
-          if (myMarker !== null) {
-            myMarker.setMap(null);
+          // 기존 현재 위치 마커 삭제
+          if (appMyMarker !== null) {
+
+            appMyMarker.setMap(null);
+
           }
 
 
-          // 현재 위치 마커
-          myMarker =
+          // 현재 위치 마커 생성
+          appMyMarker =
             new kakao.maps.Marker({
-              position: myPosition
+
+              position:
+                currentPosition
+
             });
 
 
-          myMarker.setMap(map);
+          // 지도에 마커 표시
+          appMyMarker.setMap(
+            fastRouteMap
+          );
 
 
-          // 출발지 표시
-          document.getElementById("start").value =
-            "내 현재 위치";
+          // 출발지 입력창 표시
+          document.getElementById(
+            "start"
+          ).value = "내 현재 위치";
 
 
-          message.innerText =
+          messageBox.innerText =
             "✅ 현재 위치를 찾았습니다!";
 
         },
 
 
-        // 실패
+        // 위치 찾기 실패
         function(error) {
 
-          console.log(error);
+          console.error(
+            "위치 오류:",
+            error
+          );
+
 
           if (error.code === 1) {
 
-            message.innerText =
+            messageBox.innerText =
               "❌ 위치 권한이 거부되었습니다.";
 
-          } else {
+          }
 
-            message.innerText =
+          else if (error.code === 2) {
+
+            messageBox.innerText =
+              "❌ 현재 위치 정보를 가져올 수 없습니다.";
+
+          }
+
+          else if (error.code === 3) {
+
+            messageBox.innerText =
+              "❌ 현재 위치 찾기 시간이 초과되었습니다.";
+
+          }
+
+          else {
+
+            messageBox.innerText =
               "❌ 현재 위치를 찾지 못했습니다.";
 
           }
@@ -323,11 +364,15 @@
         },
 
 
-        // 설정
+        // 위치 설정
         {
+
           enableHighAccuracy: true,
+
           timeout: 10000,
+
           maximumAge: 0
+
         }
 
       );
@@ -335,12 +380,15 @@
     }
 
 
+
     // ========================================
-    // 장소 검색 준비
+    // 카카오 장소 검색 서비스
+    // 이름 충돌 방지를 위해 이름 변경
     // ========================================
 
-    const places =
+    const kakaoPlaceService =
       new kakao.maps.services.Places();
+
 
 
     // ========================================
@@ -349,28 +397,40 @@
 
     function searchDestination() {
 
-      const keyword =
-        document.getElementById("end").value;
+      const destinationKeyword =
+        document.getElementById(
+          "end"
+        ).value;
 
 
-      if (keyword.trim() === "") {
+      if (
+        destinationKeyword.trim() === ""
+      ) {
 
-        alert("도착지를 입력해주세요!");
+        alert(
+          "도착지를 입력해주세요!"
+        );
 
         return;
       }
 
 
-      document.getElementById("message").innerText =
+      document.getElementById(
+        "message"
+      ).innerText =
         "🔍 도착지를 찾고 있습니다...";
 
 
-      places.keywordSearch(
-        keyword,
+      kakaoPlaceService.keywordSearch(
+
+        destinationKeyword,
+
         destinationSearchResult
+
       );
 
     }
+
 
 
     // ========================================
@@ -382,72 +442,123 @@
       status
     ) {
 
+      const messageBox =
+        document.getElementById(
+          "message"
+        );
+
+
       if (
         status ===
         kakao.maps.services.Status.OK
       ) {
 
-        const place = data[0];
+        const selectedPlace =
+          data[0];
 
 
-        const latitude =
-          Number(place.y);
+        const destinationLat =
+          Number(
+            selectedPlace.y
+          );
 
-        const longitude =
-          Number(place.x);
+        const destinationLng =
+          Number(
+            selectedPlace.x
+          );
 
 
         // 도착지 좌표 저장
-        endLatitude = latitude;
-        endLongitude = longitude;
+        appEndLat =
+          destinationLat;
+
+        appEndLng =
+          destinationLng;
 
 
-        const position =
+        const destinationPosition =
           new kakao.maps.LatLng(
-            latitude,
-            longitude
+
+            destinationLat,
+
+            destinationLng
+
           );
 
 
         // 지도 이동
-        map.setCenter(position);
+        fastRouteMap.setCenter(
+          destinationPosition
+        );
 
 
-        // 기존 마커 삭제
-        if (destinationMarker !== null) {
-          destinationMarker.setMap(null);
+        // 기존 도착지 마커 삭제
+        if (
+          appDestinationMarker !== null
+        ) {
+
+          appDestinationMarker.setMap(
+            null
+          );
+
         }
 
 
-        // 도착지 마커
-        destinationMarker =
+        // 새로운 도착지 마커
+        appDestinationMarker =
           new kakao.maps.Marker({
-            position: position
+
+            position:
+              destinationPosition
+
           });
 
 
-        destinationMarker.setMap(map);
+        appDestinationMarker.setMap(
+          fastRouteMap
+        );
 
 
-        // 장소 이름 표시
-        document.getElementById("end").value =
-          place.place_name;
+        // 도착지 이름 표시
+        document.getElementById(
+          "end"
+        ).value =
+          selectedPlace.place_name;
 
 
-        document.getElementById("message").innerText =
+        messageBox.innerText =
           "✅ 도착지: " +
-          place.place_name;
+          selectedPlace.place_name;
+
+
+        console.log(
+          "도착지:",
+          selectedPlace.place_name,
+          appEndLat,
+          appEndLng
+        );
+
+      }
+
+      else if (
+        status ===
+        kakao.maps.services.Status.ZERO_RESULT
+      ) {
+
+        messageBox.innerText =
+          "❌ 검색 결과가 없습니다.";
 
       }
 
       else {
 
-        document.getElementById("message").innerText =
-          "❌ 장소를 찾지 못했습니다.";
+        messageBox.innerText =
+          "❌ 장소 검색 중 오류가 발생했습니다.";
 
       }
 
     }
+
 
 
     // ========================================
@@ -456,17 +567,19 @@
 
     async function findRoute() {
 
-      const message =
-        document.getElementById("message");
+      const messageBox =
+        document.getElementById(
+          "message"
+        );
 
 
       // 출발지 확인
       if (
-        startLatitude === null ||
-        startLongitude === null
+        appStartLat === null ||
+        appStartLng === null
       ) {
 
-        message.innerText =
+        messageBox.innerText =
           "❌ 먼저 현재 위치를 찾아주세요.";
 
         return;
@@ -475,43 +588,58 @@
 
       // 도착지 확인
       if (
-        endLatitude === null ||
-        endLongitude === null
+        appEndLat === null ||
+        appEndLng === null
       ) {
 
-        message.innerText =
+        messageBox.innerText =
           "❌ 먼저 도착지를 찾아주세요.";
 
         return;
       }
 
 
-      message.innerText =
+      messageBox.innerText =
         "🚌 대중교통 경로를 찾고 있습니다...";
 
 
-      // 우리 Vercel 서버
-      const url =
+      // Vercel API
+      const apiUrl =
 
         "/api/kakao" +
 
         "?startX=" +
-        startLongitude +
+        encodeURIComponent(
+          appStartLng
+        ) +
 
         "&startY=" +
-        startLatitude +
+        encodeURIComponent(
+          appStartLat
+        ) +
 
         "&endX=" +
-        endLongitude +
+        encodeURIComponent(
+          appEndLng
+        ) +
 
         "&endY=" +
-        endLatitude;
+        encodeURIComponent(
+          appEndLat
+        );
+
+
+      console.log(
+        "경로 요청 시작"
+      );
 
 
       try {
 
         const response =
-          await fetch(url);
+          await fetch(
+            apiUrl
+          );
 
 
         const data =
@@ -527,10 +655,14 @@
         // 서버 오류
         if (!response.ok) {
 
-          message.innerText =
-            "❌ 경로 검색에 실패했습니다.";
+          console.error(
+            "경로 API 오류:",
+            data
+          );
 
-          console.log(data);
+
+          messageBox.innerText =
+            "❌ 경로 검색에 실패했습니다.";
 
           return;
         }
@@ -542,18 +674,18 @@
           data.routes.length === 0
         ) {
 
-          message.innerText =
+          messageBox.innerText =
             "❌ 이용 가능한 대중교통 경로가 없습니다.";
 
           return;
         }
 
 
-        message.innerText =
+        messageBox.innerText =
           "✅ 빠른 경로를 찾았습니다!";
 
 
-        // TOP 3 출력
+        // 빠른 경로 3개 표시
         showTopRoutes(
           data.routes
         );
@@ -562,9 +694,13 @@
 
       catch (error) {
 
-        console.log(error);
+        console.error(
+          "서버 연결 오류:",
+          error
+        );
 
-        message.innerText =
+
+        messageBox.innerText =
           "❌ 서버 연결 중 오류가 발생했습니다.";
 
       }
@@ -572,8 +708,9 @@
     }
 
 
+
     // ========================================
-    // 빠른 경로 TOP 3
+    // 빠른 경로 TOP 3 표시
     // ========================================
 
     function showTopRoutes(routes) {
@@ -584,7 +721,7 @@
         );
 
 
-      // 빠른 순서로 정렬
+      // 빠른 순서대로 정렬
       const sortedRoutes =
         [...routes].sort(
 
@@ -600,11 +737,15 @@
         );
 
 
-      // 3개만 선택
+      // 가장 빠른 3개
       const top3 =
-        sortedRoutes.slice(0, 3);
+        sortedRoutes.slice(
+          0,
+          3
+        );
 
 
+      // 기존 결과 삭제
       resultBox.innerHTML = "";
 
 
@@ -614,7 +755,7 @@
 
 
           // ====================================
-          // 총 시간
+          // 전체 시간
           // ====================================
 
           const totalSeconds =
@@ -628,7 +769,7 @@
 
 
           // ====================================
-          // 환승
+          // 환승 횟수
           // ====================================
 
           const transfers =
@@ -636,7 +777,7 @@
 
 
           // ====================================
-          // 거리
+          // 총 거리
           // ====================================
 
           const distance =
@@ -651,159 +792,224 @@
 
 
           // ====================================
-          // 이동 단계
+          // 이동 단계 만들기
           // ====================================
 
           let stepsHTML = "";
 
 
-          route.steps.forEach(
-
-            function(step) {
-
-
-              // step 안에 properties가 있으면 사용
-              const p =
-                step.properties || {};
+          if (
+            route.steps &&
+            route.steps.length > 0
+          ) {
 
 
-              // 이동 종류
-              const type =
-                step.type ||
-                p.type ||
-                "";
+            route.steps.forEach(
+
+              function(step) {
 
 
-              // 시간 찾기
-              const seconds =
-                p.time ||
-                p.duration ||
-                step.time ||
-                step.duration ||
-                0;
+                const stepProperties =
+                  step.properties || {};
 
 
-              const minutes =
-                seconds > 0
-                ? Math.max(
-                    1,
-                    Math.ceil(seconds / 60)
-                  )
-                : null;
+                // 이동 종류
+                const stepType =
+
+                  step.type ||
+
+                  stepProperties.type ||
+
+                  "";
 
 
-              // =================================
-              // 도보
-              // =================================
+                // 시간
+                const stepSeconds =
 
-              if (
-                type === "WALKING" ||
-                type === "WALK"
-              ) {
+                  stepProperties.time ||
 
-                stepsHTML += `
-                  <div>
-                    🚶 도보
-                    ${
-                      minutes !== null
-                      ? minutes + "분"
-                      : ""
-                    }
-                  </div>
-                `;
+                  stepProperties.duration ||
+
+                  step.time ||
+
+                  step.duration ||
+
+                  0;
+
+
+                let stepMinutes = null;
+
+
+                if (
+                  Number(stepSeconds) > 0
+                ) {
+
+                  stepMinutes =
+                    Math.max(
+
+                      1,
+
+                      Math.ceil(
+                        Number(stepSeconds)
+                        / 60
+                      )
+
+                    );
+
+                }
+
+
+                // ==============================
+                // 도보
+                // ==============================
+
+                if (
+                  stepType === "WALKING" ||
+                  stepType === "WALK"
+                ) {
+
+                  stepsHTML += `
+
+                    <div>
+
+                      🚶 도보
+
+                      ${
+                        stepMinutes !== null
+                        ? " · " +
+                          stepMinutes +
+                          "분"
+                        : ""
+                      }
+
+                    </div>
+
+                  `;
+
+                }
+
+
+                // ==============================
+                // 지하철
+                // ==============================
+
+                else if (
+                  stepType === "SUBWAY"
+                ) {
+
+                  const subwayName =
+
+                    stepProperties.name ||
+
+                    stepProperties.lineName ||
+
+                    stepProperties.routeName ||
+
+                    stepProperties.vehicleName ||
+
+                    "지하철";
+
+
+                  stepsHTML += `
+
+                    <div>
+
+                      🚇 ${subwayName}
+
+                      ${
+                        stepMinutes !== null
+                        ? " · " +
+                          stepMinutes +
+                          "분"
+                        : ""
+                      }
+
+                    </div>
+
+                  `;
+
+                }
+
+
+                // ==============================
+                // 버스
+                // ==============================
+
+                else if (
+                  stepType === "BUS"
+                ) {
+
+                  const busName =
+
+                    stepProperties.name ||
+
+                    stepProperties.busNo ||
+
+                    stepProperties.lineName ||
+
+                    stepProperties.routeName ||
+
+                    stepProperties.vehicleName ||
+
+                    "버스";
+
+
+                  stepsHTML += `
+
+                    <div>
+
+                      🚌 ${busName}
+
+                      ${
+                        stepMinutes !== null
+                        ? " · " +
+                          stepMinutes +
+                          "분"
+                        : ""
+                      }
+
+                    </div>
+
+                  `;
+
+                }
+
+
+                // ==============================
+                // 아직 구조를 모르는 단계
+                // ==============================
+
+                else {
+
+                  stepsHTML += `
+
+                    <div>
+
+                      🚏 이동
+
+                      ${
+                        stepMinutes !== null
+                        ? " · " +
+                          stepMinutes +
+                          "분"
+                        : ""
+                      }
+
+                    </div>
+
+                  `;
+
+                }
 
               }
 
+            );
 
-              // =================================
-              // 지하철
-              // =================================
-
-              else if (
-                type === "SUBWAY"
-              ) {
-
-                const subwayName =
-
-                  p.name ||
-                  p.lineName ||
-                  p.routeName ||
-                  p.vehicleName ||
-                  "지하철";
-
-
-                stepsHTML += `
-                  <div>
-                    🚇 ${subwayName}
-                    ${
-                      minutes !== null
-                      ? " · " + minutes + "분"
-                      : ""
-                    }
-                  </div>
-                `;
-
-              }
-
-
-              // =================================
-              // 버스
-              // =================================
-
-              else if (
-                type === "BUS"
-              ) {
-
-                const busName =
-
-                  p.name ||
-                  p.busNo ||
-                  p.lineName ||
-                  p.routeName ||
-                  p.vehicleName ||
-                  "버스";
-
-
-                stepsHTML += `
-                  <div>
-                    🚌 ${busName}
-                    ${
-                      minutes !== null
-                      ? " · " + minutes + "분"
-                      : ""
-                    }
-                  </div>
-                `;
-
-              }
-
-
-              // =================================
-              // 타입을 못 찾았을 때
-              // =================================
-
-              else {
-
-                stepsHTML += `
-                  <div>
-                    🚏 이동
-                    ${
-                      minutes !== null
-                      ? " · " + minutes + "분"
-                      : ""
-                    }
-                  </div>
-                `;
-
-              }
-
-            }
-
-          );
+          }
 
 
           // ====================================
-          // 경로 카드 만들기
+          // 경로 카드
           // ====================================
 
           resultBox.innerHTML += `
@@ -846,7 +1052,6 @@
       );
 
     }
-
 
   </script>
 
