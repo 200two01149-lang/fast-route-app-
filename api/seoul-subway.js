@@ -3,56 +3,112 @@ export default async function handler(req, res) {
 
   if (!subwayKey) {
     return res.status(500).json({
-      error: "SEOUL_SUBWAY_API_KEY가 없습니다."
+      success: false,
+      error: "서울 실시간 지하철 API 키가 없습니다."
     });
   }
 
-  const station = req.query.station || "서울";
+  const station = String(req.query.station || "").trim();
+
+  if (!station) {
+    return res.status(400).json({
+      success: false,
+      error: "역 이름이 필요합니다."
+    });
+  }
 
   const url =
     "http://swopenapi.seoul.go.kr/api/subway/" +
     encodeURIComponent(subwayKey) +
-    "/json/realtimeStationArrival/0/20/" +
+    "/json/realtimeStationArrival/0/100/" +
     encodeURIComponent(station);
 
   try {
     const response = await fetch(url);
-
     const text = await response.text();
 
-    console.log("HTTP STATUS:", response.status);
-    console.log("서울 지하철 원본 응답:", text);
-
-    let parsedData = null;
+    let data;
 
     try {
-      parsedData = JSON.parse(text);
+      data = JSON.parse(text);
     } catch (error) {
-      // JSON이 아니면 아래에서 원문 그대로 보여줌
+      return res.status(502).json({
+        success: false,
+        error: "서울 지하철 API 응답을 읽을 수 없습니다."
+      });
     }
 
+    // 서울시 API 오류 확인
+    if (
+      data.errorMessage &&
+      data.errorMessage.code &&
+      data.errorMessage.code !== "INFO-000"
+    ) {
+      return res.status(502).json({
+        success: false,
+        error: data.errorMessage.message,
+        code: data.errorMessage.code
+      });
+    }
+
+    // 다른 형태의 오류 응답도 확인
+    if (data.code && data.code !== "INFO-000") {
+      return res.status(502).json({
+        success: false,
+        error: data.message || "서울 지하철 API 오류",
+        code: data.code
+      });
+    }
+
+    const list = Array.isArray(data.realtimeArrivalList)
+      ? data.realtimeArrivalList
+      : [];
+
+    const arrivals = list
+      .map((item) => {
+        const arrivalSeconds = Number(item.barvlDt);
+
+        return {
+          station: item.statnNm || "",
+          subwayId: item.subwayId || "",
+          direction: item.updnLine || "",
+          trainLine: item.trainLineNm || "",
+          destination: item.bstatnNm || "",
+
+          arrivalSeconds:
+            Number.isFinite(arrivalSeconds)
+              ? arrivalSeconds
+              : null,
+
+          arrivalMessage: item.arvlMsg2 || "",
+          arrivalMessageDetail: item.arvlMsg3 || "",
+
+          receivedAt: item.recptnDt || "",
+
+          trainNumber: item.btrainNo || "",
+          arrivalCode: item.arvlCd || ""
+        };
+      })
+
+      // barvlDt가 숫자로 들어온 데이터만 사용
+      .filter((item) => item.arrivalSeconds !== null)
+
+      // 빠르게 도착하는 열차부터
+      .sort((a, b) => a.arrivalSeconds - b.arrivalSeconds);
+
     return res.status(200).json({
-      test: "서울 지하철 원본 응답 확인",
+      success: true,
       station: station,
-      httpStatus: response.status,
-
-      // 인증키 자체는 출력하지 않음
-      requestInfo: {
-        service: "realtimeStationArrival",
-        startIndex: 0,
-        endIndex: 20
-      },
-
-      parsedData: parsedData,
-      rawText: parsedData ? undefined : text
+      count: arrivals.length,
+      arrivals: arrivals
     });
 
   } catch (error) {
-    console.error("서울 지하철 API 호출 실패:", error);
+    console.error("서울 지하철 API 호출 오류:", error);
 
     return res.status(500).json({
-      error: "서울 지하철 API 호출 실패",
-      detail: error.message
+      success: false,
+      error: "서울 실시간 지하철 정보를 가져오지 못했습니다."
     });
   }
 }
