@@ -118,6 +118,12 @@
 
     // 현재 위치 마커를 저장할 변수
     let myMarker = null;
+    // 출발지와 도착지 좌표를 저장할 변수
+    let startLatitude = null;
+    let startLongitude = null;
+
+    let endLatitude = null;
+    let endLongitude = null;
 
 
     // 3. 내 현재 위치 찾기
@@ -151,6 +157,10 @@
 
           const longitude =
             position.coords.longitude;
+
+          // 현재 위치를 출발지 좌표로 저장
+      startLatitude = latitude;
+      startLongitude = longitude;
 
 
           // 카카오 지도용 좌표 만들기
@@ -267,6 +277,9 @@ function destinationSearchResult(
     // 위도와 경도
     const latitude = place.y;
     const longitude = place.x;
+    // 검색한 장소를 도착지 좌표로 저장
+    endLatitude = latitude;
+    endLongitude = longitude;
 
     // 지도 좌표 만들기
     const position =
