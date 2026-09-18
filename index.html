@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
 
@@ -13,12 +12,12 @@
 
   <style>
     :root {
-      --mint1: #98C0AB;
-      --mint2: #7FA18E;
+      --mint: #98C0AB;
+      --mint-dark: #7FA18E;
       --teal: #4B8281;
 
-      --cream1: #E0E1D2;
-      --cream2: #D0D4BC;
+      --cream: #E0E1D2;
+      --cream-dark: #D0D4BC;
 
       --green1: #A4BCA5;
       --green2: #8BA58A;
@@ -32,6 +31,15 @@
       --background: #F4F6F2;
       --border: #E2E7E1;
       --gray: #6D7873;
+
+      --slow-bg: #ECEEEA;
+      --slow-text: #626B67;
+
+      --good-bg: #E2EEE7;
+      --good-text: #42665A;
+
+      --prepare-bg: #F0EFD9;
+      --prepare-text: #716B39;
 
       --warning-bg: #FFF0D7;
       --warning-text: #8A5B13;
@@ -81,10 +89,10 @@
 
 
     .smallTitle {
-      color: var(--mint1);
+      color: var(--mint);
 
       font-size: 12px;
-      font-weight: 850;
+      font-weight: 900;
       letter-spacing: 1px;
     }
 
@@ -99,7 +107,7 @@
     .headerText {
       margin-top: 8px;
 
-      color: var(--cream1);
+      color: var(--cream);
 
       font-size: 13px;
       line-height: 1.65;
@@ -140,9 +148,9 @@
       align-items: center;
       justify-content: center;
 
-      border-radius: 50%;
+      background: var(--cream);
 
-      background: var(--cream1);
+      border-radius: 50%;
 
       font-size: 12px;
       font-weight: 900;
@@ -155,10 +163,7 @@
 
       padding: 13px;
 
-      border:
-        1px solid
-        var(--border);
-
+      border: 1px solid var(--border);
       border-radius: 11px;
 
       outline: none;
@@ -174,9 +179,7 @@
 
     .buttons {
       display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
+      grid-template-columns: 1fr 1fr;
 
       gap: 8px;
 
@@ -193,18 +196,18 @@
       cursor: pointer;
 
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 850;
     }
 
 
     #locationButton {
-      background: var(--cream1);
+      background: var(--cream);
       color: var(--deep);
     }
 
 
     #destinationButton {
-      background: var(--mint1);
+      background: var(--mint);
       color: var(--deep);
     }
 
@@ -223,7 +226,7 @@
       margin: 0 15px 15px;
       padding: 12px;
 
-      background: var(--cream1);
+      background: var(--cream);
 
       border-radius: 11px;
 
@@ -294,10 +297,10 @@
 
 
     .resultsTitle {
-      margin: 0 0 5px;
+      margin-bottom: 5px;
 
       font-size: 20px;
-      font-weight: 850;
+      font-weight: 900;
     }
 
 
@@ -317,10 +320,7 @@
 
       background: white;
 
-      border:
-        2px solid
-        transparent;
-
+      border: 2px solid transparent;
       border-radius: 18px;
 
       cursor: pointer;
@@ -349,7 +349,7 @@
       color: var(--teal);
 
       font-size: 11px;
-      font-weight: 850;
+      font-weight: 900;
     }
 
 
@@ -370,10 +370,10 @@
     }
 
 
-    .badge {
+    .routeBadge {
       padding: 7px 9px;
 
-      background: var(--cream1);
+      background: var(--cream);
 
       border-radius: 20px;
 
@@ -381,24 +381,6 @@
       font-weight: 850;
 
       text-align: center;
-    }
-
-
-    .badge.good {
-      background: var(--mint1);
-      color: var(--deep);
-    }
-
-
-    .badge.warning {
-      background: var(--warning-bg);
-      color: var(--warning-text);
-    }
-
-
-    .badge.danger {
-      background: var(--danger-bg);
-      color: var(--danger-text);
     }
 
 
@@ -436,31 +418,16 @@
     }
 
 
-    .realtimeSummary {
-      margin-top: 12px;
-      padding: 12px;
-
-      background: var(--cream1);
-
-      border-radius: 11px;
-
-      font-size: 12px;
-      line-height: 1.75;
-    }
-
-
     .detailButton {
       margin-top: 13px;
       padding-top: 12px;
 
-      border-top:
-        1px solid
-        var(--border);
+      border-top: 1px solid var(--border);
 
       color: var(--green4);
 
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 850;
     }
 
 
@@ -477,14 +444,12 @@
 
 
     .step {
-      position: relative;
-
       margin-bottom: 10px;
-      padding: 12px;
+      padding: 13px;
 
       background: #F7F8F5;
 
-      border-radius: 11px;
+      border-radius: 12px;
 
       font-size: 13px;
       line-height: 1.6;
@@ -498,7 +463,7 @@
 
       gap: 7px;
 
-      font-weight: 850;
+      font-weight: 900;
     }
 
 
@@ -511,128 +476,174 @@
     }
 
 
-    .arrivalBadge {
-      margin-left: auto;
+    .walkStep {
+      background: #F2F6F1;
+    }
 
-      padding: 5px 9px;
 
-      background: var(--cream1);
+    .sameStopTransfer {
+      margin: 10px 0;
+      padding: 12px;
 
-      border-radius: 999px;
+      background: var(--mint);
+
+      border-radius: 11px;
 
       color: var(--deep);
 
-      font-size: 12px;
-      font-weight: 850;
-
-      white-space: nowrap;
-    }
-
-
-    .arrivalBadge.good {
-      background: var(--mint1);
-    }
-
-
-    .arrivalBadge.warning {
-      background: var(--warning-bg);
-      color: var(--warning-text);
-    }
-
-
-    .arrivalBadge.danger {
-      background: var(--danger-bg);
-      color: var(--danger-text);
-    }
-
-
-    .arrivalBadge.unknown {
-      background: #ECEEEA;
-      color: #69726E;
-    }
-
-
-    .transferBox {
-      margin-top: 9px;
-      padding: 11px;
-
-      background: var(--cream1);
-
-      border-radius: 10px;
-    }
-
-
-    .transferNumber {
-      margin-bottom: 3px;
-
-      color: var(--green4);
-
-      font-size: 11px;
-      font-weight: 850;
-    }
-
-
-    .transferCountdown {
-      font-size: 17px;
+      font-size: 13px;
       font-weight: 900;
     }
 
 
-    .transferStatus {
-      margin-top: 4px;
+    .sameStopTransfer small {
+      display: block;
+
+      margin-top: 3px;
+
+      font-size: 11px;
+      font-weight: 650;
+
+      opacity: 0.8;
+    }
+
+
+    .transferWalk {
+      margin: 10px 0;
+      padding: 11px;
+
+      background: #F2F6F1;
+
+      border-radius: 11px;
 
       font-size: 12px;
-      font-weight: 850;
     }
 
 
-    .transferBox.good {
-      background: #E4EEE7;
+    .candidateArea {
+      margin-top: 11px;
+      padding-top: 10px;
+
+      border-top: 1px solid var(--border);
     }
 
 
-    .transferBox.prepare {
-      background: var(--cream1);
-    }
+    .candidateTitle {
+      margin-bottom: 7px;
 
-
-    .transferBox.warning {
-      background: var(--warning-bg);
-    }
-
-
-    .transferBox.danger {
-      background: var(--danger-bg);
-    }
-
-
-    .transferBox.good .transferStatus {
       color: var(--green4);
+
+      font-size: 11px;
+      font-weight: 900;
     }
 
 
-    .transferBox.warning .transferStatus {
+    .candidate {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+      align-items: center;
+
+      gap: 8px;
+
+      margin-top: 6px;
+      padding: 9px 10px;
+
+      border-radius: 9px;
+    }
+
+
+    .candidate.slow {
+      background: var(--slow-bg);
+      color: var(--slow-text);
+    }
+
+
+    .candidate.good {
+      background: var(--good-bg);
+      color: var(--good-text);
+    }
+
+
+    .candidate.prepare {
+      background: var(--prepare-bg);
+      color: var(--prepare-text);
+    }
+
+
+    .candidate.warning {
+      background: var(--warning-bg);
       color: var(--warning-text);
     }
 
 
-    .transferBox.danger .transferStatus {
+    .candidate.danger {
+      background: var(--danger-bg);
       color: var(--danger-text);
     }
 
 
-    .transferTimes {
-      margin-top: 6px;
-
-      color: var(--gray);
-
-      font-size: 11px;
-      line-height: 1.6;
+    .candidateMain {
+      min-width: 0;
     }
 
 
-    .walkStep {
-      background: #F3F6F1;
+    .candidateArrival {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+
+    .candidateCalc {
+      margin-top: 2px;
+
+      font-size: 10px;
+      opacity: 0.82;
+    }
+
+
+    .candidateState {
+      white-space: nowrap;
+
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+
+    .selectedCandidate {
+      outline: 2px solid var(--teal);
+    }
+
+
+    .selectedLabel {
+      margin-left: 5px;
+
+      color: var(--teal);
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+
+    .finalWalk {
+      margin-top: 10px;
+      padding: 13px;
+
+      background: var(--cream);
+
+      border-radius: 12px;
+    }
+
+
+    .destinationFinish {
+      margin-top: 7px;
+
+      color: var(--deep);
+
+      font-weight: 900;
     }
 
 
@@ -658,12 +669,7 @@
   </style>
 
 
-  <!--
-    Kakao Maps SDK
-
-    autoload=false 방식은 사용하지 않음.
-    네가 사용하던 임시 JavaScript 키를 그대로 넣음.
-  -->
+  <!-- 임시 Kakao JavaScript 키 -->
   <script
     src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=16010f0659e99afc9e0d760620666d16&libraries=services">
   </script>
@@ -675,38 +681,31 @@
 
 <div class="app">
 
-
   <header>
 
     <div class="smallTitle">
       FAST ROUTE
     </div>
 
-
     <h1>
       빠른길
     </h1>
 
-
     <div class="headerText">
       실시간 버스·지하철 도착정보와
-      환승까지 남은 시간을 계산해
-      지금 탈 수 있는 경로를 안내합니다.
+      환승 이동시간을 함께 계산합니다.
     </div>
 
   </header>
 
 
-
   <section class="panel">
-
 
     <div class="inputRow">
 
       <div class="letter">
         A
       </div>
-
 
       <input
         id="start"
@@ -718,13 +717,11 @@
     </div>
 
 
-
     <div class="inputRow">
 
       <div class="letter">
         B
       </div>
-
 
       <input
         id="end"
@@ -733,7 +730,6 @@
       >
 
     </div>
-
 
 
     <div class="buttons">
@@ -745,7 +741,6 @@
         📍 현재 위치
       </button>
 
-
       <button
         id="destinationButton"
         onclick="searchDestination()"
@@ -756,7 +751,6 @@
     </div>
 
 
-
     <button
       id="routeButton"
       onclick="findRoute()"
@@ -764,15 +758,12 @@
       🚍 빠른 대중교통 찾기
     </button>
 
-
   </section>
-
 
 
   <div id="message">
     지도를 준비하고 있습니다...
   </div>
-
 
 
   <section class="mapSection">
@@ -783,9 +774,8 @@
         지도
       </div>
 
-
       <div class="sectionSub">
-        경로 카드를 누르면 해당 경로만 표시됩니다
+        경로를 누르면 지도에 표시됩니다
       </div>
 
     </div>
@@ -798,63 +788,83 @@
   </section>
 
 
-
   <section id="routeResults">
   </section>
 
-
 </div>
-
 
 
 <script>
 
 // ==================================================
-// 핵심 설정
+// 새 계산 기준
 // ==================================================
 
 
-// 반드시 3분 "초과".
-// 정확히 180초는 탑승 가능으로 처리하지 않는다.
-
-const MIN_SPARE_SECONDS =
-  180;
-
-
-// 접근 도보 추정에 사용
+// 걷기 속도를 기존보다 느리게.
+//
+// 0.9 m/s
+// ≈ 시속 3.24km
 
 const WALKING_SPEED_MPS =
-  1.11;
+  0.9;
+
+
+// 직선거리 → 실제 보행거리 추정 보정
 
 const WALKING_DISTANCE_FACTOR =
   1.25;
 
 
-// 실시간 API 요청 제한
+// API timeout
 
 const REALTIME_TIMEOUT_MS =
-  5000;
+  6000;
 
 
-// 환승 상태 UI 기준
+// ==================================================
+// 환승 상태 기준
+// ==================================================
 //
-// 이 값은 "차량 선택 기준"과 별개다.
+// 환승 여유 =
 //
-// 차량 선택 자체는 항상
-// spare > 180초를 사용한다.
+// 다음 차량 도착까지 남은 시간
 //
-// 아래 값은 이미 선택된 환승을
-// 사용자에게 어떻게 보여줄지 결정한다.
+// -
+//
+// (현재 대중교통 남은 이동시간
+//  + 환승 도보시간)
+//
+//
+//
+// <= 0분
+// → 매우촉박
+//
+// 0~3분
+// → 촉박
+//
+// 3~6분
+// → 준비
+//
+// 6~12분
+// → 여유있음
+//
+// 12분 초과
+// → 느림
+//
+// ==================================================
 
-const TRANSFER_GOOD_SECONDS =
-  7 * 60;
+const VERY_TIGHT_SECONDS =
+  0;
 
-const TRANSFER_PREPARE_SECONDS =
-  5 * 60;
-
-const TRANSFER_WARNING_SECONDS =
+const TIGHT_SECONDS =
   3 * 60;
 
+const PREPARE_SECONDS =
+  6 * 60;
+
+const GOOD_SECONDS =
+  12 * 60;
 
 
 // ==================================================
@@ -905,50 +915,28 @@ let currentSearchId =
   0;
 
 
-// 경로 검색을 시작한 실제 시각.
-//
-// 실시간 차량의 "7분 뒤"를
-// 절대시각으로 바꾸는 기준 중 하나로 사용한다.
-
-let currentSearchStartedAt =
+let searchStartedAtMs =
   null;
 
-
-// 1초마다 환승 카운트다운 UI를 갱신.
 
 let countdownTimer =
   null;
 
 
-
 // ==================================================
-// Kakao Maps 확인
+// 지도 준비
 // ==================================================
 
 function isKakaoReady() {
 
   return (
-
-    typeof window.kakao !==
-      "undefined"
-
-    &&
-
-    window.kakao.maps
-
-    &&
-
+    typeof window.kakao !== "undefined" &&
+    window.kakao.maps &&
     window.kakao.maps.services
-
   );
 
 }
 
-
-
-// ==================================================
-// 지도 초기화
-// ==================================================
 
 function initializeMap() {
 
@@ -956,15 +944,9 @@ function initializeMap() {
     !isKakaoReady()
   ) {
 
-    console.error(
-      "Kakao Maps SDK를 불러오지 못했습니다."
-    );
-
-
     setMessage(
       "카카오 지도를 불러오지 못했습니다."
     );
-
 
     return false;
   }
@@ -974,27 +956,19 @@ function initializeMap() {
     !map
   ) {
 
-    const container =
-      document.getElementById(
-        "map"
-      );
-
-
-    const center =
-      new kakao.maps.LatLng(
-        37.5665,
-        126.9780
-      );
-
-
     map =
       new kakao.maps.Map(
 
-        container,
+        document.getElementById(
+          "map"
+        ),
 
         {
           center:
-            center,
+            new kakao.maps.LatLng(
+              37.5665,
+              126.9780
+            ),
 
           level:
             7
@@ -1018,7 +992,6 @@ function initializeMap() {
   return true;
 
 }
-
 
 
 // ==================================================
@@ -1047,7 +1020,6 @@ function setMessage(
 }
 
 
-
 // ==================================================
 // 현재 위치
 // ==================================================
@@ -1067,7 +1039,7 @@ function findMyLocation() {
   ) {
 
     setMessage(
-      "이 브라우저에서는 현재 위치를 사용할 수 없습니다."
+      "현재 위치 기능을 사용할 수 없습니다."
     );
 
     return;
@@ -1085,14 +1057,6 @@ function findMyLocation() {
       function(
         position
       ) {
-
-        if (
-          !initializeMap()
-        ) {
-
-          return;
-        }
-
 
         startLat =
           Number(
@@ -1166,13 +1130,12 @@ function findMyLocation() {
       ) {
 
         console.error(
-          "현재 위치 오류:",
           error
         );
 
 
         setMessage(
-          "현재 위치를 가져오지 못했습니다. 브라우저의 위치 권한을 확인해주세요."
+          "현재 위치를 가져오지 못했습니다."
         );
 
       },
@@ -1194,9 +1157,8 @@ function findMyLocation() {
 }
 
 
-
 // ==================================================
-// 도착지 검색
+// 목적지 검색
 // ==================================================
 
 function searchDestination() {
@@ -1246,18 +1208,13 @@ function searchDestination() {
 
       if (
         status !==
-          kakao.maps.services.Status.OK
-
-        ||
+          kakao.maps.services.Status.OK ||
 
         !Array.isArray(
           data
-        )
+        ) ||
 
-        ||
-
-        data.length ===
-          0
+        data.length === 0
       ) {
 
         setMessage(
@@ -1329,7 +1286,7 @@ function searchDestination() {
 
 
       setMessage(
-        "도착지를 선택했습니다. 빠른 대중교통 찾기를 눌러주세요."
+        "도착지를 선택했습니다."
       );
 
     }
@@ -1339,10 +1296,7 @@ function searchDestination() {
 }
 
 
-
-// ==================================================
-// Enter 검색
-// ==================================================
+// Enter로 목적지 검색
 
 document
   .getElementById(
@@ -1370,18 +1324,15 @@ document
   );
 
 
-
 // ==================================================
-// 새로운 검색 시작
+// 새 검색
 // ==================================================
 
 function prepareNewSearch() {
 
-  currentSearchStartedAt =
+  searchStartedAtMs =
     Date.now();
 
-
-  // 이전 검색의 카운트다운 제거
 
   if (
     countdownTimer
@@ -1398,7 +1349,6 @@ function prepareNewSearch() {
   }
 
 }
-
 
 
 // ==================================================
@@ -1434,7 +1384,7 @@ async function findRoute() {
   ) {
 
     setMessage(
-      "먼저 도착지를 검색해주세요."
+      "먼저 도착지를 찾아주세요."
     );
 
     return;
@@ -1455,33 +1405,31 @@ async function findRoute() {
 
   try {
 
-    const url =
-      "/api/kakao" +
-
-      "?startX=" +
-      encodeURIComponent(
-        startLng
-      ) +
-
-      "&startY=" +
-      encodeURIComponent(
-        startLat
-      ) +
-
-      "&endX=" +
-      encodeURIComponent(
-        endLng
-      ) +
-
-      "&endY=" +
-      encodeURIComponent(
-        endLat
-      );
-
-
     const response =
       await fetch(
-        url
+
+        "/api/kakao" +
+
+        "?startX=" +
+        encodeURIComponent(
+          startLng
+        ) +
+
+        "&startY=" +
+        encodeURIComponent(
+          startLat
+        ) +
+
+        "&endX=" +
+        encodeURIComponent(
+          endLng
+        ) +
+
+        "&endY=" +
+        encodeURIComponent(
+          endLat
+        )
+
       );
 
 
@@ -1490,7 +1438,7 @@ async function findRoute() {
 
 
     console.log(
-      "경로 결과:",
+      "Kakao 경로:",
       data
     );
 
@@ -1510,7 +1458,7 @@ async function findRoute() {
 
       throw new Error(
         data?.error ||
-        "경로 API 오류"
+        "경로 요청 실패"
       );
 
     }
@@ -1527,8 +1475,7 @@ async function findRoute() {
 
 
     if (
-      routes.length ===
-      0
+      routes.length === 0
     ) {
 
       displayedRoutes =
@@ -1539,7 +1486,7 @@ async function findRoute() {
 
 
       setMessage(
-        "대중교통 경로를 찾지 못했습니다."
+        "대중교통 경로가 없습니다."
       );
 
 
@@ -1547,9 +1494,7 @@ async function findRoute() {
     }
 
 
-    // Kakao 기본 예상시간 순
-
-    const sortedRoutes =
+    const sorted =
       routes
         .slice()
         .sort(
@@ -1564,7 +1509,7 @@ async function findRoute() {
               Number(
                 a?.properties
                   ?.totalTime ||
-                0
+                999999
               )
 
               -
@@ -1572,7 +1517,7 @@ async function findRoute() {
               Number(
                 b?.properties
                   ?.totalTime ||
-                0
+                999999
               )
 
             );
@@ -1582,17 +1527,62 @@ async function findRoute() {
         );
 
 
-    // 실시간 분석 전에도
-    // 먼저 3개를 화면에 보여준다.
+    // 우선 Kakao 상위 3개 표시
 
     displayedRoutes =
-      sortedRoutes
+      sorted
         .slice(
           0,
           3
         )
         .map(
-          createInitialRouteState
+          createRouteState
+        );
+
+
+    selectedRouteIndex =
+      0;
+
+
+    renderRoutes();
+
+
+    drawRoute(
+      displayedRoutes[0].route
+    );
+
+
+    setMessage(
+      "실시간 차량과 환승 시간을 계산하고 있습니다..."
+    );
+
+
+    // 실시간 분석
+
+    const analyzed =
+      await analyzeAllRoutes(
+        sorted,
+        searchId
+      );
+
+
+    if (
+      searchId !==
+      currentSearchId
+    ) {
+
+      return;
+    }
+
+
+    displayedRoutes =
+      analyzed
+        .sort(
+          compareAnalyzedRoutes
+        )
+        .slice(
+          0,
+          3
         );
 
 
@@ -1608,23 +1598,17 @@ async function findRoute() {
     ) {
 
       drawRoute(
-        displayedRoutes[0]
-          .route
+        displayedRoutes[0].route
       );
 
     }
 
 
+    startCountdown();
+
+
     setMessage(
-      "경로를 찾았습니다. 버스·지하철 실시간 도착과 환승 여유시간을 계산하고 있습니다..."
-    );
-
-
-    // 모든 Kakao 후보를 실시간으로 분석한다.
-
-    verifyRealtimeRoutes(
-      sortedRoutes,
-      searchId
+      "실시간 환승 계산이 완료되었습니다."
     );
 
   }
@@ -1641,7 +1625,7 @@ async function findRoute() {
 
 
     setMessage(
-      "대중교통 경로를 가져오지 못했습니다."
+      "경로를 가져오지 못했습니다."
     );
 
   }
@@ -1649,12 +1633,11 @@ async function findRoute() {
 }
 
 
-
 // ==================================================
-// 경로 상태 기본값
+// 경로 상태
 // ==================================================
 
-function createInitialRouteState(
+function createRouteState(
   route
 ) {
 
@@ -1664,548 +1647,79 @@ function createInitialRouteState(
       route,
 
 
-    realtimeState:
+    state:
       "checking",
 
-
-    realtimeChecked:
-      false,
-
-
-    catchable:
-      null,
-
-
-    // 실시간 대기까지 포함한 총 예상시간
 
     realtimeTotalSeconds:
       null,
 
 
-    // 첫 승차지까지 접근 도보
+    // 첫 탑승 접근 도보
 
-    walkingSeconds:
+    firstWalk:
       null,
 
 
-    walkingDistance:
+    // 마지막 하차 → 목적지
+
+    finalWalk:
       null,
 
 
-    walkingEstimated:
-      false,
-
-
-    // BUS / SUBWAY step별 실시간 상태
-    //
-    // 예:
-    //
-    // transitResults[3] = {
-    //
-    //   stepIndex: 3,
-    //   transferNumber: 1,
-    //
-    //   arrivalEpochMs: 1760000000000,
-    //   predictedStationEpochMs: 1759999700000,
-    //
-    //   waitSeconds: 300,
-    //
-    //   ...
-    // }
+    // step별 대중교통 실시간 정보
 
     transitResults:
       {},
 
 
+    // 환승 정보
+    //
+    // transferResults[0]
+    // = 1차 → 2차 환승
+    //
+    // transferResults[1]
+    // = 2차 → 3차 환승
+
+    transferResults:
+      [],
+
+
     reason:
-      "실시간 확인 중"
+      ""
 
   };
 
 }
 
 
-
 // ==================================================
-// 이번 버전의 핵심 시간 모델
-// ==================================================
-//
-// 차량의 "몇 분 뒤 도착"만 저장하면 안 된다.
-//
-// 예:
-//
-// API 호출 순간:
-// 14:00:00
-//
-// 열차:
-// 8분 뒤 도착
-//
-// 그러면 실제 도착시각:
-//
-// 14:08:00
-//
-// 을 저장한다.
-//
-// 즉:
-//
-// arrivalEpochMs =
-//   API 응답을 받은 실제 시각
-//   +
-//   arrivalSeconds * 1000
-//
-//
-// 이후 1초마다:
-//
-// arrivalEpochMs - Date.now()
-//
-// 를 계산하면
-//
-// 7:59
-// 7:58
-// 7:57
-//
-// 처럼 실제 카운트다운이 된다.
-//
-//
-// 환승의 경우:
-//
-// predictedStationEpochMs
-//
-// = 사용자가 그 환승 승차장에
-//   도착할 것으로 예상되는 절대시각.
-//
-//
-// 따라서:
-//
-// transferSpareMs =
-//
-//   arrivalEpochMs
-//   - predictedStationEpochMs
-//
-//
-// 이 값이 환승 여유시간이다.
-//
-//
-// 차량을 처음 선택할 때는:
-//
-// transferSpareMs > 180000
-//
-// 이어야 한다.
-//
-// 정확히 180000ms는 실패.
-//
-//
-// ==================================================
-// 환승 번호
-// ==================================================
-//
-// 첫 승차:
-// transferNumber = 0
-//
-// 첫 번째 환승:
-// transferNumber = 1
-//
-// 두 번째 환승:
-// transferNumber = 2
-//
-// 세 번째 환승:
-// transferNumber = 3
-//
-// 이런 방식으로 저장한다.
+// 전체 후보 분석
 // ==================================================
 
-
-
-// ==================================================
-// 환승 UI 상태 판단
-// ==================================================
-
-function getTransferUrgency(
-  spareSeconds
-) {
-
-  if (
-    !Number.isFinite(
-      spareSeconds
-    )
-  ) {
-
-    return {
-
-      className:
-        "unknown",
-
-      title:
-        "실시간 정보 없음",
-
-      message:
-        "환승 여유시간을 확인할 수 없습니다."
-
-    };
-
-  }
-
-
-  // 이미 3분 이하가 됨.
-  //
-  // 처음 경로 선택 당시에는 이런 차량을
-  // 선택하지 않지만 이동 중 지연 등으로
-  // 여유가 줄어들 수 있으므로 경고한다.
-
-  if (
-    spareSeconds <=
-    MIN_SPARE_SECONDS
-  ) {
-
-    return {
-
-      className:
-        "danger",
-
-      title:
-        "환승 매우 촉박",
-
-      message:
-        "🔴 빠르게 이동하세요 · 다음 차량도 다시 확인해야 합니다."
-
-    };
-
-  }
-
-
-  if (
-    spareSeconds <
-    TRANSFER_PREPARE_SECONDS
-  ) {
-
-    return {
-
-      className:
-        "warning",
-
-      title:
-        "환승 시간 촉박",
-
-      message:
-        "🟠 빠르게 이동하세요."
-
-    };
-
-  }
-
-
-  if (
-    spareSeconds <
-    TRANSFER_GOOD_SECONDS
-  ) {
-
-    return {
-
-      className:
-        "prepare",
-
-      title:
-        "환승 준비",
-
-      message:
-        "🟡 다음 환승을 준비하세요."
-
-    };
-
-  }
-
-
-  return {
-
-    className:
-      "good",
-
-    title:
-      "환승 여유 있음",
-
-    message:
-      "🟢 현재 예상 기준으로 여유가 있습니다."
-
-  };
-
-}
-
-
-
-// ==================================================
-// 남은 시간 표시
-//
-// 381초 → 6분 21초
-// ==================================================
-
-function formatCountdown(
-  seconds
-) {
-
-  const value =
-    Math.max(
-      0,
-      Math.floor(
-        Number(
-          seconds
-        ) || 0
-      )
-    );
-
-
-  const minutes =
-    Math.floor(
-      value /
-      60
-    );
-
-
-  const remainSeconds =
-    value %
-    60;
-
-
-  if (
-    minutes <= 0
-  ) {
-
-    return (
-      remainSeconds +
-      "초"
-    );
-
-  }
-
-
-  return (
-
-    minutes +
-    "분 " +
-    String(
-      remainSeconds
-    ).padStart(
-      2,
-      "0"
-    ) +
-    "초"
-
-  );
-
-}
-
-
-
-// ==================================================
-// 절대시각 → HH:MM
-// ==================================================
-
-function formatClock(
-  epochMs
-) {
-
-  if (
-    !Number.isFinite(
-      epochMs
-    )
-  ) {
-
-    return "-";
-  }
-
-
-  const date =
-    new Date(
-      epochMs
-    );
-
-
-  return date
-    .toLocaleTimeString(
-
-      "ko-KR",
-
-      {
-        hour:
-          "2-digit",
-
-        minute:
-          "2-digit",
-
-        hour12:
-          false
-      }
-
-    );
-
-}
-
-
-
-// ==================================================
-// 차량 실시간 도착초를 절대시각으로 변환
-// ==================================================
-
-function arrivalSecondsToEpoch(
-  arrivalSeconds,
-  receivedAtMs
-) {
-
-  const seconds =
-    Number(
-      arrivalSeconds
-    );
-
-
-  if (
-    !Number.isFinite(
-      seconds
-    ) ||
-    seconds <= 0
-  ) {
-
-    return null;
-  }
-
-
-  const baseTime =
-    Number.isFinite(
-      receivedAtMs
-    )
-
-      ? receivedAtMs
-
-      : Date.now();
-
-
-  return (
-
-    baseTime +
-
-    seconds *
-    1000
-
-  );
-
-}
-
-
-
-// ==================================================
-// 환승 여유시간 계산
-// ==================================================
-
-function calculateSpareSeconds(
-  vehicleArrivalEpochMs,
-  passengerArrivalEpochMs
-) {
-
-  if (
-    !Number.isFinite(
-      vehicleArrivalEpochMs
-    ) ||
-
-    !Number.isFinite(
-      passengerArrivalEpochMs
-    )
-  ) {
-
-    return null;
-  }
-
-
-  return (
-
-    vehicleArrivalEpochMs
-    -
-    passengerArrivalEpochMs
-
-  ) / 1000;
-
-}
-
-
-
-// ==================================================
-// 차량 선택 가능 여부
-// ==================================================
-
-function isCatchableSpare(
-  spareSeconds
-) {
-
-  return (
-
-    Number.isFinite(
-      spareSeconds
-    )
-
-    &&
-
-    spareSeconds >
-      MIN_SPARE_SECONDS
-
-  );
-
-}
-
-
-
-// ==================================================
-// 다음 코드에서 이어지는 핵심:
-//
-// analyzeFullRoute()
-//
-// 현재 위치
-// → 첫 승차장
-// → 실시간 차량 선택
-// → 실제 차량 도착까지 대기
-// → 이동
-// → 환승 도보
-// → 다음 승차장 예상 도착시각
-// → 다음 차량 실시간 도착시각과 비교
-//
-// 이 과정을 모든 환승에 반복.
-//
-// 그리고 각 결과에
-//
-// arrivalEpochMs
-// predictedStationEpochMs
-// waitSeconds
-// transferNumber
-//
-// 를 저장한다.
-//
-// 이후 3/3에서 1초마다 이 값들을
-// 다시 계산해:
-//
-// "다음 환승까지 6분 21초"
-// "환승 준비"
-// "환승 시간 촉박"
-// "빠르게 이동하세요"
-//
-// 를 실시간으로 바꾼다.
-// ==================================================
-  // ==================================================
-// 전체 후보 경로 실시간 검증
-// ==================================================
-
-async function verifyRealtimeRoutes(
+async function analyzeAllRoutes(
   routes,
   searchId
 ) {
 
-  const analyzed =
+  const limited =
+    routes.slice(
+      0,
+      8
+    );
+
+
+  const results =
     await Promise.all(
 
-      routes.map(
+      limited.map(
 
         function(
           route
         ) {
 
-          return analyzeRouteWithTimeout(
-            route,
-            12000
+          return analyzeRoute(
+            route
           );
 
         }
@@ -2220,112 +1734,20 @@ async function verifyRealtimeRoutes(
     currentSearchId
   ) {
 
-    return;
+    return [];
   }
 
 
-  const passed =
-    analyzed
-      .filter(
-        item =>
-          item.realtimeState ===
-          "passed"
-      )
-      .sort(
-        compareRouteTime
-      );
-
-
-  const unknown =
-    analyzed
-      .filter(
-        item =>
-          item.realtimeState ===
-          "unknown"
-      )
-      .sort(
-        compareRouteTime
-      );
-
-
-  const failed =
-    analyzed
-      .filter(
-        item =>
-          item.realtimeState ===
-          "failed"
-      )
-      .sort(
-        compareRouteTime
-      );
-
-
-  // 실시간으로 모든 환승을 확인한 경로 우선
-
-  displayedRoutes =
-    passed
-      .concat(
-        unknown
-      )
-      .concat(
-        failed
-      )
-      .slice(
-        0,
-        3
-      );
-
-
-  selectedRouteIndex =
-    0;
-
-
-  renderRoutes();
-
-
-  if (
-    displayedRoutes[0]
-  ) {
-
-    drawRoute(
-      displayedRoutes[0].route
-    );
-
-  }
-
-
-  // 1초 단위 실시간 환승 카운트다운 시작
-
-  startRealtimeCountdown();
-
-
-  if (
-    passed.length > 0
-  ) {
-
-    setMessage(
-      "실시간 도착정보와 환승 여유시간 계산이 완료되었습니다."
-    );
-
-  }
-
-  else {
-
-    setMessage(
-      "경로는 찾았지만 일부 구간의 실시간 도착정보를 확인하지 못했습니다."
-    );
-
-  }
+  return results;
 
 }
 
 
-
 // ==================================================
-// 경로 정렬
+// 정렬
 // ==================================================
 
-function compareRouteTime(
+function compareAnalyzedRoutes(
   a,
   b
 ) {
@@ -2334,7 +1756,9 @@ function compareRouteTime(
     Number.isFinite(
       a.realtimeTotalSeconds
     )
+
       ? a.realtimeTotalSeconds
+
       : Number(
           a.route
             ?.properties
@@ -2347,7 +1771,9 @@ function compareRouteTime(
     Number.isFinite(
       b.realtimeTotalSeconds
     )
+
       ? b.realtimeTotalSeconds
+
       : Number(
           b.route
             ?.properties
@@ -2361,1730 +1787,328 @@ function compareRouteTime(
 }
 
 
-
 // ==================================================
-// 경로 분석 시간 제한
+// 환승 상태
 // ==================================================
 
-async function analyzeRouteWithTimeout(
-  route,
-  timeoutMs
+function getTransferState(
+  spareSeconds
 ) {
-
-  const fallback =
-    createInitialRouteState(
-      route
-    );
-
-
-  fallback.realtimeState =
-    "unknown";
-
-
-  fallback.reason =
-    "실시간 확인 시간이 초과되었습니다.";
-
-
-  try {
-
-    return await Promise.race([
-
-      analyzeFullRoute(
-        route
-      ),
-
-
-      new Promise(
-
-        function(
-          resolve
-        ) {
-
-          setTimeout(
-            function() {
-
-              resolve(
-                fallback
-              );
-
-            },
-            timeoutMs
-          );
-
-        }
-
-      )
-
-    ]);
-
-  }
-
-
-  catch (
-    error
-  ) {
-
-    console.error(
-      "경로 분석 오류:",
-      error
-    );
-
-
-    fallback.realtimeState =
-      "unknown";
-
-
-    fallback.reason =
-      "실시간 경로 분석에 실패했습니다.";
-
-
-    return fallback;
-
-  }
-
-}
-
-
-
-// ==================================================
-// 경로 전체 시간축 계산
-// ==================================================
-
-async function analyzeFullRoute(
-  route
-) {
-
-  const result =
-    createInitialRouteState(
-      route
-    );
-
 
   if (
-    !Array.isArray(
-      route?.steps
+    !Number.isFinite(
+      spareSeconds
     )
   ) {
 
-    result.realtimeState =
-      "unknown";
+    return {
 
-    result.reason =
-      "경로 단계가 없습니다.";
+      key:
+        "unknown",
 
-    return result;
-  }
+      label:
+        "정보없음",
 
+      icon:
+        "⚪"
 
-  // 경로 분석 시작 기준시각
+    };
 
-  const routeStartEpochMs =
-    currentSearchStartedAt ||
-    Date.now();
-
-
-  // 사용자가 현재 시간축에서
-  // 어디까지 이동했는지를 절대시각으로 관리
-
-  let passengerEpochMs =
-    routeStartEpochMs;
-
-
-  let transitOrdinal =
-    0;
-
-
-  let allKnown =
-    true;
-
-
-  let failed =
-    false;
-
-
-  let firstTransitHandled =
-    false;
-
-
-  // ================================================
-  // 모든 step을 반드시 순서대로 처리
-  // ================================================
-
-  for (
-    let stepIndex = 0;
-    stepIndex < route.steps.length;
-    stepIndex++
-  ) {
-
-    const step =
-      route.steps[
-        stepIndex
-      ];
-
-
-    const type =
-      getStepType(
-        step
-      );
-
-
-    const properties =
-      step.properties ||
-      {};
-
-
-    // ==============================================
-    // WALKING
-    // ==============================================
-
-    if (
-      type === "WALKING" ||
-      type === "WALK"
-    ) {
-
-      const walkingSeconds =
-        Number(
-          properties.time ||
-          0
-        );
-
-
-      if (
-        Number.isFinite(
-          walkingSeconds
-        ) &&
-        walkingSeconds > 0
-      ) {
-
-        passengerEpochMs +=
-          walkingSeconds *
-          1000;
-
-      }
-
-
-      continue;
-    }
-
-
-    // ==============================================
-    // BUS / SUBWAY가 아닌 step
-    // ==============================================
-
-    if (
-      type !== "BUS" &&
-      type !== "SUBWAY"
-    ) {
-
-      const seconds =
-        Number(
-          properties.time ||
-          0
-        );
-
-
-      if (
-        Number.isFinite(
-          seconds
-        ) &&
-        seconds > 0
-      ) {
-
-        passengerEpochMs +=
-          seconds *
-          1000;
-
-      }
-
-
-      continue;
-    }
-
-
-    // ==============================================
-    // 첫 승차지 접근 도보
-    //
-    // Kakao가 앞 WALKING step을 안 준 경우만
-    // 현재 위치 → 첫 path point로 추정
-    // ==============================================
-
-    if (
-      firstTransitHandled ===
-      false
-    ) {
-
-      firstTransitHandled =
-        true;
-
-
-      const access =
-        calculateInitialAccessWalking(
-          route,
-          stepIndex
-        );
-
-
-      result.walkingSeconds =
-        access.seconds;
-
-
-      result.walkingDistance =
-        access.distance;
-
-
-      result.walkingEstimated =
-        access.estimated;
-
-
-      if (
-        access.shouldAdd &&
-        Number.isFinite(
-          access.seconds
-        )
-      ) {
-
-        passengerEpochMs +=
-          access.seconds *
-          1000;
-
-      }
-
-    }
-
-
-    // ==============================================
-    // 지금 사용자가 이 승차장에 도착할 예상시각
-    // ==============================================
-
-    const predictedStationEpochMs =
-      passengerEpochMs;
-
-
-    // 첫 차량은 transferNumber 0
-    // 그 다음부터 1,2,3...
-
-    const transferNumber =
-      transitOrdinal;
-
-
-    transitOrdinal++;
-
-
-    let realtime =
-      null;
-
-
-    // ==============================================
-    // 실시간 조회
-    // ==============================================
-
-    if (
-      type === "BUS"
-    ) {
-
-      realtime =
-        await getBusRealtimeForStep(
-
-          step,
-          stepIndex,
-          transferNumber,
-          predictedStationEpochMs
-
-        );
-
-    }
-
-
-    if (
-      type === "SUBWAY"
-    ) {
-
-      realtime =
-        await getSubwayRealtimeForStep(
-
-          step,
-          stepIndex,
-          transferNumber,
-          predictedStationEpochMs
-
-        );
-
-    }
-
-
-    result.transitResults[
-      stepIndex
-    ] =
-      realtime;
-
-
-    // ==============================================
-    // 실시간 정보 없음
-    // ==============================================
-
-    if (
-      !realtime ||
-      realtime.known !== true
-    ) {
-
-      allKnown =
-        false;
-
-
-      // 다음 구간 계산 자체는 계속해야 하므로
-      // Kakao 이동시간을 사용한다.
-      //
-      // 단, 이 경우 경로는 "완전 실시간 검증"으로
-      // 표시하지 않는다.
-
-      const fallbackTravelSeconds =
-        Number(
-          properties.time ||
-          0
-        );
-
-
-      if (
-        Number.isFinite(
-          fallbackTravelSeconds
-        ) &&
-        fallbackTravelSeconds > 0
-      ) {
-
-        passengerEpochMs +=
-          fallbackTravelSeconds *
-          1000;
-
-      }
-
-
-      continue;
-    }
-
-
-    // ==============================================
-    // 실시간은 조회됐지만
-    // 탈 수 있는 차량을 못 찾음
-    // ==============================================
-
-    if (
-      realtime.catchable !==
-      true
-    ) {
-
-      failed =
-        true;
-
-
-      result.realtimeState =
-        "failed";
-
-
-      result.realtimeChecked =
-        true;
-
-
-      result.catchable =
-        false;
-
-
-      result.reason =
-        realtime.reason ||
-        "3분 초과 여유가 있는 차량을 찾지 못했습니다.";
-
-
-      return result;
-    }
-
-
-    // ==============================================
-    // 선택한 차량의 실제 도착시각까지 기다림
-    //
-    // passengerEpochMs를 차량 도착시각으로 이동.
-    // ==============================================
-
-    passengerEpochMs =
-      realtime.arrivalEpochMs;
-
-
-    // ==============================================
-    // 실제 탑승 후 Kakao 구간 이동시간 추가
-    // ==============================================
-
-    const transitSeconds =
-      Number(
-        properties.time ||
-        0
-      );
-
-
-    if (
-      Number.isFinite(
-        transitSeconds
-      ) &&
-      transitSeconds > 0
-    ) {
-
-      passengerEpochMs +=
-        transitSeconds *
-        1000;
-
-    }
-
-  }
-
-
-  // ==================================================
-  // 전체 경로 계산 종료
-  // ==================================================
-
-  result.realtimeTotalSeconds =
-    Math.max(
-
-      0,
-
-      Math.round(
-
-        (
-          passengerEpochMs -
-          routeStartEpochMs
-        ) /
-        1000
-
-      )
-
-    );
-
-
-  if (
-    failed
-  ) {
-
-    result.realtimeState =
-      "failed";
-
-
-    result.realtimeChecked =
-      true;
-
-
-    result.catchable =
-      false;
-
-
-    return result;
   }
 
 
   if (
-    allKnown
+    spareSeconds <=
+    VERY_TIGHT_SECONDS
   ) {
 
-    result.realtimeState =
-      "passed";
+    return {
 
+      key:
+        "danger",
 
-    result.realtimeChecked =
-      true;
+      label:
+        "매우촉박",
 
+      icon:
+        "🔴"
 
-    result.catchable =
-      true;
-
-
-    result.reason =
-      "모든 실시간 승차·환승 확인 완료";
+    };
 
   }
-
-  else {
-
-    result.realtimeState =
-      "unknown";
-
-
-    result.realtimeChecked =
-      false;
-
-
-    result.catchable =
-      null;
-
-
-    result.reason =
-      "일부 구간의 실시간 정보를 확인하지 못했습니다.";
-
-  }
-
-
-  return result;
-
-}
-
-
-
-// ==================================================
-// SUBWAY 실시간 조회
-// ==================================================
-
-async function getSubwayRealtimeForStep(
-  step,
-  stepIndex,
-  transferNumber,
-  predictedStationEpochMs
-) {
-
-  const info =
-    getTransitInfo(
-      step
-    );
-
-
-  const station =
-    getSubwayApiStationName(
-      info.boarding
-    );
 
 
   if (
-    !station
+    spareSeconds <=
+    TIGHT_SECONDS
   ) {
 
-    return createUnknownRealtime(
+    return {
 
-      "SUBWAY",
-      stepIndex,
-      transferNumber,
-      info,
-      predictedStationEpochMs,
-      "승차역 이름을 확인할 수 없습니다."
+      key:
+        "warning",
 
-    );
+      label:
+        "촉박",
+
+      icon:
+        "🟠"
+
+    };
 
   }
-
-
-  try {
-
-    const requestStartedAt =
-      Date.now();
-
-
-    const response =
-      await fetchWithTimeout(
-
-        "/api/seoul-subway?station=" +
-        encodeURIComponent(
-          station
-        ),
-
-        REALTIME_TIMEOUT_MS
-
-      );
-
-
-    const responseReceivedAt =
-      Date.now();
-
-
-    const data =
-      await response.json();
-
-
-    if (
-      !response.ok ||
-      data.success !== true
-    ) {
-
-      return createUnknownRealtime(
-
-        "SUBWAY",
-        stepIndex,
-        transferNumber,
-        info,
-        predictedStationEpochMs,
-
-        data?.error ||
-        "지하철 실시간 정보 없음"
-
-      );
-
-    }
-
-
-    let arrivals =
-      Array.isArray(
-        data.arrivals
-      )
-        ? data.arrivals.slice()
-        : [];
-
-
-    // ==============================================
-    // 유효 도착정보만
-    // ==============================================
-
-    arrivals =
-      arrivals.filter(
-
-        function(
-          arrival
-        ) {
-
-          const seconds =
-            Number(
-              arrival.arrivalSeconds
-            );
-
-
-          return (
-            Number.isFinite(
-              seconds
-            ) &&
-            seconds > 0
-          );
-
-        }
-
-      );
-
-
-    // ==============================================
-    // 호선 필터
-    // ==============================================
-
-    const expectedSubwayId =
-      getExpectedSubwayId(
-        info.name
-      );
-
-
-    if (
-      expectedSubwayId
-    ) {
-
-      const sameLine =
-        arrivals.filter(
-
-          function(
-            arrival
-          ) {
-
-            return (
-
-              String(
-                arrival.subwayId ||
-                ""
-              )
-
-              ===
-
-              String(
-                expectedSubwayId
-              )
-
-            );
-
-          }
-
-        );
-
-
-      if (
-        sameLine.length > 0
-      ) {
-
-        arrivals =
-          sameLine;
-
-      }
-
-    }
-
-
-    // ==============================================
-    // 진행 방향 필터
-    //
-    // 다음 역 이름과 trainLine을 비교
-    // ==============================================
-
-    const nextStop =
-      normalizeStationText(
-        info.nextStop
-      );
-
-
-    if (
-      nextStop
-    ) {
-
-      const sameDirection =
-        arrivals.filter(
-
-          function(
-            arrival
-          ) {
-
-            const directionText =
-              normalizeStationText(
-
-                arrival.trainLine ||
-                arrival.destination ||
-                ""
-
-              );
-
-
-            return directionText.includes(
-              nextStop
-            );
-
-          }
-
-        );
-
-
-      // 방향을 확인할 수 없는 경우
-      // 반대편 열차를 임의 선택하지 않는다.
-
-      if (
-        sameDirection.length ===
-        0
-      ) {
-
-        return createUnknownRealtime(
-
-          "SUBWAY",
-          stepIndex,
-          transferNumber,
-          info,
-          predictedStationEpochMs,
-
-          "진행 방향의 실시간 열차를 확인하지 못했습니다."
-
-        );
-
-      }
-
-
-      arrivals =
-        sameDirection;
-
-    }
-
-
-    // ==============================================
-    // 도착초 → 절대 도착시각
-    //
-    // seoul-subway.js에서 recptnDt 보정이 이미 된
-    // arrivalSeconds를 반환한다는 기준.
-    //
-    // 따라서 여기서는 응답을 받은 실제 시각을
-    // 기준으로 절대시각으로 변환.
-    // ==============================================
-
-    const normalized =
-      arrivals
-        .map(
-
-          function(
-            arrival
-          ) {
-
-            const arrivalSeconds =
-              Number(
-                arrival.arrivalSeconds
-              );
-
-
-            const arrivalEpochMs =
-              arrivalSecondsToEpoch(
-
-                arrivalSeconds,
-                responseReceivedAt
-
-              );
-
-
-            return {
-
-              ...arrival,
-
-              arrivalSeconds:
-                arrivalSeconds,
-
-              arrivalEpochMs:
-                arrivalEpochMs
-
-            };
-
-          }
-
-        )
-        .filter(
-
-          function(
-            arrival
-          ) {
-
-            return Number.isFinite(
-              arrival.arrivalEpochMs
-            );
-
-          }
-
-        )
-        .sort(
-
-          function(
-            a,
-            b
-          ) {
-
-            return (
-              a.arrivalEpochMs -
-              b.arrivalEpochMs
-            );
-
-          }
-
-        );
-
-
-    return chooseRealtimeVehicle(
-
-      "SUBWAY",
-      stepIndex,
-      transferNumber,
-      info,
-      normalized,
-      predictedStationEpochMs,
-      requestStartedAt,
-      responseReceivedAt
-
-    );
-
-  }
-
-
-  catch (
-    error
-  ) {
-
-    console.error(
-      "지하철 실시간 조회 오류:",
-      error
-    );
-
-
-    return createUnknownRealtime(
-
-      "SUBWAY",
-      stepIndex,
-      transferNumber,
-      info,
-      predictedStationEpochMs,
-      "지하철 실시간 조회 실패"
-
-    );
-
-  }
-
-}
-
-
-
-// ==================================================
-// BUS 실시간 조회
-// ==================================================
-
-async function getBusRealtimeForStep(
-  step,
-  stepIndex,
-  transferNumber,
-  predictedStationEpochMs
-) {
-
-  const info =
-    getTransitInfo(
-      step
-    );
 
 
   if (
-    !info.boarding ||
-    !Array.isArray(
-      info.busNumbers
-    ) ||
-    info.busNumbers.length ===
-      0
+    spareSeconds <=
+    PREPARE_SECONDS
   ) {
 
-    return createUnknownRealtime(
+    return {
 
-      "BUS",
-      stepIndex,
-      transferNumber,
-      info,
-      predictedStationEpochMs,
-      "정류장 또는 버스 번호를 확인할 수 없습니다."
+      key:
+        "prepare",
 
-    );
+      label:
+        "준비",
+
+      icon:
+        "🟡"
+
+    };
 
   }
 
-
-  try {
-
-    const response =
-      await fetchWithTimeout(
-
-        "/api/seoul-bus" +
-
-        "?station=" +
-        encodeURIComponent(
-          info.boarding
-        ) +
-
-        "&buses=" +
-        encodeURIComponent(
-          info.busNumbers.join(
-            ","
-          )
-        ),
-
-        REALTIME_TIMEOUT_MS
-
-      );
-
-
-    const responseReceivedAt =
-      Date.now();
-
-
-    const data =
-      await response.json();
-
-
-    if (
-      !response.ok ||
-      data.success !== true
-    ) {
-
-      return createUnknownRealtime(
-
-        "BUS",
-        stepIndex,
-        transferNumber,
-        info,
-        predictedStationEpochMs,
-
-        data?.error ||
-        data?.message ||
-        "버스 실시간 정보 없음"
-
-      );
-
-    }
-
-
-    let arrivals =
-      Array.isArray(
-        data.arrivals
-      )
-        ? data.arrivals.slice()
-        : [];
-
-
-    // ==============================================
-    // 서버가 results 형태로 반환하는 경우도 지원
-    // ==============================================
-
-    if (
-      arrivals.length === 0 &&
-      Array.isArray(
-        data.results
-      )
-    ) {
-
-      data.results.forEach(
-
-        function(
-          bus
-        ) {
-
-          const busNumber =
-            String(
-
-              bus.busNumber ||
-              bus.routeName ||
-              bus.rtNm ||
-              ""
-
-            ).trim();
-
-
-          const values = [
-
-            bus.arrivalSeconds,
-            bus.firstArrivalSeconds,
-            bus.secondArrivalSeconds,
-            bus.traTime1,
-            bus.traTime2
-
-          ];
-
-
-          values.forEach(
-
-            function(
-              value
-            ) {
-
-              const seconds =
-                Number(
-                  value
-                );
-
-
-              if (
-                Number.isFinite(
-                  seconds
-                ) &&
-                seconds > 0
-              ) {
-
-                arrivals.push({
-
-                  arrivalSeconds:
-                    seconds,
-
-                  busNumber:
-                    busNumber
-
-                });
-
-              }
-
-            }
-
-          );
-
-        }
-
-      );
-
-    }
-
-
-    const wantedBusNumbers =
-      info.busNumbers.map(
-        normalizeBusNumber
-      );
-
-
-    arrivals =
-      arrivals.filter(
-
-        function(
-          arrival
-        ) {
-
-          const seconds =
-            Number(
-              arrival.arrivalSeconds
-            );
-
-
-          if (
-            !Number.isFinite(
-              seconds
-            ) ||
-            seconds <= 0
-          ) {
-
-            return false;
-          }
-
-
-          const busNumber =
-            normalizeBusNumber(
-
-              arrival.busNumber ||
-              arrival.routeName ||
-              arrival.rtNm ||
-              ""
-
-            );
-
-
-          if (
-            busNumber
-          ) {
-
-            return wantedBusNumbers.includes(
-              busNumber
-            );
-
-          }
-
-
-          return true;
-
-        }
-
-      );
-
-
-    const normalized =
-      arrivals
-        .map(
-
-          function(
-            arrival
-          ) {
-
-            const seconds =
-              Number(
-                arrival.arrivalSeconds
-              );
-
-
-            return {
-
-              ...arrival,
-
-              arrivalSeconds:
-                seconds,
-
-              arrivalEpochMs:
-                arrivalSecondsToEpoch(
-
-                  seconds,
-                  responseReceivedAt
-
-                )
-
-            };
-
-          }
-
-        )
-        .filter(
-
-          function(
-            arrival
-          ) {
-
-            return Number.isFinite(
-              arrival.arrivalEpochMs
-            );
-
-          }
-
-        )
-        .sort(
-
-          function(
-            a,
-            b
-          ) {
-
-            return (
-              a.arrivalEpochMs -
-              b.arrivalEpochMs
-            );
-
-          }
-
-        );
-
-
-    return chooseRealtimeVehicle(
-
-      "BUS",
-      stepIndex,
-      transferNumber,
-      info,
-      normalized,
-      predictedStationEpochMs,
-      null,
-      responseReceivedAt
-
-    );
-
-  }
-
-
-  catch (
-    error
-  ) {
-
-    console.error(
-      "버스 실시간 조회 오류:",
-      error
-    );
-
-
-    return createUnknownRealtime(
-
-      "BUS",
-      stepIndex,
-      transferNumber,
-      info,
-      predictedStationEpochMs,
-      "버스 실시간 조회 실패"
-
-    );
-
-  }
-
-}
-
-
-
-// ==================================================
-// 실제 탈 차량 선택
-// ==================================================
-
-function chooseRealtimeVehicle(
-  type,
-  stepIndex,
-  transferNumber,
-  info,
-  arrivals,
-  predictedStationEpochMs,
-  requestStartedAt,
-  responseReceivedAt
-) {
 
   if (
-    !Array.isArray(
-      arrivals
-    ) ||
-    arrivals.length ===
-      0
+    spareSeconds <=
+    GOOD_SECONDS
   ) {
 
-    // 도착정보가 비어있는 것은
-    // "이 경로는 불가능"이라고 확정할 근거가 부족하다.
-    //
-    // 더 뒤 차량을 API가 아직 제공하지 않았을 수도 있으므로
-    // unknown 처리.
+    return {
 
-    return createUnknownRealtime(
+      key:
+        "good",
 
-      type,
-      stepIndex,
-      transferNumber,
-      info,
-      predictedStationEpochMs,
-      "현재 확인 가능한 다음 차량 정보가 없습니다."
+      label:
+        "여유있음",
 
-    );
+      icon:
+        "🟢"
+
+    };
 
   }
 
-
-  // ================================================
-  // 도착 순서대로 검사
-  // ================================================
-
-  for (
-    let i = 0;
-    i < arrivals.length;
-    i++
-  ) {
-
-    const arrival =
-      arrivals[i];
-
-
-    const arrivalEpochMs =
-      Number(
-        arrival.arrivalEpochMs
-      );
-
-
-    if (
-      !Number.isFinite(
-        arrivalEpochMs
-      )
-    ) {
-
-      continue;
-    }
-
-
-    const spareSeconds =
-      calculateSpareSeconds(
-
-        arrivalEpochMs,
-        predictedStationEpochMs
-
-      );
-
-
-    console.log(
-      "실시간 탑승 판정:",
-      {
-
-        type:
-          type,
-
-        transferNumber:
-          transferNumber,
-
-        station:
-          info.boarding,
-
-        vehicle:
-          arrival.busNumber ||
-          info.name,
-
-        predictedStationTime:
-          formatClock(
-            predictedStationEpochMs
-          ),
-
-        vehicleArrivalTime:
-          formatClock(
-            arrivalEpochMs
-          ),
-
-        spareSeconds:
-          spareSeconds,
-
-        catchable:
-          isCatchableSpare(
-            spareSeconds
-          )
-
-      }
-    );
-
-
-    // ==============================================
-    // 반드시 180초 초과
-    // ==============================================
-
-    if (
-      isCatchableSpare(
-        spareSeconds
-      )
-    ) {
-
-      return {
-
-        known:
-          true,
-
-
-        catchable:
-          true,
-
-
-        type:
-          type,
-
-
-        stepIndex:
-          stepIndex,
-
-
-        // 0 = 첫 승차
-        // 1 = 첫 번째 환승
-        // 2 = 두 번째 환승 ...
-
-        transferNumber:
-          transferNumber,
-
-
-        transitName:
-
-          arrival.busNumber ||
-
-          info.name ||
-
-          (
-            type === "BUS"
-              ? "버스"
-              : "지하철"
-          ),
-
-
-        boarding:
-          info.boarding ||
-          "",
-
-
-        alighting:
-          info.alighting ||
-          "",
-
-
-        nextStop:
-          info.nextStop ||
-          "",
-
-
-        // 사용자가 승차장에 도착할 예상시각
-
-        predictedStationEpochMs:
-          predictedStationEpochMs,
-
-
-        // 선택된 차량의 절대 도착시각
-
-        arrivalEpochMs:
-          arrivalEpochMs,
-
-
-        // 환승 승차장 도착 후 기다릴 시간
-
-        waitSeconds:
-          spareSeconds,
-
-
-        initialSpareSeconds:
-          spareSeconds,
-
-
-        selectedArrivalIndex:
-          i,
-
-
-        vehicleNumber:
-          arrival.busNumber ||
-          "",
-
-
-        direction:
-          arrival.trainLine ||
-          arrival.direction ||
-          "",
-
-
-        requestStartedAt:
-          requestStartedAt,
-
-
-        responseReceivedAt:
-          responseReceivedAt,
-
-
-        reason:
-          "3분 초과 탑승 여유 확인"
-
-      };
-
-    }
-
-  }
-
-
-  // ================================================
-  // 여기 중요
-  //
-  // API에 현재 보이는 차량들이 모두
-  // 3분 초과 조건을 만족하지 않는다고 해서
-  // 더 뒤 차량까지 없다고 확정할 수는 없다.
-  //
-  // 그래서 무조건 failed로 만들지 않는다.
-  //
-  // 예:
-  //
-  // 내가 환승역에 20분 뒤 도착
-  // API가 현재 3분/8분 뒤 열차만 반환
-  //
-  // → 둘 다 못 타지만
-  // → 25분 뒤 열차가 아직 응답에 없을 수 있음
-  //
-  // 이런 경우 "다음 차량 정보 부족"으로 둔다.
-  // ================================================
-
-  return createUnknownRealtime(
-
-    type,
-    stepIndex,
-    transferNumber,
-    info,
-    predictedStationEpochMs,
-
-    transferNumber > 0
-
-      ? "환승 시점에 탈 수 있는 다음 차량 정보가 아직 부족합니다."
-
-      : "3분 초과 여유가 있는 다음 차량 정보를 확인하지 못했습니다."
-
-  );
-
-}
-
-
-
-// ==================================================
-// 실시간 정보 없음
-// ==================================================
-
-function createUnknownRealtime(
-  type,
-  stepIndex,
-  transferNumber,
-  info,
-  predictedStationEpochMs,
-  reason
-) {
 
   return {
 
-    known:
-      false,
+    key:
+      "slow",
 
+    label:
+      "느림",
 
-    catchable:
-      null,
-
-
-    type:
-      type,
-
-
-    stepIndex:
-      stepIndex,
-
-
-    transferNumber:
-      transferNumber,
-
-
-    transitName:
-      info?.name ||
-      "",
-
-
-    boarding:
-      info?.boarding ||
-      "",
-
-
-    alighting:
-      info?.alighting ||
-      "",
-
-
-    nextStop:
-      info?.nextStop ||
-      "",
-
-
-    predictedStationEpochMs:
-      predictedStationEpochMs,
-
-
-    arrivalEpochMs:
-      null,
-
-
-    waitSeconds:
-      null,
-
-
-    initialSpareSeconds:
-      null,
-
-
-    reason:
-      reason ||
-      "실시간 정보 없음"
+    icon:
+      "⚪"
 
   };
 
 }
 
 
-
 // ==================================================
-// fetch timeout
+// 같은 정류장 / 같은 역 판정
 // ==================================================
 
-async function fetchWithTimeout(
-  url,
-  timeoutMs
+function normalizeTransferPlaceName(
+  value
 ) {
 
-  const controller =
-    new AbortController();
+  return String(
+    value ||
+    ""
+  )
+    .toLowerCase()
 
+    // 괄호 안 부역명 제거
+    .replace(
+      /\([^)]*\)/g,
+      ""
+    )
 
-  const timer =
-    setTimeout(
+    // "역", "정류장" 같은 일반 표현 제거
+    .replace(
+      /정류장/g,
+      ""
+    )
 
-      function() {
+    // 마침표/쉼표/공백 등 제거
+    .replace(
+      /[\s.,·\-_/]/g,
+      ""
+    )
 
-        controller.abort();
-
-      },
-
-      timeoutMs
-
-    );
-
-
-  try {
-
-    return await fetch(
-
-      url,
-
-      {
-        signal:
-          controller.signal
-      }
-
-    );
-
-  }
-
-
-  finally {
-
-    clearTimeout(
-      timer
-    );
-
-  }
+    .trim();
 
 }
 
 
-
-// ==================================================
-// 첫 탑승지 접근 도보
-// ==================================================
-
-function calculateInitialAccessWalking(
-  route,
-  firstTransitIndex
+function isSameTransferPlace(
+  previousAlighting,
+  nextBoarding
 ) {
 
-  let actualSeconds =
+  const previous =
+    normalizeTransferPlaceName(
+      previousAlighting
+    );
+
+
+  const next =
+    normalizeTransferPlaceName(
+      nextBoarding
+    );
+
+
+  if (
+    !previous ||
+    !next
+  ) {
+
+    return false;
+  }
+
+
+  // 완전히 같은 이름
+
+  if (
+    previous === next
+  ) {
+
+    return true;
+  }
+
+
+  // "서울역" ↔ "서울역정류장" 같은 경우를 위한
+  // 보조 비교.
+  //
+  // 너무 짧은 이름은 오탐 방지.
+
+  if (
+    previous.length >= 4 &&
+    next.length >= 4
+  ) {
+
+    if (
+      previous.includes(
+        next
+      ) ||
+      next.includes(
+        previous
+      )
+    ) {
+
+      return true;
+    }
+
+  }
+
+
+  return false;
+
+}
+
+
+// ==================================================
+// 같은 위치 환승의 도보
+// ==================================================
+
+function createSameStopTransferWalk() {
+
+  return {
+
+    samePlace:
+      true,
+
+    seconds:
+      0,
+
+    distance:
+      0,
+
+    estimated:
+      false,
+
+    label:
+      "📍 현재위치환승!"
+
+  };
+
+}
+
+
+// ==================================================
+// 일반 환승 도보 추정
+// ==================================================
+//
+// Kakao에 실제 WALKING step이 있으면
+// 그 값을 우선 사용.
+//
+// 없으면 앞 transit path 마지막 좌표
+// → 다음 transit path 첫 좌표를 계산.
+//
+// ==================================================
+
+function calculateTransferWalk(
+  route,
+  previousTransitIndex,
+  nextTransitIndex,
+  previousInfo,
+  nextInfo
+) {
+
+  // ----------------------------------------------
+  // 같은 정류장 / 같은 역
+  // ----------------------------------------------
+
+  if (
+    isSameTransferPlace(
+
+      previousInfo.alighting,
+      nextInfo.boarding
+
+    )
+  ) {
+
+    return createSameStopTransferWalk();
+
+  }
+
+
+  // ----------------------------------------------
+  // 두 대중교통 사이 Kakao WALKING 확인
+  // ----------------------------------------------
+
+  let walkingSeconds =
     0;
 
 
-  let actualDistance =
+  let walkingDistance =
     0;
 
 
-  let hasActualWalking =
+  let hasWalking =
     false;
 
 
-  // 첫 transit 앞에 Kakao WALKING step이 있는지 확인
-
   for (
-    let i = 0;
-    i < firstTransitIndex;
+    let i =
+      previousTransitIndex + 1;
+
+    i <
+      nextTransitIndex;
+
     i++
   ) {
 
@@ -4124,31 +2148,41 @@ function calculateInitialAccessWalking(
 
 
     if (
-      Number.isFinite(
-        seconds
-      ) &&
-      seconds > 0
+      distance > 0
     ) {
 
-      actualSeconds +=
-        seconds;
+      walkingDistance +=
+        distance;
 
 
-      hasActualWalking =
+      // Kakao 시간이 있더라도
+      // 이번 버전에서는 느린 보행속도 0.9m/s로
+      // 다시 계산한다.
+
+      walkingSeconds +=
+        distance /
+        WALKING_SPEED_MPS;
+
+
+      hasWalking =
         true;
 
     }
 
-
-    if (
-      Number.isFinite(
-        distance
-      ) &&
-      distance > 0
+    else if (
+      seconds > 0
     ) {
 
-      actualDistance +=
-        distance;
+      // 거리 데이터가 없는 경우만
+      // Kakao 시간을 사용하고 약간 보수적으로 증가
+
+      walkingSeconds +=
+        seconds *
+        1.2;
+
+
+      hasWalking =
+        true;
 
     }
 
@@ -4156,33 +2190,1491 @@ function calculateInitialAccessWalking(
 
 
   if (
-    hasActualWalking
+    hasWalking
+  ) {
+
+    return {
+
+      samePlace:
+        false,
+
+      seconds:
+        Math.round(
+          walkingSeconds
+        ),
+
+      distance:
+        walkingDistance > 0
+          ? Math.round(
+              walkingDistance
+            )
+          : null,
+
+      estimated:
+        walkingDistance <= 0,
+
+      label:
+        "🚶 환승 도보"
+
+    };
+
+  }
+
+
+  // ----------------------------------------------
+  // WALKING이 없으면 좌표로 추정
+  // ----------------------------------------------
+
+  const previousStep =
+    route.steps[
+      previousTransitIndex
+    ];
+
+
+  const nextStep =
+    route.steps[
+      nextTransitIndex
+    ];
+
+
+  const previousPoints =
+    previousStep
+      ?.path
+      ?.points;
+
+
+  const nextPoints =
+    nextStep
+      ?.path
+      ?.points;
+
+
+  if (
+    !Array.isArray(
+      previousPoints
+    ) ||
+
+    previousPoints.length === 0 ||
+
+    !Array.isArray(
+      nextPoints
+    ) ||
+
+    nextPoints.length === 0
+  ) {
+
+    return {
+
+      samePlace:
+        false,
+
+      seconds:
+        null,
+
+      distance:
+        null,
+
+      estimated:
+        true,
+
+      label:
+        "🚶 환승 도보"
+
+    };
+
+  }
+
+
+  const from =
+    previousPoints[
+      previousPoints.length - 1
+    ];
+
+
+  const to =
+    nextPoints[0];
+
+
+  if (
+    !isValidPoint(
+      from
+    ) ||
+    !isValidPoint(
+      to
+    )
+  ) {
+
+    return {
+
+      samePlace:
+        false,
+
+      seconds:
+        null,
+
+      distance:
+        null,
+
+      estimated:
+        true,
+
+      label:
+        "🚶 환승 도보"
+
+    };
+
+  }
+
+
+  const straight =
+    haversineDistance(
+
+      Number(
+        from[1]
+      ),
+
+      Number(
+        from[0]
+      ),
+
+      Number(
+        to[1]
+      ),
+
+      Number(
+        to[0]
+      )
+
+    );
+
+
+  const estimatedDistance =
+    straight *
+    WALKING_DISTANCE_FACTOR;
+
+
+  return {
+
+    samePlace:
+      false,
+
+    seconds:
+      Math.round(
+
+        estimatedDistance /
+        WALKING_SPEED_MPS
+
+      ),
+
+    distance:
+      Math.round(
+        estimatedDistance
+      ),
+
+    estimated:
+      true,
+
+    label:
+      "🚶 환승 도보"
+
+  };
+
+}
+
+
+// ==================================================
+// 환승 계산 핵심
+// ==================================================
+//
+// 예:
+//
+// 현재 버스 하차까지 8분
+// 환승 도보 5분
+// 다음 버스 18분 뒤
+//
+// spare =
+//
+// 18분 - (8분 + 5분)
+//
+// = 5분
+//
+// → 준비
+//
+//
+// 다음 버스가 여러 대면
+// 각 후보에 이 계산을 각각 수행한다.
+//
+// 절대로 후보를 숨기지 않는다.
+// ==================================================
+
+function calculateTransferCandidate(
+  candidateArrivalEpochMs,
+  currentEpochMs,
+  currentTransitRemainingSeconds,
+  transferWalkingSeconds
+) {
+
+  if (
+    !Number.isFinite(
+      candidateArrivalEpochMs
+    )
+  ) {
+
+    return null;
+  }
+
+
+  const now =
+    Number.isFinite(
+      currentEpochMs
+    )
+
+      ? currentEpochMs
+
+      : Date.now();
+
+
+  const vehicleRemainingSeconds =
+    Math.max(
+
+      0,
+
+      (
+        candidateArrivalEpochMs -
+        now
+      ) /
+      1000
+
+    );
+
+
+  const transitRemaining =
+    Math.max(
+
+      0,
+
+      Number(
+        currentTransitRemainingSeconds
+      ) || 0
+
+    );
+
+
+  const walkRemaining =
+    Math.max(
+
+      0,
+
+      Number(
+        transferWalkingSeconds
+      ) || 0
+
+    );
+
+
+  const requiredSeconds =
+    transitRemaining +
+    walkRemaining;
+
+
+  const spareSeconds =
+    vehicleRemainingSeconds -
+    requiredSeconds;
+
+
+  return {
+
+    vehicleRemainingSeconds:
+      vehicleRemainingSeconds,
+
+    currentTransitRemainingSeconds:
+      transitRemaining,
+
+    walkingSeconds:
+      walkRemaining,
+
+    requiredSeconds:
+      requiredSeconds,
+
+    spareSeconds:
+      spareSeconds,
+
+    state:
+      getTransferState(
+        spareSeconds
+      )
+
+  };
+
+}
+
+
+// ==================================================
+// 첫 승차 후보 계산
+// ==================================================
+
+function calculateFirstBoardingCandidate(
+  candidateArrivalEpochMs,
+  walkingSeconds
+) {
+
+  const now =
+    Date.now();
+
+
+  const vehicleRemainingSeconds =
+    Math.max(
+
+      0,
+
+      (
+        candidateArrivalEpochMs -
+        now
+      ) /
+      1000
+
+    );
+
+
+  const requiredSeconds =
+    Math.max(
+
+      0,
+
+      Number(
+        walkingSeconds
+      ) || 0
+
+    );
+
+
+  const spareSeconds =
+    vehicleRemainingSeconds -
+    requiredSeconds;
+
+
+  return {
+
+    vehicleRemainingSeconds:
+      vehicleRemainingSeconds,
+
+    currentTransitRemainingSeconds:
+      0,
+
+    walkingSeconds:
+      requiredSeconds,
+
+    requiredSeconds:
+      requiredSeconds,
+
+    spareSeconds:
+      spareSeconds,
+
+    state:
+      getTransferState(
+        spareSeconds
+      )
+
+  };
+
+}
+
+
+// ==================================================
+// 다음 2/3에서:
+//
+// 1. analyzeRoute()
+// 2. 첫 승차 도보
+// 3. 마지막 목적지 도보
+// 4. 버스 실시간 후보 전체 조회
+// 5. 지하철 실시간 후보 전체 조회
+// 6. 1차→2차→3차 환승 연쇄 계산
+// 7. 실제 예상 총시간 계산
+//
+// 이어짐.
+// ==================================================
+  // ==================================================
+// 경로 하나 전체 분석
+// ==================================================
+
+async function analyzeRoute(
+  route
+) {
+
+  const result =
+    createRouteState(
+      route
+    );
+
+
+  const steps =
+    Array.isArray(
+      route?.steps
+    )
+      ? route.steps
+      : [];
+
+
+  if (
+    steps.length === 0
+  ) {
+
+    result.state =
+      "unknown";
+
+    result.reason =
+      "경로 단계가 없습니다.";
+
+    return result;
+  }
+
+
+  // ================================================
+  // 대중교통 step 위치 수집
+  // ================================================
+
+  const transitIndexes =
+    [];
+
+
+  steps.forEach(
+
+    function(
+      step,
+      index
+    ) {
+
+      const type =
+        getStepType(
+          step
+        );
+
+
+      if (
+        type === "BUS" ||
+        type === "SUBWAY"
+      ) {
+
+        transitIndexes.push(
+          index
+        );
+
+      }
+
+    }
+
+  );
+
+
+  if (
+    transitIndexes.length === 0
+  ) {
+
+    result.state =
+      "unknown";
+
+    result.reason =
+      "대중교통 구간이 없습니다.";
+
+    return result;
+  }
+
+
+  // ================================================
+  // 첫 승차 도보 계산
+  // ================================================
+
+  const firstTransitIndex =
+    transitIndexes[0];
+
+
+  result.firstWalk =
+    calculateFirstWalk(
+      route,
+      firstTransitIndex
+    );
+
+
+  // ================================================
+  // 마지막 하차 → 목적지 도보 계산
+  // ================================================
+
+  const lastTransitIndex =
+    transitIndexes[
+      transitIndexes.length - 1
+    ];
+
+
+  result.finalWalk =
+    calculateFinalWalk(
+      route,
+      lastTransitIndex
+    );
+
+
+  // ================================================
+  // 각 대중교통 실시간 후보 먼저 조회
+  // ================================================
+
+  const realtimePromises =
+    transitIndexes.map(
+
+      async function(
+        stepIndex
+      ) {
+
+        const step =
+          steps[
+            stepIndex
+          ];
+
+
+        const type =
+          getStepType(
+            step
+          );
+
+
+        if (
+          type === "BUS"
+        ) {
+
+          return {
+
+            stepIndex:
+              stepIndex,
+
+            realtime:
+              await getBusCandidates(
+                step
+              )
+
+          };
+
+        }
+
+
+        return {
+
+          stepIndex:
+            stepIndex,
+
+          realtime:
+            await getSubwayCandidates(
+              step
+            )
+
+        };
+
+      }
+
+    );
+
+
+  const realtimeResponses =
+    await Promise.all(
+      realtimePromises
+    );
+
+
+  realtimeResponses.forEach(
+
+    function(
+      item
+    ) {
+
+      result.transitResults[
+        item.stepIndex
+      ] =
+        item.realtime;
+
+    }
+
+  );
+
+
+  // ================================================
+  // 시간축 계산
+  //
+  // 여기서 핵심:
+  //
+  // 첫 승차
+  // ↓
+  // 1차 대중교통
+  // ↓
+  // 1차 환승
+  // ↓
+  // 2차 대중교통
+  // ↓
+  // 2차 환승
+  // ↓
+  // 3차 대중교통...
+  //
+  // 순서대로 계산
+  // ================================================
+
+  const baseTime =
+    searchStartedAtMs ||
+    Date.now();
+
+
+  let predictedEpochMs =
+    baseTime;
+
+
+  let timelineKnown =
+    true;
+
+
+  // ================================================
+  // 첫 승차장까지 이동
+  // ================================================
+
+  const firstWalkSeconds =
+    Number(
+      result.firstWalk
+        ?.seconds
+    );
+
+
+  if (
+    Number.isFinite(
+      firstWalkSeconds
+    ) &&
+    firstWalkSeconds > 0
+  ) {
+
+    predictedEpochMs +=
+      firstWalkSeconds *
+      1000;
+
+  }
+
+
+  // ================================================
+  // 대중교통 구간 순회
+  // ================================================
+
+  for (
+    let transitOrder = 0;
+    transitOrder <
+      transitIndexes.length;
+    transitOrder++
+  ) {
+
+    const stepIndex =
+      transitIndexes[
+        transitOrder
+      ];
+
+
+    const step =
+      steps[
+        stepIndex
+      ];
+
+
+    const info =
+      getTransitInfo(
+        step
+      );
+
+
+    const realtime =
+      result.transitResults[
+        stepIndex
+      ];
+
+
+    const stepTravelSeconds =
+      Math.max(
+
+        0,
+
+        Number(
+          step?.properties
+            ?.time ||
+          0
+        )
+
+      );
+
+
+    // ==============================================
+    // 첫 번째 대중교통
+    // ==============================================
+
+    if (
+      transitOrder === 0
+    ) {
+
+      const candidates =
+        Array.isArray(
+          realtime?.candidates
+        )
+          ? realtime.candidates
+          : [];
+
+
+      // 모든 후보를 화면에 남긴다.
+
+      candidates.forEach(
+
+        function(
+          candidate
+        ) {
+
+          candidate.calculation =
+            calculateFirstBoardingCandidate(
+
+              candidate.arrivalEpochMs,
+
+              result.firstWalk
+                ?.seconds ||
+              0
+
+            );
+
+        }
+
+      );
+
+
+      // ============================================
+      // 실제 시간 계산용 차량 선택
+      //
+      // 후보를 화면에서 삭제하지 않는다.
+      //
+      // 우선순위:
+      // 1. 여유있음
+      // 2. 준비
+      // 3. 느림
+      // 4. 촉박
+      // 5. 매우촉박
+      //
+      // 단, 느림은 너무 오래 기다리는 차량이므로
+      // 여유/준비 차량을 우선한다.
+      // ============================================
+
+      const selected =
+        chooseCandidateForTimeline(
+          candidates
+        );
+
+
+      realtime.selectedCandidate =
+        selected;
+
+
+      if (
+        selected &&
+        Number.isFinite(
+          selected.arrivalEpochMs
+        )
+      ) {
+
+        selected.selected =
+          true;
+
+
+        // 실제 차량이 도착할 때 탑승
+
+        predictedEpochMs =
+          Math.max(
+
+            predictedEpochMs,
+
+            selected.arrivalEpochMs
+
+          );
+
+
+        realtime.boardingEpochMs =
+          predictedEpochMs;
+
+      }
+
+      else {
+
+        timelineKnown =
+          false;
+
+
+        realtime.boardingEpochMs =
+          predictedEpochMs;
+
+      }
+
+
+      // 대중교통 이동
+
+      realtime.predictedAlightingEpochMs =
+        predictedEpochMs +
+        (
+          stepTravelSeconds *
+          1000
+        );
+
+
+      predictedEpochMs =
+        realtime.predictedAlightingEpochMs;
+
+
+      continue;
+    }
+
+
+    // ==============================================
+    // 두 번째 이후 대중교통
+    //
+    // 여기 도달했다는 것은
+    // 앞 대중교통에서 환승한다는 뜻.
+    // ==============================================
+
+    const previousTransitIndex =
+      transitIndexes[
+        transitOrder - 1
+      ];
+
+
+    const previousStep =
+      steps[
+        previousTransitIndex
+      ];
+
+
+    const previousInfo =
+      getTransitInfo(
+        previousStep
+      );
+
+
+    const previousRealtime =
+      result.transitResults[
+        previousTransitIndex
+      ];
+
+
+    // ==============================================
+    // 환승 도보 계산
+    // ==============================================
+
+    const transferWalk =
+      calculateTransferWalk(
+
+        route,
+
+        previousTransitIndex,
+        stepIndex,
+
+        previousInfo,
+        info
+
+      );
+
+
+    // ==============================================
+    // 현재 대중교통 남은시간
+    //
+    // 검색 기준 시각에서
+    // 앞 대중교통 하차 예상시각까지.
+    //
+    // 사용자가 요청한:
+    //
+    // [걷는시간 + 1차 대중교통]
+    // <
+    // [2차 환승까지 남은 시간]
+    //
+    // 계산에 사용.
+    // ==============================================
+
+    const previousAlightingEpochMs =
+      Number(
+        previousRealtime
+          ?.predictedAlightingEpochMs
+      );
+
+
+    let currentTransitRemainingSeconds =
+      0;
+
+
+    if (
+      Number.isFinite(
+        previousAlightingEpochMs
+      )
+    ) {
+
+      currentTransitRemainingSeconds =
+        Math.max(
+
+          0,
+
+          (
+            previousAlightingEpochMs -
+            baseTime
+          ) /
+          1000
+
+        );
+
+    }
+
+
+    // ==============================================
+    // 환승 후보 전부 계산
+    // ==============================================
+
+    const candidates =
+      Array.isArray(
+        realtime?.candidates
+      )
+        ? realtime.candidates
+        : [];
+
+
+    candidates.forEach(
+
+      function(
+        candidate
+      ) {
+
+        candidate.calculation =
+          calculateTransferCandidate(
+
+            candidate.arrivalEpochMs,
+
+            baseTime,
+
+            currentTransitRemainingSeconds,
+
+            transferWalk.seconds ||
+            0
+
+          );
+
+      }
+
+    );
+
+
+    // ==============================================
+    // 환승 결과 저장
+    // ==============================================
+
+    const transferResult = {
+
+      transferNumber:
+        transitOrder,
+
+
+      previousStepIndex:
+        previousTransitIndex,
+
+
+      nextStepIndex:
+        stepIndex,
+
+
+      previousTransitName:
+        previousInfo.name,
+
+
+      nextTransitName:
+        info.name,
+
+
+      previousAlighting:
+        previousInfo.alighting,
+
+
+      nextBoarding:
+        info.boarding,
+
+
+      samePlace:
+        transferWalk.samePlace ===
+        true,
+
+
+      walking:
+        transferWalk,
+
+
+      currentTransitRemainingSeconds:
+        currentTransitRemainingSeconds,
+
+
+      candidates:
+        candidates
+
+    };
+
+
+    result.transferResults.push(
+      transferResult
+    );
+
+
+    // ==============================================
+    // 시간축용 차량 선택
+    // ==============================================
+
+    const selected =
+      chooseCandidateForTimeline(
+        candidates
+      );
+
+
+    realtime.selectedCandidate =
+      selected;
+
+
+    if (
+      selected &&
+      Number.isFinite(
+        selected.arrivalEpochMs
+      )
+    ) {
+
+      selected.selected =
+        true;
+
+
+      // ============================================
+      // 사용자가 환승 승차장에 도착하는 시각
+      //
+      // 앞 차량 하차
+      // +
+      // 환승 도보
+      // ============================================
+
+      const transferWalkingSeconds =
+        Math.max(
+
+          0,
+
+          Number(
+            transferWalk.seconds
+          ) || 0
+
+        );
+
+
+      const platformArrivalEpochMs =
+        predictedEpochMs +
+        (
+          transferWalkingSeconds *
+          1000
+        );
+
+
+      realtime.predictedPlatformEpochMs =
+        platformArrivalEpochMs;
+
+
+      // 차량이 플랫폼 도착보다 뒤면 기다린다.
+      //
+      // 차량이 먼저 지나가는 촉박/매우촉박 후보라도
+      // 화면에서는 유지하지만
+      // 시간축은 플랫폼 도착보다 과거로 되돌리지 않는다.
+
+      predictedEpochMs =
+        Math.max(
+
+          platformArrivalEpochMs,
+
+          selected.arrivalEpochMs
+
+        );
+
+
+      realtime.boardingEpochMs =
+        predictedEpochMs;
+
+    }
+
+    else {
+
+      timelineKnown =
+        false;
+
+
+      const transferWalkingSeconds =
+        Math.max(
+
+          0,
+
+          Number(
+            transferWalk.seconds
+          ) || 0
+
+        );
+
+
+      predictedEpochMs +=
+        transferWalkingSeconds *
+        1000;
+
+
+      realtime.predictedPlatformEpochMs =
+        predictedEpochMs;
+
+
+      realtime.boardingEpochMs =
+        predictedEpochMs;
+
+    }
+
+
+    // ==============================================
+    // 해당 대중교통 이동
+    // ==============================================
+
+    realtime.predictedAlightingEpochMs =
+      predictedEpochMs +
+      (
+        stepTravelSeconds *
+        1000
+      );
+
+
+    predictedEpochMs =
+      realtime.predictedAlightingEpochMs;
+
+  }
+
+
+  // ================================================
+  // 마지막 목적지 도보 추가
+  // ================================================
+
+  const finalWalkSeconds =
+    Number(
+      result.finalWalk
+        ?.seconds
+    );
+
+
+  if (
+    Number.isFinite(
+      finalWalkSeconds
+    ) &&
+    finalWalkSeconds > 0
+  ) {
+
+    predictedEpochMs +=
+      finalWalkSeconds *
+      1000;
+
+  }
+
+
+  // ================================================
+  // 최종 예상 시간
+  // ================================================
+
+  if (
+    timelineKnown
+  ) {
+
+    result.realtimeTotalSeconds =
+      Math.max(
+
+        0,
+
+        Math.round(
+
+          (
+            predictedEpochMs -
+            baseTime
+          ) /
+          1000
+
+        )
+
+      );
+
+
+    result.state =
+      "ready";
+
+
+    result.reason =
+      "실시간 차량 후보와 환승 시간을 계산했습니다.";
+
+  }
+
+  else {
+
+    result.realtimeTotalSeconds =
+      null;
+
+
+    result.state =
+      "partial";
+
+
+    result.reason =
+      "일부 구간의 실시간 차량 정보를 확인하지 못했습니다.";
+
+  }
+
+
+  return result;
+
+}
+
+
+// ==================================================
+// 시간축용 후보 선택
+// ==================================================
+//
+// 주의:
+// 후보 자체를 숨기지 않는다.
+//
+// 이 함수는 오직
+// "경로 예상 총시간 계산에 어떤 차량을 사용할지"
+// 고르는 함수.
+//
+// ==================================================
+
+function chooseCandidateForTimeline(
+  candidates
+) {
+
+  if (
+    !Array.isArray(
+      candidates
+    ) ||
+    candidates.length === 0
+  ) {
+
+    return null;
+  }
+
+
+  const valid =
+    candidates
+      .filter(
+
+        function(
+          candidate
+        ) {
+
+          return (
+
+            candidate &&
+            candidate.calculation &&
+            Number.isFinite(
+              candidate.arrivalEpochMs
+            )
+
+          );
+
+        }
+
+      )
+      .sort(
+
+        function(
+          a,
+          b
+        ) {
+
+          return (
+            a.arrivalEpochMs -
+            b.arrivalEpochMs
+          );
+
+        }
+
+      );
+
+
+  if (
+    valid.length === 0
+  ) {
+
+    return null;
+  }
+
+
+  // ================================================
+  // 실제로 도착 가능한 후보 중
+  // 가장 먼저 오는 차량
+  //
+  // spare > 0이면
+  // 계산상 차량보다 먼저 승차장에 도착.
+  //
+  // ================================================
+
+  const reachable =
+    valid.filter(
+
+      function(
+        candidate
+      ) {
+
+        return (
+          candidate
+            .calculation
+            .spareSeconds >
+          0
+        );
+
+      }
+
+    );
+
+
+  if (
+    reachable.length > 0
+  ) {
+
+    return reachable[0];
+
+  }
+
+
+  // 도달 가능한 후보가 현재 API 범위에 없으면
+  // 화면에는 모두 보여주되
+  // 시간축 차량은 확정하지 않는다.
+
+  return null;
+
+}
+
+
+// ==================================================
+// 첫 승차 도보 계산
+// ==================================================
+
+function calculateFirstWalk(
+  route,
+  firstTransitIndex
+) {
+
+  const steps =
+    route.steps ||
+    [];
+
+
+  let distance =
+    0;
+
+
+  let seconds =
+    0;
+
+
+  let foundWalking =
+    false;
+
+
+  // ================================================
+  // Kakao WALKING step 확인
+  // ================================================
+
+  for (
+    let i = 0;
+    i < firstTransitIndex;
+    i++
+  ) {
+
+    const step =
+      steps[i];
+
+
+    const type =
+      getStepType(
+        step
+      );
+
+
+    if (
+      type !== "WALKING" &&
+      type !== "WALK"
+    ) {
+
+      continue;
+    }
+
+
+    const stepDistance =
+      Number(
+        step?.properties
+          ?.distance ||
+        0
+      );
+
+
+    const stepSeconds =
+      Number(
+        step?.properties
+          ?.time ||
+        0
+      );
+
+
+    if (
+      stepDistance > 0
+    ) {
+
+      distance +=
+        stepDistance;
+
+
+      seconds +=
+        stepDistance /
+        WALKING_SPEED_MPS;
+
+
+      foundWalking =
+        true;
+
+    }
+
+    else if (
+      stepSeconds > 0
+    ) {
+
+      seconds +=
+        stepSeconds *
+        1.2;
+
+
+      foundWalking =
+        true;
+
+    }
+
+  }
+
+
+  if (
+    foundWalking
   ) {
 
     return {
 
       seconds:
-        actualSeconds,
-
+        Math.round(
+          seconds
+        ),
 
       distance:
-
-        actualDistance > 0
-
-          ? actualDistance
-
+        distance > 0
+          ? Math.round(
+              distance
+            )
           : null,
 
-
       estimated:
-        false,
+        distance <= 0,
 
-
-      // analyzeFullRoute에서 이미 WALKING step을
-      // 더했으므로 다시 더하지 않는다.
-
-      shouldAdd:
-        false
+      source:
+        "kakao-walking"
 
     };
 
@@ -4191,11 +3683,11 @@ function calculateInitialAccessWalking(
 
   // ================================================
   // WALKING step이 없으면
-  // 첫 대중교통 path.points[0] 사용
+  // 현재 위치 → 첫 transit path 시작점
   // ================================================
 
   const firstStep =
-    route.steps[
+    steps[
       firstTransitIndex
     ];
 
@@ -4210,51 +3702,8 @@ function calculateInitialAccessWalking(
   if (
     startLat === null ||
     startLng === null ||
-
-    !Array.isArray(
+    !isValidPoint(
       firstPoint
-    ) ||
-
-    firstPoint.length < 2
-  ) {
-
-    return {
-
-      seconds:
-        null,
-
-      distance:
-        null,
-
-      estimated:
-        true,
-
-      shouldAdd:
-        false
-
-    };
-
-  }
-
-
-  const boardingLng =
-    Number(
-      firstPoint[0]
-    );
-
-
-  const boardingLat =
-    Number(
-      firstPoint[1]
-    );
-
-
-  if (
-    !Number.isFinite(
-      boardingLng
-    ) ||
-    !Number.isFinite(
-      boardingLat
     )
   ) {
 
@@ -4269,152 +3718,1182 @@ function calculateInitialAccessWalking(
       estimated:
         true,
 
-      shouldAdd:
-        false
+      source:
+        "unknown"
 
     };
 
   }
 
 
-  const straightMeters =
+  const straightDistance =
     haversineDistance(
 
       startLat,
       startLng,
 
-      boardingLat,
-      boardingLng
+      Number(
+        firstPoint[1]
+      ),
+
+      Number(
+        firstPoint[0]
+      )
 
     );
 
 
-  const walkingMeters =
-    straightMeters *
+  const estimatedDistance =
+    straightDistance *
     WALKING_DISTANCE_FACTOR;
-
-
-  const walkingSeconds =
-    walkingMeters /
-    WALKING_SPEED_MPS;
 
 
   return {
 
     seconds:
       Math.round(
-        walkingSeconds
-      ),
 
+        estimatedDistance /
+        WALKING_SPEED_MPS
+
+      ),
 
     distance:
       Math.round(
-        walkingMeters
+        estimatedDistance
       ),
-
 
     estimated:
       true,
 
-
-    shouldAdd:
-      true
+    source:
+      "estimated"
 
   };
 
 }
 
 
-
 // ==================================================
-// Haversine 거리
+// 마지막 하차 → 목적지 도보
+// ==================================================
+//
+// 이게 이전 버전에서 빠졌던 부분.
+//
+// Kakao가 마지막 WALKING을 주면 사용.
+// 안 주면:
+//
+// 마지막 대중교통 path 마지막 좌표
+// ↓
+// 사용자가 선택한 실제 목적지 좌표
+//
+// 로 추정.
+//
 // ==================================================
 
-function haversineDistance(
-  lat1,
-  lng1,
-  lat2,
-  lng2
+function calculateFinalWalk(
+  route,
+  lastTransitIndex
 ) {
 
-  const radius =
-    6371000;
+  const steps =
+    route.steps ||
+    [];
 
 
-  const rad =
-    Math.PI /
-    180;
+  let distance =
+    0;
 
 
-  const dLat =
-    (
-      lat2 -
-      lat1
-    ) *
-    rad;
+  let seconds =
+    0;
 
 
-  const dLng =
-    (
-      lng2 -
-      lng1
-    ) *
-    rad;
+  let foundWalking =
+    false;
 
 
-  const a =
+  // ================================================
+  // 마지막 transit 뒤 WALKING 확인
+  // ================================================
 
-    Math.sin(
-      dLat / 2
-    ) ** 2
+  for (
+    let i =
+      lastTransitIndex + 1;
 
-    +
+    i <
+      steps.length;
 
-    Math.cos(
-      lat1 *
-      rad
+    i++
+  ) {
+
+    const step =
+      steps[i];
+
+
+    const type =
+      getStepType(
+        step
+      );
+
+
+    if (
+      type !== "WALKING" &&
+      type !== "WALK"
+    ) {
+
+      continue;
+    }
+
+
+    const stepDistance =
+      Number(
+        step?.properties
+          ?.distance ||
+        0
+      );
+
+
+    const stepSeconds =
+      Number(
+        step?.properties
+          ?.time ||
+        0
+      );
+
+
+    if (
+      stepDistance > 0
+    ) {
+
+      distance +=
+        stepDistance;
+
+
+      // 느린 걷기 속도로 다시 계산
+
+      seconds +=
+        stepDistance /
+        WALKING_SPEED_MPS;
+
+
+      foundWalking =
+        true;
+
+    }
+
+    else if (
+      stepSeconds > 0
+    ) {
+
+      seconds +=
+        stepSeconds *
+        1.2;
+
+
+      foundWalking =
+        true;
+
+    }
+
+  }
+
+
+  if (
+    foundWalking
+  ) {
+
+    return {
+
+      seconds:
+        Math.round(
+          seconds
+        ),
+
+      distance:
+        distance > 0
+          ? Math.round(
+              distance
+            )
+          : null,
+
+      estimated:
+        distance <= 0,
+
+      source:
+        "kakao-walking"
+
+    };
+
+  }
+
+
+  // ================================================
+  // Kakao 마지막 WALKING 없음
+  // ================================================
+
+  const lastStep =
+    steps[
+      lastTransitIndex
+    ];
+
+
+  const points =
+    lastStep
+      ?.path
+      ?.points;
+
+
+  if (
+    !Array.isArray(
+      points
+    ) ||
+    points.length === 0 ||
+    endLat === null ||
+    endLng === null
+  ) {
+
+    return {
+
+      seconds:
+        null,
+
+      distance:
+        null,
+
+      estimated:
+        true,
+
+      source:
+        "unknown"
+
+    };
+
+  }
+
+
+  const lastPoint =
+    points[
+      points.length - 1
+    ];
+
+
+  if (
+    !isValidPoint(
+      lastPoint
     )
+  ) {
 
-    *
+    return {
 
-    Math.cos(
-      lat2 *
-      rad
-    )
+      seconds:
+        null,
 
-    *
+      distance:
+        null,
 
-    Math.sin(
-      dLng / 2
-    ) ** 2;
+      estimated:
+        true,
+
+      source:
+        "unknown"
+
+    };
+
+  }
 
 
-  return (
+  const straightDistance =
+    haversineDistance(
 
-    radius *
-
-    2 *
-
-    Math.atan2(
-
-      Math.sqrt(
-        a
+      Number(
+        lastPoint[1]
       ),
 
-      Math.sqrt(
-        1 - a
-      )
+      Number(
+        lastPoint[0]
+      ),
 
-    )
+      endLat,
+      endLng
 
-  );
+    );
+
+
+  const estimatedDistance =
+    straightDistance *
+    WALKING_DISTANCE_FACTOR;
+
+
+  // 너무 가까우면 사실상 목적지 도착
+
+  if (
+    estimatedDistance < 20
+  ) {
+
+    return {
+
+      seconds:
+        0,
+
+      distance:
+        Math.round(
+          estimatedDistance
+        ),
+
+      estimated:
+        true,
+
+      source:
+        "estimated"
+
+    };
+
+  }
+
+
+  return {
+
+    seconds:
+      Math.round(
+
+        estimatedDistance /
+        WALKING_SPEED_MPS
+
+      ),
+
+    distance:
+      Math.round(
+        estimatedDistance
+      ),
+
+    estimated:
+      true,
+
+    source:
+      "estimated"
+
+  };
 
 }
 
 
+// ==================================================
+// BUS 후보 전체 조회
+// ==================================================
+
+async function getBusCandidates(
+  step
+) {
+
+  const info =
+    getTransitInfo(
+      step
+    );
+
+
+  const baseResult = {
+
+    type:
+      "BUS",
+
+    info:
+      info,
+
+    available:
+      false,
+
+    candidates:
+      [],
+
+    selectedCandidate:
+      null,
+
+    boardingEpochMs:
+      null,
+
+    predictedPlatformEpochMs:
+      null,
+
+    predictedAlightingEpochMs:
+      null,
+
+    reason:
+      ""
+
+  };
+
+
+  if (
+    !info.boarding ||
+    !Array.isArray(
+      info.busNumbers
+    ) ||
+    info.busNumbers.length === 0
+  ) {
+
+    baseResult.reason =
+      "버스 정류장 또는 버스 번호 정보가 없습니다.";
+
+    return baseResult;
+  }
+
+
+  try {
+
+    const response =
+      await fetchWithTimeout(
+
+        "/api/seoul-bus" +
+
+        "?station=" +
+        encodeURIComponent(
+          info.boarding
+        ) +
+
+        "&buses=" +
+        encodeURIComponent(
+          info.busNumbers.join(
+            ","
+          )
+        ),
+
+        REALTIME_TIMEOUT_MS
+
+      );
+
+
+    const receivedAt =
+      Date.now();
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      data.success !== true
+    ) {
+
+      baseResult.reason =
+
+        data?.error ||
+        data?.message ||
+        "버스 실시간 정보가 없습니다.";
+
+
+      return baseResult;
+
+    }
+
+
+    let arrivals =
+      [];
+
+
+    // ================================================
+    // 권장 서버 형식
+    // ================================================
+
+    if (
+      Array.isArray(
+        data.arrivals
+      )
+    ) {
+
+      arrivals =
+        data.arrivals.slice();
+
+    }
+
+
+    // ================================================
+    // results 형식도 지원
+    // ================================================
+
+    if (
+      arrivals.length === 0 &&
+      Array.isArray(
+        data.results
+      )
+    ) {
+
+      data.results.forEach(
+
+        function(
+          item
+        ) {
+
+          const busNumber =
+            String(
+
+              item.busNumber ||
+              item.routeName ||
+              item.rtNm ||
+              ""
+
+            ).trim();
+
+
+          const first =
+            Number(
+
+              item.firstArrivalSeconds ??
+              item.traTime1 ??
+              item.arrivalSeconds
+
+            );
+
+
+          const second =
+            Number(
+
+              item.secondArrivalSeconds ??
+              item.traTime2
+
+            );
+
+
+          if (
+            Number.isFinite(
+              first
+            ) &&
+            first > 0
+          ) {
+
+            arrivals.push({
+
+              busNumber:
+                busNumber,
+
+              arrivalSeconds:
+                first,
+
+              arrivalMessage:
+                item.arrmsg1 ||
+                ""
+
+            });
+
+          }
+
+
+          if (
+            Number.isFinite(
+              second
+            ) &&
+            second > 0
+          ) {
+
+            arrivals.push({
+
+              busNumber:
+                busNumber,
+
+              arrivalSeconds:
+                second,
+
+              arrivalMessage:
+                item.arrmsg2 ||
+                ""
+
+            });
+
+          }
+
+        }
+
+      );
+
+    }
+
+
+    const wanted =
+      info.busNumbers.map(
+        normalizeBusNumber
+      );
+
+
+    const candidates =
+      arrivals
+        .filter(
+
+          function(
+            item
+          ) {
+
+            const seconds =
+              Number(
+                item.arrivalSeconds
+              );
+
+
+            if (
+              !Number.isFinite(
+                seconds
+              ) ||
+              seconds <= 0
+            ) {
+
+              return false;
+            }
+
+
+            const number =
+              normalizeBusNumber(
+
+                item.busNumber ||
+                item.routeName ||
+                item.rtNm ||
+                ""
+
+              );
+
+
+            // 서버가 번호를 주면 비교
+            // 번호가 없으면 일단 유지
+
+            if (
+              number &&
+              wanted.length > 0
+            ) {
+
+              return wanted.includes(
+                number
+              );
+
+            }
+
+
+            return true;
+
+          }
+
+        )
+        .map(
+
+          function(
+            item,
+            index
+          ) {
+
+            const seconds =
+              Number(
+                item.arrivalSeconds
+              );
+
+
+            return {
+
+              id:
+                "bus-" +
+                index +
+                "-" +
+                receivedAt,
+
+              type:
+                "BUS",
+
+              busNumber:
+
+                String(
+
+                  item.busNumber ||
+                  item.routeName ||
+                  item.rtNm ||
+                  info.busNumbers[0] ||
+                  "버스"
+
+                ).trim(),
+
+              arrivalSeconds:
+                seconds,
+
+              arrivalEpochMs:
+                receivedAt +
+                (
+                  seconds *
+                  1000
+                ),
+
+              arrivalMessage:
+                item.arrivalMessage ||
+                item.arrmsg1 ||
+                "",
+
+              calculation:
+                null,
+
+              selected:
+                false
+
+            };
+
+          }
+
+        )
+        .sort(
+
+          function(
+            a,
+            b
+          ) {
+
+            return (
+              a.arrivalEpochMs -
+              b.arrivalEpochMs
+            );
+
+          }
+
+        );
+
+
+    baseResult.available =
+      candidates.length > 0;
+
+
+    baseResult.candidates =
+      candidates;
+
+
+    if (
+      candidates.length === 0
+    ) {
+
+      baseResult.reason =
+        "현재 표시할 버스 도착정보가 없습니다.";
+
+    }
+
+
+    return baseResult;
+
+  }
+
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      "버스 실시간 오류:",
+      error
+    );
+
+
+    baseResult.reason =
+      "버스 실시간 조회에 실패했습니다.";
+
+
+    return baseResult;
+
+  }
+
+}
+
 
 // ==================================================
-// Transit 정보 추출
+// SUBWAY 후보 전체 조회
+// ==================================================
+
+async function getSubwayCandidates(
+  step
+) {
+
+  const info =
+    getTransitInfo(
+      step
+    );
+
+
+  const baseResult = {
+
+    type:
+      "SUBWAY",
+
+    info:
+      info,
+
+    available:
+      false,
+
+    candidates:
+      [],
+
+    selectedCandidate:
+      null,
+
+    boardingEpochMs:
+      null,
+
+    predictedPlatformEpochMs:
+      null,
+
+    predictedAlightingEpochMs:
+      null,
+
+    reason:
+      ""
+
+  };
+
+
+  const station =
+    getSubwayApiStationName(
+      info.boarding
+    );
+
+
+  if (
+    !station
+  ) {
+
+    baseResult.reason =
+      "지하철 승차역을 확인할 수 없습니다.";
+
+    return baseResult;
+  }
+
+
+  try {
+
+    const response =
+      await fetchWithTimeout(
+
+        "/api/seoul-subway?station=" +
+        encodeURIComponent(
+          station
+        ),
+
+        REALTIME_TIMEOUT_MS
+
+      );
+
+
+    const receivedAt =
+      Date.now();
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      data.success !== true
+    ) {
+
+      baseResult.reason =
+
+        data?.error ||
+        data?.message ||
+        "지하철 실시간 정보가 없습니다.";
+
+
+      return baseResult;
+
+    }
+
+
+    let arrivals =
+      Array.isArray(
+        data.arrivals
+      )
+        ? data.arrivals.slice()
+        : [];
+
+
+    // ================================================
+    // 0초/과거값 제외
+    // ================================================
+
+    arrivals =
+      arrivals.filter(
+
+        function(
+          item
+        ) {
+
+          const seconds =
+            Number(
+              item.arrivalSeconds
+            );
+
+
+          return (
+
+            Number.isFinite(
+              seconds
+            ) &&
+            seconds > 0
+
+          );
+
+        }
+
+      );
+
+
+    // ================================================
+    // 호선 필터
+    // ================================================
+
+    const expectedId =
+      getExpectedSubwayId(
+        info.name
+      );
+
+
+    if (
+      expectedId
+    ) {
+
+      const sameLine =
+        arrivals.filter(
+
+          function(
+            item
+          ) {
+
+            return (
+
+              String(
+                item.subwayId ||
+                ""
+              )
+
+              ===
+
+              String(
+                expectedId
+              )
+
+            );
+
+          }
+
+        );
+
+
+      if (
+        sameLine.length > 0
+      ) {
+
+        arrivals =
+          sameLine;
+
+      }
+
+    }
+
+
+    // ================================================
+    // 방향 필터
+    //
+    // 다음 역이 있으면
+    // trainLineNm 안에 다음 역이 포함되는지 확인.
+    //
+    // 반대 방향 열차를 보여주지 않도록 보수적으로 처리.
+    // ================================================
+
+    const nextStop =
+      normalizeStationText(
+        info.nextStop
+      );
+
+
+    if (
+      nextStop
+    ) {
+
+      const directionMatches =
+        arrivals.filter(
+
+          function(
+            item
+          ) {
+
+            const text =
+              normalizeStationText(
+
+                item.trainLine ||
+                item.trainLineNm ||
+                item.destination ||
+                ""
+
+              );
+
+
+            return text.includes(
+              nextStop
+            );
+
+          }
+
+        );
+
+
+      if (
+        directionMatches.length > 0
+      ) {
+
+        arrivals =
+          directionMatches;
+
+      }
+
+      else {
+
+        baseResult.reason =
+          "진행 방향의 실시간 열차를 확인하지 못했습니다.";
+
+        return baseResult;
+
+      }
+
+    }
+
+
+    // ================================================
+    // 후보 생성
+    // ================================================
+
+    const candidates =
+      arrivals
+        .map(
+
+          function(
+            item,
+            index
+          ) {
+
+            const seconds =
+              Number(
+                item.arrivalSeconds
+              );
+
+
+            return {
+
+              id:
+                "subway-" +
+                index +
+                "-" +
+                receivedAt,
+
+              type:
+                "SUBWAY",
+
+              subwayId:
+                item.subwayId ||
+                "",
+
+              lineName:
+                info.name,
+
+              direction:
+
+                item.trainLine ||
+                item.trainLineNm ||
+                item.direction ||
+                "",
+
+              trainNumber:
+                item.trainNumber ||
+                "",
+
+              arrivalSeconds:
+                seconds,
+
+              arrivalEpochMs:
+                receivedAt +
+                (
+                  seconds *
+                  1000
+                ),
+
+              arrivalMessage:
+
+                item.arrivalMessage ||
+                item.arrivalMessageDetail ||
+                "",
+
+              calculation:
+                null,
+
+              selected:
+                false
+
+            };
+
+          }
+
+        )
+        .sort(
+
+          function(
+            a,
+            b
+          ) {
+
+            return (
+              a.arrivalEpochMs -
+              b.arrivalEpochMs
+            );
+
+          }
+
+        );
+
+
+    baseResult.available =
+      candidates.length > 0;
+
+
+    baseResult.candidates =
+      candidates;
+
+
+    if (
+      candidates.length === 0
+    ) {
+
+      baseResult.reason =
+        "현재 표시할 열차 도착정보가 없습니다.";
+
+    }
+
+
+    return baseResult;
+
+  }
+
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      "지하철 실시간 오류:",
+      error
+    );
+
+
+    baseResult.reason =
+      "지하철 실시간 조회에 실패했습니다.";
+
+
+    return baseResult;
+
+  }
+
+}
+
+
+// ==================================================
+// Transit 정보
 // ==================================================
 
 function getTransitInfo(
@@ -4440,8 +4919,8 @@ function getTransitInfo(
       : [];
 
 
-  const boardingRaw =
-    stops.length
+  let boarding =
+    stops.length > 0
 
       ? getStopName(
           stops[0]
@@ -4450,19 +4929,21 @@ function getTransitInfo(
       : "";
 
 
-  const alightingRaw =
-    stops.length
+  let alighting =
+    stops.length > 0
 
       ? getStopName(
+
           stops[
             stops.length - 1
           ]
+
         )
 
       : "";
 
 
-  const nextStopRaw =
+  let nextStop =
     stops.length > 1
 
       ? getStopName(
@@ -4470,6 +4951,43 @@ function getTransitInfo(
         )
 
       : "";
+
+
+  // ================================================
+  // stops가 없는 경우 guidance 보조 파싱
+  // ================================================
+
+  if (
+    !boarding ||
+    !alighting
+  ) {
+
+    const parsed =
+      parseGuidanceStops(
+        properties.guidance
+      );
+
+
+    if (
+      !boarding
+    ) {
+
+      boarding =
+        parsed.boarding;
+
+    }
+
+
+    if (
+      !alighting
+    ) {
+
+      alighting =
+        parsed.alighting;
+
+    }
+
+  }
 
 
   if (
@@ -4485,43 +5003,38 @@ function getTransitInfo(
     return {
 
       type:
-        type,
-
+        "BUS",
 
       name:
-
-        busNumbers.length
+        busNumbers.length > 0
 
           ? busNumbers.join(
               " · "
             )
 
-          : "버스",
-
+          : getGuidancePrefix(
+              properties.guidance
+            ) ||
+            "버스",
 
       busNumbers:
         busNumbers,
 
-
-      // 버스는 "역" 글자 삭제 금지
-
       boarding:
         String(
-          boardingRaw ||
+          boarding ||
           ""
         ).trim(),
-
 
       alighting:
         String(
-          alightingRaw ||
+          alighting ||
           ""
         ).trim(),
 
-
       nextStop:
         String(
-          nextStopRaw ||
+          nextStop ||
           ""
         ).trim()
 
@@ -4537,34 +5050,29 @@ function getTransitInfo(
     return {
 
       type:
-        type,
-
+        "SUBWAY",
 
       name:
         getSubwayLineName(
           properties.guidance
         ),
 
-
       busNumbers:
         [],
 
-
       boarding:
         cleanStationName(
-          boardingRaw
+          boarding
         ),
-
 
       alighting:
         cleanStationName(
-          alightingRaw
+          alighting
         ),
-
 
       nextStop:
         cleanStationName(
-          nextStopRaw
+          nextStop
         )
 
     };
@@ -4584,18 +5092,165 @@ function getTransitInfo(
       [],
 
     boarding:
-      "",
+      boarding,
 
     alighting:
-      "",
+      alighting,
 
     nextStop:
-      ""
+      nextStop
 
   };
 
 }
 
+
+// ==================================================
+// guidance 정류장 파싱
+//
+// 예:
+//
+// 6호선 (새절(신사) > 합정)
+//
+// 괄호가 중첩될 수 있으므로
+// 정규식 하나로 자르지 않고
+// 첫 "("와 마지막 ")"를 사용.
+// ==================================================
+
+function parseGuidanceStops(
+  guidance
+) {
+
+  const text =
+    String(
+      guidance ||
+      ""
+    ).trim();
+
+
+  const firstParen =
+    text.indexOf(
+      "("
+    );
+
+
+  const lastParen =
+    text.lastIndexOf(
+      ")"
+    );
+
+
+  if (
+    firstParen < 0 ||
+    lastParen <=
+      firstParen
+  ) {
+
+    return {
+
+      boarding:
+        "",
+
+      alighting:
+        ""
+
+    };
+
+  }
+
+
+  const inside =
+    text.slice(
+
+      firstParen + 1,
+      lastParen
+
+    );
+
+
+  const separator =
+    inside.indexOf(
+      ">"
+    );
+
+
+  if (
+    separator < 0
+  ) {
+
+    return {
+
+      boarding:
+        "",
+
+      alighting:
+        ""
+
+    };
+
+  }
+
+
+  return {
+
+    boarding:
+      inside
+        .slice(
+          0,
+          separator
+        )
+        .trim(),
+
+    alighting:
+      inside
+        .slice(
+          separator + 1
+        )
+        .trim()
+
+  };
+
+}
+
+
+// ==================================================
+// guidance 앞부분
+// ==================================================
+
+function getGuidancePrefix(
+  guidance
+) {
+
+  const text =
+    String(
+      guidance ||
+      ""
+    ).trim();
+
+
+  const index =
+    text.indexOf(
+      "("
+    );
+
+
+  if (
+    index > 0
+  ) {
+
+    return text
+      .slice(
+        0,
+        index
+      )
+      .trim();
+
+  }
+
+
+  return text;
+
+}
 
 
 // ==================================================
@@ -4617,10 +5272,11 @@ function getStepType(
 
     ""
 
-  ).toUpperCase();
+  )
+    .trim()
+    .toUpperCase();
 
 }
-
 
 
 // ==================================================
@@ -4645,6 +5301,7 @@ function getStopName(
   ) {
 
     return stop.trim();
+
   }
 
 
@@ -4658,7 +5315,6 @@ function getStopName(
   ).trim();
 
 }
-
 
 
 // ==================================================
@@ -4677,7 +5333,7 @@ function getBusNumbers(
       : [];
 
 
-  const numbers =
+  const result =
     vehicles
       .map(
 
@@ -4686,7 +5342,7 @@ function getBusNumbers(
         ) {
 
           return String(
-            vehicle.name ||
+            vehicle?.name ||
             ""
           ).trim();
 
@@ -4700,16 +5356,15 @@ function getBusNumbers(
 
   return [
     ...new Set(
-      numbers
+      result
     )
   ];
 
 }
 
 
-
 // ==================================================
-// 버스 번호 비교
+// 버스 번호 정규화
 // ==================================================
 
 function normalizeBusNumber(
@@ -4729,9 +5384,8 @@ function normalizeBusNumber(
 }
 
 
-
 // ==================================================
-// 지하철 역 표시용
+// 지하철 역 이름 정리
 // ==================================================
 
 function cleanStationName(
@@ -4752,11 +5406,11 @@ function cleanStationName(
 }
 
 
-
 // ==================================================
-// 지하철 API 검색명
+// 서울 지하철 API 검색 역명
 //
-// 새절(신사) → 새절
+// 새절(신사)
+// → 새절
 // ==================================================
 
 function getSubwayApiStationName(
@@ -4793,9 +5447,8 @@ function getSubwayApiStationName(
 }
 
 
-
 // ==================================================
-// 역 이름 비교
+// 지하철 방향 비교용 이름
 // ==================================================
 
 function normalizeStationText(
@@ -4814,7 +5467,6 @@ function normalizeStationText(
 }
 
 
-
 // ==================================================
 // 지하철 노선명
 // ==================================================
@@ -4823,45 +5475,18 @@ function getSubwayLineName(
   guidance
 ) {
 
-  const text =
-    String(
-      guidance ||
-      ""
-    ).trim();
-
-
-  if (
-    !text
-  ) {
-
-    return "지하철";
-  }
-
-
-  const firstParen =
-    text.indexOf(
-      "("
+  const prefix =
+    getGuidancePrefix(
+      guidance
     );
 
 
-  if (
-    firstParen > 0
-  ) {
-
-    return text
-      .slice(
-        0,
-        firstParen
-      )
-      .trim();
-
-  }
-
-
-  return text;
+  return (
+    prefix ||
+    "지하철"
+  );
 
 }
-
 
 
 // ==================================================
@@ -4884,19 +5509,19 @@ function getExpectedSubwayId(
       .toUpperCase();
 
 
-  const numberLine =
+  const numeric =
     text.match(
       /([1-9])호선/
     );
 
 
   if (
-    numberLine
+    numeric
   ) {
 
     return (
       "100" +
-      numberLine[1]
+      numeric[1]
     );
 
   }
@@ -4909,6 +5534,7 @@ function getExpectedSubwayId(
   ) {
 
     return "1063";
+
   }
 
 
@@ -4922,55 +5548,411 @@ function getExpectedSubwayId(
   ) {
 
     return "1065";
+
   }
 
 
-  // GTX-A
-  //
-  // 서울 실시간 응답에서 해당 ID가 실제로
-  // 반환되는 경우에만 필터링에 사용한다.
-
-  if (
-    text.includes(
-      "GTX-A"
-    ) ||
-    text.includes(
-      "GTXA"
-    )
-  ) {
-
-    return "1032";
-  }
-
+  // 기타 노선은 ID를 억지로 추정하지 않는다.
 
   return "";
 
 }
 
 
+// ==================================================
+// 좌표 확인
+// ==================================================
+
+function isValidPoint(
+  point
+) {
+
+  return (
+
+    Array.isArray(
+      point
+    ) &&
+
+    point.length >= 2 &&
+
+    Number.isFinite(
+      Number(
+        point[0]
+      )
+    ) &&
+
+    Number.isFinite(
+      Number(
+        point[1]
+      )
+    )
+
+  );
+
+}
+
 
 // ==================================================
-// 여기까지가 2/3.
+// Haversine 거리
+// ==================================================
+
+function haversineDistance(
+  lat1,
+  lng1,
+  lat2,
+  lng2
+) {
+
+  const earthRadius =
+    6371000;
+
+
+  const toRadians =
+    Math.PI /
+    180;
+
+
+  const dLat =
+    (
+      lat2 -
+      lat1
+    ) *
+    toRadians;
+
+
+  const dLng =
+    (
+      lng2 -
+      lng1
+    ) *
+    toRadians;
+
+
+  const a =
+
+    Math.sin(
+      dLat /
+      2
+    ) ** 2
+
+    +
+
+    Math.cos(
+      lat1 *
+      toRadians
+    )
+
+    *
+
+    Math.cos(
+      lat2 *
+      toRadians
+    )
+
+    *
+
+    Math.sin(
+      dLng /
+      2
+    ) ** 2;
+
+
+  return (
+
+    earthRadius *
+
+    2 *
+
+    Math.atan2(
+
+      Math.sqrt(
+        a
+      ),
+
+      Math.sqrt(
+        1 - a
+      )
+
+    )
+
+  );
+
+}
+
+
+// ==================================================
+// fetch timeout
+// ==================================================
+
+async function fetchWithTimeout(
+  url,
+  timeoutMs
+) {
+
+  const controller =
+    new AbortController();
+
+
+  const timeout =
+    setTimeout(
+
+      function() {
+
+        controller.abort();
+
+      },
+
+      timeoutMs
+
+    );
+
+
+  try {
+
+    return await fetch(
+
+      url,
+
+      {
+        signal:
+          controller.signal
+      }
+
+    );
+
+  }
+
+
+  finally {
+
+    clearTimeout(
+      timeout
+    );
+
+  }
+
+}
+
+
+// ==================================================
+// 시간 표시
+// ==================================================
+
+function formatCountdown(
+  seconds
+) {
+
+  const value =
+    Math.max(
+
+      0,
+
+      Math.round(
+        Number(
+          seconds
+        ) ||
+        0
+      )
+
+    );
+
+
+  const minutes =
+    Math.floor(
+      value /
+      60
+    );
+
+
+  const remainSeconds =
+    value %
+    60;
+
+
+  if (
+    minutes <= 0
+  ) {
+
+    return (
+      remainSeconds +
+      "초"
+    );
+
+  }
+
+
+  return (
+    minutes +
+    "분 " +
+    String(
+      remainSeconds
+    ).padStart(
+      2,
+      "0"
+    ) +
+    "초"
+  );
+
+}
+
+
+// ==================================================
+// 시각 표시
+// ==================================================
+
+function formatClock(
+  epochMs
+) {
+
+  if (
+    !Number.isFinite(
+      Number(
+        epochMs
+      )
+    )
+  ) {
+
+    return "-";
+  }
+
+
+  const date =
+    new Date(
+      Number(
+        epochMs
+      )
+    );
+
+
+  return date
+    .toLocaleTimeString(
+
+      "ko-KR",
+
+      {
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit"
+      }
+
+    );
+
+}
+
+
+// ==================================================
+// 거리 표시
+// ==================================================
+
+function formatDistance(
+  meters
+) {
+
+  const value =
+    Number(
+      meters
+    );
+
+
+  if (
+    !Number.isFinite(
+      value
+    )
+  ) {
+
+    return "";
+  }
+
+
+  if (
+    value < 1000
+  ) {
+
+    return (
+      Math.round(
+        value
+      ) +
+      "m"
+    );
+
+  }
+
+
+  return (
+
+    (
+      value /
+      1000
+    ).toFixed(
+      1
+    ) +
+    "km"
+
+  );
+
+}
+
+
+// ==================================================
+// HTML 안전 출력
+// ==================================================
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value ??
+    ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+// ==================================================
+// 다음 3/3에서:
 //
-// 3/3에서:
+// - 실제 카드 UI
+// - 환승 후보 전부 표시
 //
-// - 경로 카드 렌더링
-// - 첫 차량 실시간 카운트다운
-// - 1번째 환승 카운트다운
-// - 2번째 환승 카운트다운
-// - 3번째 환승 카운트다운
+//   ⚪ 느림
+//   🟢 여유있음
+//   🟡 준비
+//   🟠 촉박
+//   🔴 매우촉박
 //
-// - 🟢 환승 여유 있음
-// - 🟡 환승 준비
-// - 🟠 환승 시간 촉박
-// - 🔴 빠르게 이동하세요
+// - 📍 현재위치환승!
+// - 첫 도보
+// - 마지막 목적지 도보
+// - 1초 실시간 카운트다운
+// - 지도 경로 그리기
+// - </script>
+// - </body>
+// - </html>
 //
-// 를 1초마다 화면에서 실제로 변경.
-//
-// 그리고 지도 경로 그리기 +
-// </script></body></html>
-//
-// 까지 마무리.
+// 전부 마무리.
 // ==================================================
 // ==================================================
 // 경로 카드 렌더링
@@ -4984,18 +5966,13 @@ function renderRoutes() {
     );
 
 
-  if (
-    !container
-  ) {
-
+  if (!container) {
     return;
   }
 
 
   if (
-    !Array.isArray(
-      displayedRoutes
-    ) ||
+    !Array.isArray(displayedRoutes) ||
     displayedRoutes.length === 0
   ) {
 
@@ -5005,7 +5982,7 @@ function renderRoutes() {
       </div>
 
       <div class="resultsSub">
-        표시할 경로가 없습니다.
+        표시할 대중교통 경로가 없습니다.
       </div>
     `;
 
@@ -5020,9 +5997,8 @@ function renderRoutes() {
     </div>
 
     <div class="resultsSub">
-      실시간 버스·지하철 도착정보와
-      환승 여유시간을 반영합니다.
-      정확히 3분 여유인 차량은 선택하지 않습니다.
+      환승 차량을 숨기지 않고
+      느림 · 여유있음 · 준비 · 촉박 · 매우촉박으로 표시합니다.
     </div>
 
   `;
@@ -5036,7 +6012,7 @@ function renderRoutes() {
     ) {
 
       html +=
-        renderRouteCard(
+        createRouteCardHtml(
           routeState,
           index
         );
@@ -5049,17 +6025,19 @@ function renderRoutes() {
   container.innerHTML =
     html;
 
+
+  updateCountdownDisplays();
+
 }
 
 
-
 // ==================================================
-// 개별 경로 카드
+// 경로 카드 HTML
 // ==================================================
 
-function renderRouteCard(
+function createRouteCardHtml(
   routeState,
-  index
+  routeIndex
 ) {
 
   const route =
@@ -5084,41 +6062,26 @@ function renderRouteCard(
     );
 
 
-  const hasRealtimeTotal =
+  const hasRealtimeTime =
     Number.isFinite(
       realtimeSeconds
     ) &&
     realtimeSeconds > 0;
 
 
-  const mainSeconds =
-    hasRealtimeTotal
-
+  const displaySeconds =
+    hasRealtimeTime
       ? realtimeSeconds
-
       : kakaoSeconds;
 
 
-  const mainMinutes =
+  const displayMinutes =
     Math.max(
 
       1,
 
       Math.ceil(
-        mainSeconds /
-        60
-      )
-
-    );
-
-
-  const kakaoMinutes =
-    Math.max(
-
-      1,
-
-      Math.ceil(
-        kakaoSeconds /
+        displaySeconds /
         60
       )
 
@@ -5126,51 +6089,34 @@ function renderRouteCard(
 
 
   const transfers =
-    Number(
-      properties.transfers ||
-      0
+    Math.max(
+
+      0,
+
+      Number(
+        properties.transfers ||
+        0
+      )
+
     );
 
 
-  const selectedClass =
-    index === selectedRouteIndex
-
-      ? " selected open"
-
-      : "";
+  const isSelected =
+    routeIndex ===
+    selectedRouteIndex;
 
 
   const status =
-    getRouteStatus(
+    getRouteCardStatus(
       routeState
-    );
-
-
-  const summary =
-    createTransportSummary(
-      route
-    );
-
-
-  const realtimeSummary =
-    createRealtimeSummary(
-      routeState
-    );
-
-
-  const details =
-    createRouteDetails(
-      routeState,
-      index
     );
 
 
   return `
 
     <article
-      class="routeCard${selectedClass}"
-      data-route-index="${index}"
-      onclick="selectRouteCard(${index})"
+      class="routeCard${isSelected ? " selected open" : ""}"
+      onclick="selectRoute(${routeIndex})"
     >
 
       <div class="routeTop">
@@ -5178,21 +6124,19 @@ function renderRouteCard(
         <div>
 
           <div class="rank">
-            추천 ${index + 1}
+            추천 ${routeIndex + 1}
           </div>
 
           <div class="time">
-            ${mainMinutes}분
+            ${displayMinutes}분
           </div>
 
           <div class="timeLabel">
 
             ${
-              hasRealtimeTotal
-
-                ? `실시간 예상 · Kakao 기본 ${kakaoMinutes}분`
-
-                : `Kakao 기본 예상 ${kakaoMinutes}분`
+              hasRealtimeTime
+                ? "실시간 차량 대기 + 환승 + 도보 반영"
+                : "Kakao 기본 예상시간"
             }
 
           </div>
@@ -5200,8 +6144,8 @@ function renderRouteCard(
         </div>
 
 
-        <div class="badge ${status.className}">
-          ${escapeHtml(status.text)}
+        <div class="routeBadge">
+          ${escapeHtml(status)}
         </div>
 
       </div>
@@ -5210,37 +6154,60 @@ function renderRouteCard(
       <div class="chips">
 
         <div class="chip">
-          환승 ${transfers}회
+          🔄 환승 ${transfers}회
         </div>
 
         <div class="chip">
-          ${formatDistance(
+          📏 ${formatDistance(
             properties.totalDistance
           )}
         </div>
 
         ${
-          routeState.walkingSeconds !== null
+          routeState.firstWalk
+            ?.seconds !== null
 
             ? `
 
               <div class="chip">
 
-                🚶 탑승지까지
+                🚶 첫 승차장
                 ${Math.max(
                   1,
                   Math.ceil(
-                    routeState.walkingSeconds /
+                    routeState.firstWalk.seconds /
                     60
                   )
                 )}분
 
+              </div>
+
+            `
+
+            : ""
+        }
+
+        ${
+          routeState.finalWalk
+            ?.seconds !== null
+
+            ? `
+
+              <div class="chip">
+
+                🏠 하차 후 도보
                 ${
-                  routeState.walkingEstimated
+                  routeState.finalWalk.seconds > 0
 
-                    ? " · 추정"
+                    ? Math.max(
+                        1,
+                        Math.ceil(
+                          routeState.finalWalk.seconds /
+                          60
+                        )
+                      ) + "분"
 
-                    : ""
+                    : "거의 없음"
                 }
 
               </div>
@@ -5254,28 +6221,28 @@ function renderRouteCard(
 
 
       <div class="transportSummary">
-        ${summary}
-      </div>
-
-
-      <div class="realtimeSummary">
-        ${realtimeSummary}
+        ${createTransportSummary(route)}
       </div>
 
 
       <div class="detailButton">
+
         ${
-          index === selectedRouteIndex
-
-            ? "▲ 상세 경로 닫기"
-
+          isSelected
+            ? "▲ 상세 경로"
             : "▼ 상세 경로 보기"
         }
+
       </div>
 
 
       <div class="details">
-        ${details}
+
+        ${createFullRouteDetail(
+          routeState,
+          routeIndex
+        )}
+
       </div>
 
     </article>
@@ -5285,81 +6252,43 @@ function renderRouteCard(
 }
 
 
-
 // ==================================================
-// 경로 상태
+// 카드 상태
 // ==================================================
 
-function getRouteStatus(
+function getRouteCardStatus(
   routeState
 ) {
 
   if (
-    routeState.realtimeState ===
-    "passed"
+    routeState.state ===
+    "ready"
   ) {
 
-    return {
-
-      className:
-        "good",
-
-      text:
-        "실시간 환승 확인"
-
-    };
-
+    return "실시간 계산 완료";
   }
 
 
   if (
-    routeState.realtimeState ===
-    "failed"
+    routeState.state ===
+    "partial"
   ) {
 
-    return {
-
-      className:
-        "danger",
-
-      text:
-        "환승 여유 부족"
-
-    };
-
+    return "일부 실시간 미확인";
   }
 
 
   if (
-    routeState.realtimeState ===
+    routeState.state ===
     "checking"
   ) {
 
-    return {
-
-      className:
-        "",
-
-      text:
-        "실시간 확인 중"
-
-    };
-
+    return "계산 중";
   }
 
 
-  return {
-
-    className:
-      "warning",
-
-    text:
-      "일부 실시간 미확인"
-
-  };
-
+  return "경로 정보";
 }
-
 
 
 // ==================================================
@@ -5374,13 +6303,11 @@ function createTransportSummary(
     Array.isArray(
       route?.steps
     )
-
       ? route.steps
-
       : [];
 
 
-  const pieces =
+  const parts =
     [];
 
 
@@ -5397,202 +6324,54 @@ function createTransportSummary(
 
 
       if (
-        type === "BUS"
+        type !== "BUS" &&
+        type !== "SUBWAY"
       ) {
 
-        const info =
-          getTransitInfo(
-            step
-          );
-
-
-        pieces.push(
-          "🚌 " +
-          escapeHtml(
-            info.name
-          )
-        );
-
+        return;
       }
 
 
-      if (
-        type === "SUBWAY"
-      ) {
-
-        const info =
-          getTransitInfo(
-            step
-          );
-
-
-        pieces.push(
-          "🚇 " +
-          escapeHtml(
-            info.name
-          )
+      const info =
+        getTransitInfo(
+          step
         );
 
-      }
 
-    }
+      parts.push(
 
-  );
+        (
+          type === "BUS"
+            ? "🚌 "
+            : "🚇 "
+        )
 
+        +
 
-  if (
-    pieces.length === 0
-  ) {
-
-    return "대중교통 경로";
-  }
-
-
-  return pieces.join(
-    " → "
-  );
-
-}
-
-
-
-// ==================================================
-// 실시간 요약
-// ==================================================
-
-function createRealtimeSummary(
-  routeState
-) {
-
-  if (
-    routeState.realtimeState ===
-    "checking"
-  ) {
-
-    return `
-      ⏱ 버스·지하철 실시간 도착과
-      환승 가능 여부를 확인하고 있습니다.
-    `;
-
-  }
-
-
-  const results =
-    Object.values(
-      routeState.transitResults ||
-      {}
-    )
-      .sort(
-
-        function(
-          a,
-          b
-        ) {
-
-          return (
-
-            Number(
-              a.stepIndex ||
-              0
-            )
-
-            -
-
-            Number(
-              b.stepIndex ||
-              0
-            )
-
-          );
-
-        }
+        escapeHtml(
+          info.name
+        )
 
       );
 
-
-  if (
-    results.length === 0
-  ) {
-
-    return escapeHtml(
-      routeState.reason ||
-      "실시간 정보 없음"
-    );
-
-  }
-
-
-  const known =
-    results.filter(
-      item =>
-        item.known === true
-    );
-
-
-  const transfers =
-    known.filter(
-      item =>
-        item.transferNumber > 0
-    );
-
-
-  if (
-    routeState.realtimeState ===
-    "passed"
-  ) {
-
-    if (
-      transfers.length > 0
-    ) {
-
-      return `
-        ✅ 현재 실시간 기준
-        ${transfers.length}번의 환승에서
-        3분 초과 여유가 있는 차량을 확인했습니다.
-      `;
-
     }
 
-
-    return `
-      ✅ 현재 실시간 기준으로
-      탑승 가능한 차량을 확인했습니다.
-    `;
-
-  }
+  );
 
 
-  if (
-    routeState.realtimeState ===
-    "failed"
-  ) {
-
-    return `
-      ⚠️ ${escapeHtml(
-        routeState.reason ||
-        "환승 여유가 부족합니다."
-      )}
-    `;
-
-  }
-
-
-  return `
-    ℹ️ ${escapeHtml(
-      routeState.reason ||
-      "일부 구간은 실시간 정보가 없습니다."
-    )}
-  `;
+  return (
+    parts.join(" → ") ||
+    "대중교통 경로"
+  );
 
 }
 
 
-
 // ==================================================
-// 상세 경로
+// 상세 경로 전체
 // ==================================================
 
-function createRouteDetails(
+function createFullRouteDetail(
   routeState,
   routeIndex
 ) {
@@ -5605,19 +6384,50 @@ function createRouteDetails(
     Array.isArray(
       route?.steps
     )
-
       ? route.steps
-
       : [];
 
 
+  const transitIndexes =
+    [];
+
+
+  steps.forEach(
+
+    function(
+      step,
+      index
+    ) {
+
+      const type =
+        getStepType(
+          step
+        );
+
+
+      if (
+        type === "BUS" ||
+        type === "SUBWAY"
+      ) {
+
+        transitIndexes.push(
+          index
+        );
+
+      }
+
+    }
+
+  );
+
+
   if (
-    steps.length === 0
+    transitIndexes.length === 0
   ) {
 
     return `
       <div class="step">
-        상세 경로가 없습니다.
+        대중교통 상세 경로가 없습니다.
       </div>
     `;
 
@@ -5628,186 +6438,98 @@ function createRouteDetails(
     "";
 
 
-  let transitCount =
-    0;
+  // ================================================
+  // 첫 승차장 도보
+  // ================================================
+
+  html +=
+    createFirstWalkHtml(
+      routeState.firstWalk
+    );
 
 
-  steps.forEach(
+  // ================================================
+  // 대중교통 → 환승 → 대중교통 순서 출력
+  // ================================================
+
+  transitIndexes.forEach(
 
     function(
-      step,
-      stepIndex
+      stepIndex,
+      transitOrder
     ) {
 
-      const type =
-        getStepType(
-          step
+      const step =
+        steps[
+          stepIndex
+        ];
+
+
+      const realtime =
+        routeState
+          .transitResults
+          ?.[stepIndex];
+
+
+      // 대중교통
+
+      html +=
+        createTransitHtml(
+
+          step,
+          realtime,
+          routeIndex,
+          stepIndex,
+          transitOrder
+
         );
 
 
-      const properties =
-        step.properties ||
-        {};
-
-
-      // ============================================
-      // WALKING
-      // ============================================
+      // 마지막 대중교통이 아니면
+      // 바로 아래에 환승정보 표시
 
       if (
-        type === "WALKING" ||
-        type === "WALK"
+        transitOrder <
+        transitIndexes.length - 1
       ) {
 
-        const seconds =
-          Number(
-            properties.time ||
-            0
-          );
-
-
-        const distance =
-          Number(
-            properties.distance ||
-            0
-          );
-
-
-        html += `
-
-          <div class="step walkStep">
-
-            <div class="stepTitle">
-              🚶 도보 이동
-            </div>
-
-            <div class="stepMeta">
-
-              ${
-                seconds > 0
-
-                  ? `${Math.max(
-                      1,
-                      Math.ceil(
-                        seconds /
-                        60
-                      )
-                    )}분`
-
-                  : ""
-              }
-
-              ${
-                distance > 0
-
-                  ? ` · ${formatDistance(
-                      distance
-                    )}`
-
-                  : ""
-              }
-
-            </div>
-
-          </div>
-
-        `;
-
-
-        return;
-      }
-
-
-      // ============================================
-      // BUS / SUBWAY
-      // ============================================
-
-      if (
-        type === "BUS" ||
-        type === "SUBWAY"
-      ) {
-
-        const info =
-          getTransitInfo(
-            step
-          );
-
-
-        const realtime =
+        const transfer =
           routeState
-            .transitResults
-            ?.[stepIndex];
+            .transferResults[
+              transitOrder
+            ];
 
 
-        const transferNumber =
-          transitCount;
+        if (
+          transfer
+        ) {
 
+          html +=
+            createTransferHtml(
 
-        transitCount++;
+              transfer,
+              routeIndex,
+              transitOrder
 
+            );
 
-        html +=
-          createTransitStepHtml(
+        }
 
-            type,
-            info,
-            properties,
-            realtime,
-            transferNumber,
-            routeIndex,
-            stepIndex
-
-          );
-
-
-        return;
       }
-
-
-      // ============================================
-      // 기타
-      // ============================================
-
-      const seconds =
-        Number(
-          properties.time ||
-          0
-        );
-
-
-      html += `
-
-        <div class="step">
-
-          <div class="stepTitle">
-            이동
-          </div>
-
-          <div class="stepMeta">
-
-            ${
-              seconds > 0
-
-                ? `${Math.max(
-                    1,
-                    Math.ceil(
-                      seconds /
-                      60
-                    )
-                  )}분`
-
-                : ""
-            }
-
-          </div>
-
-        </div>
-
-      `;
 
     }
 
   );
+
+
+  // ================================================
+  // 마지막 목적지 도보
+  // ================================================
+
+  html +=
+    createFinalWalkHtml(
+      routeState.finalWalk
+    );
 
 
   return html;
@@ -5815,27 +6537,114 @@ function createRouteDetails(
 }
 
 
-
 // ==================================================
-// 버스 / 지하철 상세
+// 첫 승차장 도보
 // ==================================================
 
-function createTransitStepHtml(
-  type,
-  info,
-  properties,
-  realtime,
-  transferNumber,
-  routeIndex,
-  stepIndex
+function createFirstWalkHtml(
+  walk
 ) {
 
-  const icon =
-    type === "BUS"
+  if (
+    !walk ||
+    walk.seconds === null
+  ) {
 
-      ? "🚌"
+    return `
 
-      : "🚇";
+      <div class="step walkStep">
+
+        <div class="stepTitle">
+          🚶 첫 승차장까지 이동
+        </div>
+
+        <div class="stepMeta">
+          도보시간을 계산하지 못했습니다.
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  const minutes =
+    walk.seconds > 0
+      ? Math.max(
+          1,
+          Math.ceil(
+            walk.seconds /
+            60
+          )
+        )
+      : 0;
+
+
+  return `
+
+    <div class="step walkStep">
+
+      <div class="stepTitle">
+        🚶 첫 승차장까지
+      </div>
+
+      <div class="stepMeta">
+
+        약 ${minutes}분
+
+        ${
+          walk.distance !== null
+
+            ? ` · ${formatDistance(
+                walk.distance
+              )}`
+
+            : ""
+        }
+
+        ${
+          walk.estimated
+            ? " · 추정 도보"
+            : ""
+        }
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+// ==================================================
+// 대중교통 구간
+// ==================================================
+
+function createTransitHtml(
+  step,
+  realtime,
+  routeIndex,
+  stepIndex,
+  transitOrder
+) {
+
+  const type =
+    getStepType(
+      step
+    );
+
+
+  const info =
+    getTransitInfo(
+      step
+    );
+
+
+  const properties =
+    step?.properties ||
+    {};
 
 
   const travelSeconds =
@@ -5845,319 +6654,37 @@ function createTransitStepHtml(
     );
 
 
-  const distance =
-    Number(
-      properties.distance ||
-      0
-    );
+  const selected =
+    realtime
+      ?.selectedCandidate;
 
 
-  const title =
-    escapeHtml(
-      info.name ||
-      (
-        type === "BUS"
-          ? "버스"
-          : "지하철"
-      )
-    );
-
-
-  const boarding =
-    escapeHtml(
-      info.boarding ||
-      "승차지"
-    );
-
-
-  const alighting =
-    escapeHtml(
-      info.alighting ||
-      "하차지"
-    );
-
-
-  let badgeHtml =
+  let selectedHtml =
     "";
 
-
-  let realtimeHtml =
-    "";
-
-
-  // ================================================
-  // 실시간 확인됨
-  // ================================================
 
   if (
-    realtime &&
-    realtime.known === true &&
-    Number.isFinite(
-      realtime.arrivalEpochMs
-    )
+    selected
   ) {
 
-    const remainingSeconds =
-      (
-        realtime.arrivalEpochMs -
-        Date.now()
-      ) /
-      1000;
+    selectedHtml = `
 
-
-    const spareSeconds =
-      calculateLiveTransferSpare(
-        realtime
-      );
-
-
-    const urgency =
-      getTransferUrgency(
-        spareSeconds
-      );
-
-
-    badgeHtml = `
-
-      <span
-        class="arrivalBadge ${urgency.className}"
-        id="arrival-badge-${routeIndex}-${stepIndex}"
+      <div
+        class="stepMeta"
+        id="selected-transit-${routeIndex}-${stepIndex}"
       >
 
-        ${
-          remainingSeconds > 0
-
-            ? formatCountdown(
-                remainingSeconds
-              ) + " 뒤 도착"
-
-            : "도착 예정"
-        }
-
-      </span>
-
-    `;
-
-
-    // ==============================================
-    // 첫 탑승
-    // ==============================================
-
-    if (
-      transferNumber === 0
-    ) {
-
-      realtimeHtml = `
-
-        <div
-          class="transferBox ${urgency.className}"
-          id="transfer-box-${routeIndex}-${stepIndex}"
-        >
-
-          <div class="transferNumber">
-            첫 승차
-          </div>
-
-
-          <div
-            class="transferCountdown"
-            id="transfer-countdown-${routeIndex}-${stepIndex}"
-          >
-
-            ${
-              remainingSeconds > 0
-
-                ? "차량 도착까지 " +
-                  formatCountdown(
-                    remainingSeconds
-                  )
-
-                : "차량 도착 예정"
-            }
-
-          </div>
-
-
-          <div
-            class="transferStatus"
-            id="transfer-status-${routeIndex}-${stepIndex}"
-          >
-            ${
-              spareSeconds >
-              MIN_SPARE_SECONDS
-
-                ? "🟢 탑승 준비"
-
-                : "🔴 탑승 여유 부족"
-            }
-          </div>
-
-
-          <div
-            class="transferTimes"
-            id="transfer-times-${routeIndex}-${stepIndex}"
-          >
-
-            승차지 도착 예상
-            ${formatClock(
-              realtime.predictedStationEpochMs
-            )}
-
-            <br>
-
-            차량 도착 예상
-            ${formatClock(
-              realtime.arrivalEpochMs
-            )}
-
-            <br>
-
-            승차지 도착 후
-            약
-            ${formatCountdown(
-              Math.max(
-                0,
-                spareSeconds
-              )
-            )}
-            여유
-
-          </div>
-
-        </div>
-
-      `;
-
-    }
-
-
-    // ==============================================
-    // 환승
-    // ==============================================
-
-    else {
-
-      realtimeHtml = `
-
-        <div
-          class="transferBox ${urgency.className}"
-          id="transfer-box-${routeIndex}-${stepIndex}"
-        >
-
-          <div class="transferNumber">
-            🔄 ${transferNumber}번째 환승
-          </div>
-
-
-          <div
-            class="transferCountdown"
-            id="transfer-countdown-${routeIndex}-${stepIndex}"
-          >
-
-            다음 환승 차량까지
-            ${formatCountdown(
-              Math.max(
-                0,
-                remainingSeconds
-              )
-            )}
-
-          </div>
-
-
-          <div
-            class="transferStatus"
-            id="transfer-status-${routeIndex}-${stepIndex}"
-          >
-            ${urgency.message}
-          </div>
-
-
-          <div
-            class="transferTimes"
-            id="transfer-times-${routeIndex}-${stepIndex}"
-          >
-
-            환승 승차장 도착 예상
-            ${formatClock(
-              realtime.predictedStationEpochMs
-            )}
-
-            <br>
-
-            다음 차량 도착 예상
-            ${formatClock(
-              realtime.arrivalEpochMs
-            )}
-
-            <br>
-
-            환승 여유
-            ${formatCountdown(
-              Math.max(
-                0,
-                spareSeconds
-              )
-            )}
-
-          </div>
-
-        </div>
-
-      `;
-
-    }
-
-  }
-
-
-  // ================================================
-  // 실시간 미확인
-  // ================================================
-
-  else {
-
-    badgeHtml = `
-
-      <span class="arrivalBadge unknown">
-        실시간 정보 없음
-      </span>
-
-    `;
-
-
-    realtimeHtml = `
-
-      <div class="transferBox prepare">
-
-        <div class="transferNumber">
-
-          ${
-            transferNumber === 0
-
-              ? "첫 승차"
-
-              : `🔄 ${transferNumber}번째 환승`
-          }
-
-        </div>
-
-
-        <div class="transferStatus">
-          실시간 정보 없음
-        </div>
-
-
-        <div class="transferTimes">
-
-          ${
-            escapeHtml(
-              realtime?.reason ||
-              "현재 실시간 차량 정보를 확인할 수 없습니다."
-            )
-          }
-
-        </div>
+        선택 차량 도착까지
+        ${formatCountdown(
+          Math.max(
+            0,
+            (
+              selected.arrivalEpochMs -
+              Date.now()
+            ) /
+            1000
+          )
+        )}
 
       </div>
 
@@ -6172,19 +6699,24 @@ function createTransitStepHtml(
 
       <div class="stepTitle">
 
-        ${icon}
-        ${title}
+        ${
+          type === "BUS"
+            ? "🚌"
+            : "🚇"
+        }
 
-        ${badgeHtml}
+        ${escapeHtml(info.name)}
 
       </div>
 
 
       <div class="stepMeta">
 
-        ${boarding}
+        ${escapeHtml(info.boarding)}
+
         →
-        ${alighting}
+
+        ${escapeHtml(info.alighting)}
 
         ${
           travelSeconds > 0
@@ -6200,20 +6732,10 @@ function createTransitStepHtml(
             : ""
         }
 
-        ${
-          distance > 0
-
-            ? ` · ${formatDistance(
-                distance
-              )}`
-
-            : ""
-        }
-
       </div>
 
 
-      ${realtimeHtml}
+      ${selectedHtml}
 
     </div>
 
@@ -6222,73 +6744,563 @@ function createTransitStepHtml(
 }
 
 
-
 // ==================================================
-// 현재 시각 기준 환승 여유
-// ==================================================
-//
-// 여기서 중요한 점:
-//
-// "환승 승차장 도착 예상시각"은
-// 경로 계산 당시 만들어진 절대시각.
-//
-// 차량 도착시각 역시 절대시각.
-//
-// 따라서 둘의 기본 차이는 시간이 지나도 같지만,
-// 현재 시각이 승차장 도착 예상시각을 넘어간 경우에는
-// 사용자가 이미 환승지에 도착했다고 보고
-// 현재시각 기준으로 남은 차량 시간을 보여준다.
-//
+// 환승 영역
 // ==================================================
 
-function calculateLiveTransferSpare(
-  realtime
+function createTransferHtml(
+  transfer,
+  routeIndex,
+  transferIndex
 ) {
 
+  let html =
+    "";
+
+
+  // ================================================
+  // 같은 정류장/역
+  // ================================================
+
   if (
-    !realtime ||
-    !Number.isFinite(
-      realtime.arrivalEpochMs
-    ) ||
-    !Number.isFinite(
-      realtime.predictedStationEpochMs
-    )
+    transfer.samePlace
   ) {
 
-    return null;
+    html += `
+
+      <div class="sameStopTransfer">
+
+        📍 현재위치환승!
+
+        <small>
+          ${escapeHtml(
+            transfer.previousAlighting
+          )}
+          에서 바로 다음 교통수단으로 환승
+        </small>
+
+      </div>
+
+    `;
+
   }
 
 
-  const now =
-    Date.now();
+  // ================================================
+  // 다른 정류장/역
+  // ================================================
+
+  else {
+
+    const walking =
+      transfer.walking ||
+      {};
 
 
-  const effectivePassengerTime =
-    Math.max(
+    html += `
 
-      now,
+      <div class="transferWalk">
 
-      realtime.predictedStationEpochMs
+        <strong>
+          🚶 환승 이동
+        </strong>
 
-    );
+        <br>
+
+        ${
+          walking.seconds !== null
+
+            ? `약 ${Math.max(
+                1,
+                Math.ceil(
+                  walking.seconds /
+                  60
+                )
+              )}분`
+
+            : "시간 확인 불가"
+        }
+
+        ${
+          walking.distance !== null
+
+            ? ` · ${formatDistance(
+                walking.distance
+              )}`
+
+            : ""
+        }
+
+        ${
+          walking.estimated
+            ? " · 추정"
+            : ""
+        }
+
+        <br>
+
+        ${escapeHtml(
+          transfer.previousAlighting
+        )}
+
+        →
+
+        ${escapeHtml(
+          transfer.nextBoarding
+        )}
+
+      </div>
+
+    `;
+
+  }
 
 
-  return (
+  // ================================================
+  // 다음 차량 후보들
+  // ================================================
 
-    realtime.arrivalEpochMs -
-    effectivePassengerTime
+  html += `
 
-  ) / 1000;
+    <div
+      class="candidateArea"
+      id="candidate-area-${routeIndex}-${transferIndex}"
+    >
+
+      <div class="candidateTitle">
+
+        🔄 ${transfer.transferNumber}번째 환승 차량
+
+        <br>
+
+        <span style="
+          font-weight:600;
+          opacity:.75;
+        ">
+          다음 차량 -
+          (현재 대중교통 남은시간 + 환승 도보)
+        </span>
+
+      </div>
+
+  `;
+
+
+  const candidates =
+    Array.isArray(
+      transfer.candidates
+    )
+      ? transfer.candidates
+      : [];
+
+
+  if (
+    candidates.length === 0
+  ) {
+
+    html += `
+
+      <div class="candidate prepare">
+
+        <div class="candidateMain">
+
+          <div class="candidateArrival">
+            실시간 차량 정보 없음
+          </div>
+
+          <div class="candidateCalc">
+            현재 API 조회 범위에서
+            다음 차량을 확인하지 못했습니다.
+          </div>
+
+        </div>
+
+        <div class="candidateState">
+          ⚪ 정보없음
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  candidates.forEach(
+
+    function(
+      candidate,
+      candidateIndex
+    ) {
+
+      html +=
+        createCandidateHtml(
+
+          candidate,
+          routeIndex,
+          transferIndex,
+          candidateIndex
+
+        );
+
+    }
+
+  );
+
+
+  html += `
+    </div>
+  `;
+
+
+  return html;
 
 }
 
 
+// ==================================================
+// 환승 후보 한 줄
+// ==================================================
+
+function createCandidateHtml(
+  candidate,
+  routeIndex,
+  transferIndex,
+  candidateIndex
+) {
+
+  const calculation =
+    candidate.calculation;
+
+
+  const state =
+    calculation
+      ?.state ||
+    getTransferState(
+      null
+    );
+
+
+  const vehicleRemaining =
+    calculation
+      ?.vehicleRemainingSeconds;
+
+
+  const transitRemaining =
+    calculation
+      ?.currentTransitRemainingSeconds;
+
+
+  const walkingSeconds =
+    calculation
+      ?.walkingSeconds;
+
+
+  const spareSeconds =
+    calculation
+      ?.spareSeconds;
+
+
+  const vehicleName =
+
+    candidate.busNumber ||
+
+    candidate.lineName ||
+
+    (
+      candidate.type === "BUS"
+        ? "버스"
+        : "열차"
+    );
+
+
+  return `
+
+    <div
+      class="
+        candidate
+        ${state.key}
+        ${candidate.selected ? "selectedCandidate" : ""}
+      "
+      id="candidate-${routeIndex}-${transferIndex}-${candidateIndex}"
+    >
+
+      <div class="candidateMain">
+
+        <div class="candidateArrival">
+
+          ${
+            candidate.type === "BUS"
+              ? "🚌"
+              : "🚇"
+          }
+
+          ${escapeHtml(vehicleName)}
+
+          ·
+
+          <span
+            id="candidate-time-${routeIndex}-${transferIndex}-${candidateIndex}"
+          >
+
+            ${
+              Number.isFinite(
+                vehicleRemaining
+              )
+
+                ? formatCountdown(
+                    vehicleRemaining
+                  ) + " 뒤"
+
+                : "시간 확인 중"
+            }
+
+          </span>
+
+
+          ${
+            candidate.selected
+
+              ? `
+                <span class="selectedLabel">
+                  예상 탑승
+                </span>
+              `
+
+              : ""
+          }
+
+        </div>
+
+
+        <div
+          class="candidateCalc"
+          id="candidate-calc-${routeIndex}-${transferIndex}-${candidateIndex}"
+        >
+
+          ${
+            Number.isFinite(
+              transitRemaining
+            )
+
+              ? `현재 교통 ${formatCountdown(
+                  transitRemaining
+                )}`
+
+              : ""
+          }
+
+          ${Number.isFinite(transitRemaining) ? " + " : ""}
+
+          ${
+            Number.isFinite(
+              walkingSeconds
+            )
+
+              ? `환승 도보 ${formatCountdown(
+                  walkingSeconds
+                )}`
+
+              : ""
+          }
+
+          ${
+            Number.isFinite(
+              spareSeconds
+            )
+
+              ? ` → 여유 ${formatSignedTime(
+                  spareSeconds
+                )}`
+
+              : ""
+          }
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="candidateState"
+        id="candidate-state-${routeIndex}-${transferIndex}-${candidateIndex}"
+      >
+
+        ${state.icon}
+        ${state.label}
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
 
 // ==================================================
-// 1초 카운트다운 시작
+// 마지막 목적지 도보
 // ==================================================
 
-function startRealtimeCountdown() {
+function createFinalWalkHtml(
+  walk
+) {
+
+  if (
+    !walk ||
+    walk.seconds === null
+  ) {
+
+    return `
+
+      <div class="finalWalk">
+
+        <strong>
+          🚶 하차 후 목적지까지
+        </strong>
+
+        <div class="stepMeta">
+          마지막 도보시간을 계산하지 못했습니다.
+        </div>
+
+        <div class="destinationFinish">
+          🏠 목적지
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if (
+    walk.seconds <= 0
+  ) {
+
+    return `
+
+      <div class="finalWalk">
+
+        <strong>
+          🏠 목적지 도착
+        </strong>
+
+        <div class="stepMeta">
+          마지막 하차 지점이 목적지와 매우 가깝습니다.
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  return `
+
+    <div class="finalWalk">
+
+      <strong>
+        🚶 하차 후 목적지까지
+      </strong>
+
+      <div class="stepMeta">
+
+        약
+        ${Math.max(
+          1,
+          Math.ceil(
+            walk.seconds /
+            60
+          )
+        )}분
+
+        ${
+          walk.distance !== null
+
+            ? ` · ${formatDistance(
+                walk.distance
+              )}`
+
+            : ""
+        }
+
+        ${
+          walk.estimated
+            ? " · 추정 도보"
+            : ""
+        }
+
+      </div>
+
+
+      <div class="destinationFinish">
+        🏠 목적지 도착
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+// ==================================================
+// +/- 시간 표시
+// ==================================================
+
+function formatSignedTime(
+  seconds
+) {
+
+  const value =
+    Number(
+      seconds
+    );
+
+
+  if (
+    !Number.isFinite(
+      value
+    )
+  ) {
+
+    return "-";
+  }
+
+
+  if (
+    value < 0
+  ) {
+
+    return (
+      "-" +
+      formatCountdown(
+        Math.abs(
+          value
+        )
+      )
+    );
+
+  }
+
+
+  return (
+    "+" +
+    formatCountdown(
+      value
+    )
+  );
+
+}
+
+
+// ==================================================
+// 1초 카운트다운
+// ==================================================
+
+function startCountdown() {
 
   if (
     countdownTimer
@@ -6301,7 +7313,7 @@ function startRealtimeCountdown() {
   }
 
 
-  updateRealtimeCountdowns();
+  updateCountdownDisplays();
 
 
   countdownTimer =
@@ -6309,7 +7321,7 @@ function startRealtimeCountdown() {
 
       function() {
 
-        updateRealtimeCountdowns();
+        updateCountdownDisplays();
 
       },
 
@@ -6320,21 +7332,30 @@ function startRealtimeCountdown() {
 }
 
 
-
 // ==================================================
-// 모든 환승 UI 실시간 업데이트
+// 화면 카운트다운 업데이트
+// ==================================================
+//
+// 여기서는 검색 당시 숫자를 그대로 줄이는 게 아니라
+// 현재 시각을 기준으로 다시 계산.
+//
+// 환승 후보:
+//
+// 다음 차량까지 남은 시간
+//
+// -
+//
+// (현재 대중교통 하차까지 남은 시간
+//  + 환승 도보)
+//
+// 를 매초 다시 계산한다.
+//
 // ==================================================
 
-function updateRealtimeCountdowns() {
+function updateCountdownDisplays() {
 
-  if (
-    !Array.isArray(
-      displayedRoutes
-    )
-  ) {
-
-    return;
-  }
+  const now =
+    Date.now();
 
 
   displayedRoutes.forEach(
@@ -6344,30 +7365,44 @@ function updateRealtimeCountdowns() {
       routeIndex
     ) {
 
-      const transitResults =
-        routeState.transitResults ||
-        {};
-
+      // ============================================
+      // 선택 차량 표시
+      // ============================================
 
       Object.keys(
-        transitResults
+        routeState.transitResults ||
+        {}
       ).forEach(
 
         function(
-          stepIndexKey
+          stepIndex
         ) {
 
           const realtime =
-            transitResults[
-              stepIndexKey
-            ];
+            routeState
+              .transitResults[
+                stepIndex
+              ];
+
+
+          const selected =
+            realtime
+              ?.selectedCandidate;
+
+
+          const element =
+            document.getElementById(
+
+              `selected-transit-${routeIndex}-${stepIndex}`
+
+            );
 
 
           if (
-            !realtime ||
-            realtime.known !== true ||
+            !element ||
+            !selected ||
             !Number.isFinite(
-              realtime.arrivalEpochMs
+              selected.arrivalEpochMs
             )
           ) {
 
@@ -6375,20 +7410,169 @@ function updateRealtimeCountdowns() {
           }
 
 
-          const stepIndex =
-            Number(
-              stepIndexKey
+          const remaining =
+            (
+              selected.arrivalEpochMs -
+              now
+            ) /
+            1000;
+
+
+          if (
+            remaining > 0
+          ) {
+
+            element.textContent =
+
+              "선택 차량 도착까지 " +
+
+              formatCountdown(
+                remaining
+              );
+
+          }
+
+          else {
+
+            element.textContent =
+              "선택 차량 도착 예정시각 지남";
+
+          }
+
+        }
+
+      );
+
+
+      // ============================================
+      // 환승 후보 업데이트
+      // ============================================
+
+      const transfers =
+        Array.isArray(
+          routeState.transferResults
+        )
+          ? routeState.transferResults
+          : [];
+
+
+      transfers.forEach(
+
+        function(
+          transfer,
+          transferIndex
+        ) {
+
+          const previousRealtime =
+            routeState
+              .transitResults[
+                transfer.previousStepIndex
+              ];
+
+
+          // 현재 시각 기준
+          // 앞 대중교통 하차까지 남은 시간
+
+          let currentTransitRemaining =
+            0;
+
+
+          if (
+            Number.isFinite(
+              previousRealtime
+                ?.predictedAlightingEpochMs
+            )
+          ) {
+
+            currentTransitRemaining =
+              Math.max(
+
+                0,
+
+                (
+                  previousRealtime
+                    .predictedAlightingEpochMs
+                  -
+                  now
+                ) /
+                1000
+
+              );
+
+          }
+
+
+          const walkingSeconds =
+            transfer.samePlace
+
+              ? 0
+
+              : Math.max(
+
+                  0,
+
+                  Number(
+                    transfer.walking
+                      ?.seconds
+                  ) || 0
+
+                );
+
+
+          transfer.candidates
+            .forEach(
+
+              function(
+                candidate,
+                candidateIndex
+              ) {
+
+                if (
+                  !Number.isFinite(
+                    candidate.arrivalEpochMs
+                  )
+                ) {
+
+                  return;
+                }
+
+
+                // ==================================
+                // 사용자 요청 계산식
+                // ==================================
+
+                const calculation =
+                  calculateTransferCandidate(
+
+                    candidate.arrivalEpochMs,
+
+                    now,
+
+                    currentTransitRemaining,
+
+                    walkingSeconds
+
+                  );
+
+
+                candidate.calculation =
+                  calculation;
+
+
+                updateCandidateElement(
+
+                  candidate,
+                  calculation,
+
+                  routeIndex,
+                  transferIndex,
+                  candidateIndex
+
+                );
+
+              }
+
             );
-
-
-          updateOneRealtimeDisplay(
-
-            routeState,
-            realtime,
-            routeIndex,
-            stepIndex
-
-          );
 
         }
 
@@ -6401,371 +7585,179 @@ function updateRealtimeCountdowns() {
 }
 
 
-
 // ==================================================
-// 개별 승차 / 환승 UI 업데이트
+// 후보 DOM 업데이트
 // ==================================================
 
-function updateOneRealtimeDisplay(
-  routeState,
-  realtime,
+function updateCandidateElement(
+  candidate,
+  calculation,
   routeIndex,
-  stepIndex
+  transferIndex,
+  candidateIndex
 ) {
 
-  const now =
-    Date.now();
-
-
-  const remainingSeconds =
-    (
-      realtime.arrivalEpochMs -
-      now
-    ) /
-    1000;
-
-
-  const spareSeconds =
-    calculateLiveTransferSpare(
-      realtime
-    );
-
-
-  const urgency =
-    getTransferUrgency(
-      spareSeconds
-    );
-
-
-  const badge =
-    document.getElementById(
-
-      `arrival-badge-${routeIndex}-${stepIndex}`
-
-    );
-
-
-  const box =
-    document.getElementById(
-
-      `transfer-box-${routeIndex}-${stepIndex}`
-
-    );
-
-
-  const countdown =
-    document.getElementById(
-
-      `transfer-countdown-${routeIndex}-${stepIndex}`
-
-    );
-
-
-  const status =
-    document.getElementById(
-
-      `transfer-status-${routeIndex}-${stepIndex}`
-
-    );
-
-
-  const times =
-    document.getElementById(
-
-      `transfer-times-${routeIndex}-${stepIndex}`
-
-    );
-
-
-  // ================================================
-  // 차량이 이미 지나간 경우
-  // ================================================
-
   if (
-    remainingSeconds <= 0
+    !calculation
   ) {
-
-    if (
-      badge
-    ) {
-
-      badge.className =
-        "arrivalBadge danger";
-
-
-      badge.textContent =
-        "도착시간 지남";
-
-    }
-
-
-    if (
-      box
-    ) {
-
-      box.className =
-        "transferBox danger";
-
-    }
-
-
-    if (
-      countdown
-    ) {
-
-      countdown.textContent =
-        "선택한 차량의 도착시간이 지났습니다.";
-
-    }
-
-
-    if (
-      status
-    ) {
-
-      status.textContent =
-        "🔴 다음 차량 실시간 정보를 다시 확인해야 합니다.";
-
-    }
-
-
-    if (
-      times
-    ) {
-
-      times.innerHTML =
-
-        "기존 차량 도착 예상 " +
-
-        escapeHtml(
-          formatClock(
-            realtime.arrivalEpochMs
-          )
-        ) +
-
-        "<br>" +
-
-        "실시간 경로를 다시 검색하면 다음 차량을 선택합니다.";
-
-    }
-
 
     return;
   }
 
 
-  // ================================================
-  // 배지
-  // ================================================
+  const row =
+    document.getElementById(
+
+      `candidate-${routeIndex}-${transferIndex}-${candidateIndex}`
+
+    );
+
+
+  const time =
+    document.getElementById(
+
+      `candidate-time-${routeIndex}-${transferIndex}-${candidateIndex}`
+
+    );
+
+
+  const calc =
+    document.getElementById(
+
+      `candidate-calc-${routeIndex}-${transferIndex}-${candidateIndex}`
+
+    );
+
+
+  const state =
+    document.getElementById(
+
+      `candidate-state-${routeIndex}-${transferIndex}-${candidateIndex}`
+
+    );
+
 
   if (
-    badge
+    row
   ) {
 
-    badge.className =
-      "arrivalBadge " +
-      urgency.className;
+    row.className =
 
+      "candidate " +
 
-    badge.textContent =
+      calculation.state.key +
 
-      formatCountdown(
-        remainingSeconds
-      ) +
-
-      " 뒤 도착";
-
-  }
-
-
-  // ================================================
-  // 박스 색상
-  // ================================================
-
-  if (
-    box
-  ) {
-
-    box.className =
-      "transferBox " +
-      urgency.className;
-
-  }
-
-
-  // ================================================
-  // 첫 승차
-  // ================================================
-
-  if (
-    realtime.transferNumber === 0
-  ) {
-
-    if (
-      countdown
-    ) {
-
-      countdown.textContent =
-
-        "차량 도착까지 " +
-
-        formatCountdown(
-          remainingSeconds
-        );
-
-    }
-
-
-    if (
-      status
-    ) {
-
-      if (
-        spareSeconds >
-        MIN_SPARE_SECONDS
-      ) {
-
-        status.textContent =
-          "🟢 탑승 준비";
-
-      }
-
-      else {
-
-        status.textContent =
-          "🔴 탑승 시간이 촉박합니다.";
-
-      }
-
-    }
-
-
-    if (
-      times
-    ) {
-
-      times.innerHTML =
-
-        "승차지 도착 예상 " +
-
-        escapeHtml(
-          formatClock(
-            realtime.predictedStationEpochMs
-          )
-        ) +
-
-        "<br>" +
-
-        "차량 도착 예상 " +
-
-        escapeHtml(
-          formatClock(
-            realtime.arrivalEpochMs
-          )
-        ) +
-
-        "<br>" +
-
-        "현재 기준 남은 여유 " +
-
-        escapeHtml(
-          formatCountdown(
-            Math.max(
-              0,
-              spareSeconds
-            )
-          )
-        );
-
-    }
-
-
-    return;
-  }
-
-
-  // ================================================
-  // 첫 번째 / 두 번째 / 세 번째... 환승
-  // ================================================
-
-  if (
-    countdown
-  ) {
-
-    countdown.textContent =
-
-      "다음 환승 차량까지 " +
-
-      formatCountdown(
-        remainingSeconds
+      (
+        candidate.selected
+          ? " selectedCandidate"
+          : ""
       );
 
   }
 
 
   if (
-    status
+    time
   ) {
 
-    status.textContent =
-      urgency.message;
+    if (
+      calculation
+        .vehicleRemainingSeconds >
+      0
+    ) {
+
+      time.textContent =
+
+        formatCountdown(
+          calculation
+            .vehicleRemainingSeconds
+        )
+
+        +
+
+        " 뒤";
+
+    }
+
+    else {
+
+      time.textContent =
+        "도착 예정시각 지남";
+
+    }
 
   }
 
 
   if (
-    times
+    calc
   ) {
 
-    times.innerHTML =
+    calc.textContent =
 
-      "환승 승차장 도착 예상 " +
+      "현재 교통 " +
 
-      escapeHtml(
-        formatClock(
-          realtime.predictedStationEpochMs
-        )
-      ) +
+      formatCountdown(
+        calculation
+          .currentTransitRemainingSeconds
+      )
 
-      "<br>" +
+      +
 
-      "다음 차량 도착 예상 " +
+      " + 환승 도보 " +
 
-      escapeHtml(
-        formatClock(
-          realtime.arrivalEpochMs
-        )
-      ) +
+      formatCountdown(
+        calculation.walkingSeconds
+      )
 
-      "<br>" +
+      +
 
-      "현재 환승 여유 " +
+      " → 여유 " +
 
-      escapeHtml(
-        formatCountdown(
-          Math.max(
-            0,
-            spareSeconds
-          )
-        )
+      formatSignedTime(
+        calculation.spareSeconds
       );
+
+  }
+
+
+  if (
+    state
+  ) {
+
+    state.textContent =
+
+      calculation
+        .state
+        .icon
+
+      +
+
+      " "
+
+      +
+
+      calculation
+        .state
+        .label;
 
   }
 
 }
 
 
-
 // ==================================================
 // 카드 선택
 // ==================================================
 
-function selectRouteCard(
-  index
+function selectRoute(
+  routeIndex
 ) {
 
   if (
-    !displayedRoutes[index]
+    !displayedRoutes[
+      routeIndex
+    ]
   ) {
 
     return;
@@ -6774,7 +7766,7 @@ function selectRouteCard(
 
   if (
     selectedRouteIndex ===
-    index
+    routeIndex
   ) {
 
     selectedRouteIndex =
@@ -6792,29 +7784,28 @@ function selectRouteCard(
 
 
   selectedRouteIndex =
-    index;
+    routeIndex;
 
 
   renderRoutes();
 
 
   drawRoute(
-    displayedRoutes[index]
-      .route
+
+    displayedRoutes[
+      routeIndex
+    ].route
+
   );
 
 
-  // renderRoutes 후 DOM이 새로 만들어졌으므로
-  // 즉시 현재 카운트다운을 다시 반영
-
-  updateRealtimeCountdowns();
+  updateCountdownDisplays();
 
 }
 
 
-
 // ==================================================
-// 지도 경로 삭제
+// 지도 선 삭제
 // ==================================================
 
 function clearRoutePolylines() {
@@ -6840,9 +7831,8 @@ function clearRoutePolylines() {
 }
 
 
-
 // ==================================================
-// 선택 경로 지도 표시
+// 선택한 경로 지도에 표시
 // ==================================================
 
 function drawRoute(
@@ -6864,9 +7854,7 @@ function drawRoute(
     Array.isArray(
       route?.steps
     )
-
       ? route.steps
-
       : [];
 
 
@@ -6912,34 +7900,8 @@ function drawRoute(
         ) {
 
           if (
-            !Array.isArray(
+            !isValidPoint(
               point
-            ) ||
-            point.length < 2
-          ) {
-
-            return;
-          }
-
-
-          const lng =
-            Number(
-              point[0]
-            );
-
-
-          const lat =
-            Number(
-              point[1]
-            );
-
-
-          if (
-            !Number.isFinite(
-              lat
-            ) ||
-            !Number.isFinite(
-              lng
             )
           ) {
 
@@ -6947,10 +7909,20 @@ function drawRoute(
           }
 
 
+          // Kakao 대중교통 path:
+          // [경도, 위도]
+
           const latLng =
             new kakao.maps.LatLng(
-              lat,
-              lng
+
+              Number(
+                point[1]
+              ),
+
+              Number(
+                point[0]
+              )
+
             );
 
 
@@ -6998,21 +7970,16 @@ function drawRoute(
         0.9;
 
 
+      let strokeStyle =
+        "solid";
+
+
       if (
-        type === "WALKING" ||
-        type === "WALK"
+        type === "SUBWAY"
       ) {
 
         strokeColor =
-          "#778D78";
-
-
-        strokeWeight =
-          4;
-
-
-        strokeOpacity =
-          0.65;
+          "#263D38";
 
       }
 
@@ -7028,11 +7995,21 @@ function drawRoute(
 
 
       if (
-        type === "SUBWAY"
+        type === "WALKING" ||
+        type === "WALK"
       ) {
 
         strokeColor =
-          "#263D38";
+          "#778D78";
+
+        strokeWeight =
+          4;
+
+        strokeOpacity =
+          0.7;
+
+        strokeStyle =
+          "shortdash";
 
       }
 
@@ -7056,15 +8033,7 @@ function drawRoute(
             strokeOpacity,
 
           strokeStyle:
-
-            (
-              type === "WALKING" ||
-              type === "WALK"
-            )
-
-              ? "shortdash"
-
-              : "solid"
+            strokeStyle
 
         });
 
@@ -7078,7 +8047,248 @@ function drawRoute(
   );
 
 
-  // 현재 위치도 bounds에 포함
+  // ================================================
+  // 첫 승차장 추정 도보 선
+  // ================================================
+
+  const firstTransitStep =
+    steps.find(
+
+      function(
+        step
+      ) {
+
+        const type =
+          getStepType(
+            step
+          );
+
+
+        return (
+          type === "BUS" ||
+          type === "SUBWAY"
+        );
+
+      }
+
+    );
+
+
+  const firstPoint =
+    firstTransitStep
+      ?.path
+      ?.points
+      ?.[0];
+
+
+  if (
+    startLat !== null &&
+    startLng !== null &&
+    isValidPoint(
+      firstPoint
+    )
+  ) {
+
+    const startPoint =
+      new kakao.maps.LatLng(
+        startLat,
+        startLng
+      );
+
+
+    const boardingPoint =
+      new kakao.maps.LatLng(
+
+        Number(
+          firstPoint[1]
+        ),
+
+        Number(
+          firstPoint[0]
+        )
+
+      );
+
+
+    const firstWalkLine =
+      new kakao.maps.Polyline({
+
+        map:
+          map,
+
+        path: [
+          startPoint,
+          boardingPoint
+        ],
+
+        strokeWeight:
+          3,
+
+        strokeColor:
+          "#778D78",
+
+        strokeOpacity:
+          0.65,
+
+        strokeStyle:
+          "shortdash"
+
+      });
+
+
+    routePolylines.push(
+      firstWalkLine
+    );
+
+
+    bounds.extend(
+      startPoint
+    );
+
+
+    bounds.extend(
+      boardingPoint
+    );
+
+
+    hasPoint =
+      true;
+
+  }
+
+
+  // ================================================
+  // 마지막 하차 → 목적지 추정 도보 선
+  // ================================================
+
+  const transitSteps =
+    steps.filter(
+
+      function(
+        step
+      ) {
+
+        const type =
+          getStepType(
+            step
+          );
+
+
+        return (
+          type === "BUS" ||
+          type === "SUBWAY"
+        );
+
+      }
+
+    );
+
+
+  const lastTransitStep =
+    transitSteps[
+      transitSteps.length - 1
+    ];
+
+
+  const lastPoints =
+    lastTransitStep
+      ?.path
+      ?.points;
+
+
+  const lastPoint =
+
+    Array.isArray(
+      lastPoints
+    ) &&
+    lastPoints.length > 0
+
+      ? lastPoints[
+          lastPoints.length - 1
+        ]
+
+      : null;
+
+
+  if (
+    endLat !== null &&
+    endLng !== null &&
+    isValidPoint(
+      lastPoint
+    )
+  ) {
+
+    const alightingPoint =
+      new kakao.maps.LatLng(
+
+        Number(
+          lastPoint[1]
+        ),
+
+        Number(
+          lastPoint[0]
+        )
+
+      );
+
+
+    const destinationPoint =
+      new kakao.maps.LatLng(
+        endLat,
+        endLng
+      );
+
+
+    const finalWalkLine =
+      new kakao.maps.Polyline({
+
+        map:
+          map,
+
+        path: [
+          alightingPoint,
+          destinationPoint
+        ],
+
+        strokeWeight:
+          3,
+
+        strokeColor:
+          "#778D78",
+
+        strokeOpacity:
+          0.65,
+
+        strokeStyle:
+          "shortdash"
+
+      });
+
+
+    routePolylines.push(
+      finalWalkLine
+    );
+
+
+    bounds.extend(
+      alightingPoint
+    );
+
+
+    bounds.extend(
+      destinationPoint
+    );
+
+
+    hasPoint =
+      true;
+
+  }
+
+
+  // ================================================
+  // 현재 위치
+  // ================================================
 
   if (
     startLat !== null &&
@@ -7101,7 +8311,9 @@ function drawRoute(
   }
 
 
-  // 도착지도 bounds에 포함
+  // ================================================
+  // 목적지
+  // ================================================
 
   if (
     endLat !== null &&
@@ -7137,101 +8349,8 @@ function drawRoute(
 }
 
 
-
 // ==================================================
-// 거리 표시
-// ==================================================
-
-function formatDistance(
-  meters
-) {
-
-  const value =
-    Number(
-      meters
-    );
-
-
-  if (
-    !Number.isFinite(
-      value
-    ) ||
-    value <= 0
-  ) {
-
-    return "거리 정보 없음";
-  }
-
-
-  if (
-    value < 1000
-  ) {
-
-    return (
-      Math.round(
-        value
-      ) +
-      "m"
-    );
-
-  }
-
-
-  return (
-
-    (
-      value /
-      1000
-    ).toFixed(
-      1
-    ) +
-    "km"
-
-  );
-
-}
-
-
-
-// ==================================================
-// HTML escape
-// ==================================================
-
-function escapeHtml(
-  value
-) {
-
-  return String(
-    value ??
-    ""
-  )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-
-// ==================================================
-// 페이지 초기화
+// 페이지 시작
 // ==================================================
 
 window.addEventListener(
@@ -7240,16 +8359,12 @@ window.addEventListener(
 
   function() {
 
-    const ready =
-      initializeMap();
-
-
     if (
-      ready
+      initializeMap()
     ) {
 
       setMessage(
-        "현재 위치를 찾고 도착지를 검색해주세요."
+        "현재 위치를 찾은 뒤 도착지를 검색해주세요."
       );
 
     }
